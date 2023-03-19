@@ -95,12 +95,14 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="vivado-boilerplate">vivado-boilerplate</h1>
-<p>This is an <a href="https://github.com/fpga-lib/vivado-boilerplate">example project</a> to demonstrate features of SCons-based build system for FPGA. Xilinx Vivado and Mentor Questa are supported for now.</p>
+<p>This is an <a href="https://github.com/fpga-lib/vivado-boilerplate">example project</a> to demonstrate features of SCons-based build system for FPGA. <strong>Xilinx Vivado</strong> and <strong>Mentor Questa</strong> are supported for now.</p>
 <h2 id="features">Features</h2>
 <ul>
 <li>Unified configuration subsystem based on <a href="https://en.wikipedia.org/wiki/YAML">YAML format</a>.</li>
-<li>Arbitrary count of build variants (this example project offers three build variants for AC701, 7A35T and 7A50T evaluation boards).</li>
-<li>Fully customizable project layout and build scenarios with construction environment variables and reach set of builders.</li>
+<li>Arbitrary count of build variants (this example project offers three build variants for AC701,
+  7A35T and 7A50T evaluation boards).</li>
+<li>Fully customizable project layout and build scenarios with construction environment variables and
+  reach set of builders.</li>
 <li>Many different targets such as:<ul>
 <li>IP Create Scripts.</li>
 <li>IP Synthesize Scripts.</li>
@@ -111,12 +113,12 @@
 <li>Generate HDL headers files with specified parameters.</li>
 <li>Generate Tcl scripts with specified parameters.</li>
 <li>Compile work library.</li>
-<li>Launch Questa GUI in destination dir with tool script loaded.</li>
+<li>Launch <strong>Questa</strong> GUI in destination dir with tool script loaded.</li>
 <li>Launch simulation run in non-GUI mode (console run).</li>
-<li>Create Vivado Project accoring to specified parameters.</li>
-<li>Synthesize Vivado Project in non-GUI (console) mode.</li>
-<li>Implement Vivado Project in non-GUI (console) mode.</li>
-<li>Open Vivado Project in GUI mode.</li>
+<li>Create <strong>Vivado</strong> Project accoring to specified parameters.</li>
+<li>Synthesize <strong>Vivado</strong> Project in non-GUI (console) mode.</li>
+<li>Implement <strong>Vivado</strong> Project in non-GUI (console) mode.</li>
+<li>Open <strong>Vivado</strong> Project in GUI mode.</li>
 </ul>
 </li>
 <li>All targets are built by dependencies.</li>
@@ -131,7 +133,7 @@
 <p>Create Vivado project:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>scons -s -D prj
 </span></code></pre></div>
-<p>Synthesize Vivado project for variant 7A50T:</p>
+<p>Synthesize <strong>Vivado</strong> project for variant 7A50T:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>scons -s -D variant=7a50t prjsyn
 </span></code></pre></div>
 <p>Compile simulator work library (this is a default target):</p>

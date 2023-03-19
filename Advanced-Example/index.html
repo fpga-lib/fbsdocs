@@ -283,7 +283,7 @@
 </span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="n">bv</span> <span class="o">=</span> <span class="n">BuildBase</span><span class="p">(</span><span class="n">envx</span><span class="p">)</span>
 </span></code></pre></div>
 <h3 id="ac701"><pre>ac701</pre></h3>
-<p>Этот СВ использует для реализации сумматора блочный дизайн (методика создания <a href="/Advanced-Topics#bd-create-example">блочных дизайнов из Tcl конфигурационных скриптов</a>). В этом случае необходимо добавить в проект конфигурационный <code>Tcl</code> скрипт с описанием БД и подключить его к проекту:</p>
+<p>Этот СВ использует для реализации сумматора блочный дизайн (методика создания <a href="/Advanced-Topics#bd-create-example">блочных дизайнов из Tcl конфигурационных скриптов</a>). В этом случае необходимо добавить в проект конфигурационный <strong>Tcl</strong> скрипт с описанием БД и подключить его к проекту:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1">#</span>
 </span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="c1">#  bd.yml</span>
 </span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="c1">#</span>
@@ -299,7 +299,7 @@
 </span><span id="__span-4-7"><a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="n">bv</span> <span class="o">=</span> <span class="n">BuildBase</span><span class="p">(</span><span class="n">envx</span><span class="p">,</span> <span class="n">bd</span><span class="o">=</span><span class="s1">'bd.yml'</span><span class="p">)</span>
 </span></code></pre></div>
 <h3 id="7a50t"><pre>7a50t</pre></h3>
-<p>Здесь реализация сумматора выполнена на основе HLS описания. Помимо самого HLS описания СВ поддерживает сборочную цель HLS <code>csim</code> — симуляция  HLS описания на уровне C/C++. Для этого с скрипт сборочного сценария добавлен код для подключения этой цели:</p>
+<p>Здесь реализация сумматора выполнена на основе HLS описания. Помимо самого HLS описания СВ поддерживает сборочную цель HLS <code>csim</code> — симуляция  HLS описания на уровне <strong>C/C++</strong>. Для этого с скрипт сборочного сценария добавлен код для подключения этой цели:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1">#</span>
 </span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="c1">#  hls.yml</span>
 </span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="c1">#</span>

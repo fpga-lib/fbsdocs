@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<title>Build Variants - FPGA Build System</title>
+<link href="../css/theme.css" rel="stylesheet"/>
+<link href="../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../extra.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Build Variants";
+        var mkdocs_page_input_path = "Build-Variants.md";
+        var mkdocs_page_url = null;
+      </script>
+<script defer="" src="../js/jquery-3.6.0.min.js"></script>
+<!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href=".."> FPGA Build System
+        </a>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Build System</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="..">General</a>
+</li>
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Build Variants</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#_2">Назначение</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#_3">Реализация</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#_4"> Конфигурационные файлы</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#_5">Конфигурационный файл параметров общего назначения</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#ip">Конфигурационный файл параметров IP ядра</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#_6">Конфигурационные файлы списков файлов</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#hls"> Конфигурационный файл параметров HLS</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_7">Использование конфигурационных файлов</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#_8">Файлы параметров</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#ip_1">Файлы конфигурации IP ядер</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#_9">Конфигурационные файлы списков</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_10">Сценарии сборки</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Scripts/">Build Scripts</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Topics/">Advanced Topics</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Reference/">Reference</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Service-API/">Service API</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Vivado/">Tool Vivado</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Questa/">Tool Questa</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Simple-Example/">Simple</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Example/">Advandced</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="..">FPGA Build System</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a alt="Docs" class="icon icon-home" href=".."></a> »</li>
+<li>Build System »</li>
+<li>Build Variants</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="_1">Сборочный вариант</h1>
+<h2 id="_2">Назначение</h2>
+<p>Назначением сборочного варианта является автоматизированное создание исполнительного окружения, пригодного для выполнения непосредственной работы по проекту: запуск моделирования (с компиляцией всех необходимых библиотек), осуществление синтеза (с созданием IP ядер, проекта САПР FPGA).</p>
+<h2 id="_3">Реализация</h2>
+<h3 id="_4"><a name="configuration-files"></a> Конфигурационные файлы</h3>
+<p>Ключевым моментом сборочного варианта является концепция конфигурационных файлов. Цель этого подхода состоит в том, чтобы максимально упростить для пользователя процесс задания параметров проекта без ущерба для гибкости управления этим. В качестве формата для конфигурационных файлов выбран <a href="https://yaml.org">yaml</a>, и т.к. целевым языком сценариев <code>SCons</code> является <code>Python</code>, то для работы с этим форматом используется модуль <a href="https://pyyaml.org">https://pyyaml.org</a>.</p>
+<p>Формат <code>yaml</code> файла является незамысловатым и по сути в простой текстовой форме описывает структуры, которые напрямую транслируются в списки (list) или словари (dict) языка <code>Python</code>. Комментарии определяются наличием символа <code>#</code> и до конца строки.</p>
+<p>Сборочная система поддерживает несколько типов конфигурационных файлов:</p>
+<ul>
+<li>параметры общего назначения;</li>
+<li>списки файлов;</li>
+<li>параметры конфигурации IP ядра;</li>
+<li>параметры HLS модулей.</li>
+</ul>
+<h4 id="_5">Конфигурационный файл параметров общего назначения</h4>
+<p>Формат конфигурационного файла параметров общего назначения может содержать несколько разделов, например:</p>
+<ul>
+<li><code>import</code> (необязательный);</li>
+<li><code>options</code> (необязательный);</li>
+<li><code>parameters</code> (обязательный).</li>
+</ul>
+<p>В разделе <code>parameters</code> задаются произвольные параметры проекта в формате <code>key : value</code>, например:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">    </span><span class="nt">VARIANT_NAME   </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7a50t</span>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">    </span><span class="nt">PROJECT_NAME   </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= VARIANT_NAME</span><span class="w">  </span><span class="c1"># ссылка на параметр VARIANT_NAME, определённый выше</span>
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w">    </span><span class="nt">TOP_NAME       </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">top</span>
+</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w">    </span><span class="nt">TESTBENCH_NAME </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">top_tb</span>
+</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">    </span><span class="nt">DEVICE         </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xc7a50tftg256-1</span>
+</span></code></pre></div>
+<p>Особенностью реализации является то, что при указании значения параметра, можно ссылаться на вышеописанные параметры через специальный синтаксис: выражения, начинающиеся со знака <code>=</code>. Вообще, такие выражения не ограничиваются только лишь ссылками на другие параметры, но являются полноценными выражениями языка <code>Python</code>. Например, вполне допустимо следующее:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1">#</span>
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="c1">#  clk.yml</span>
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="c1">#</span>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="nt">import </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">board</span>
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">    </span><span class="nt">REF_CLK         </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= board.OSC_FREQ</span><span class="w">              </span><span class="c1"># MHz</span>
+</span><span id="__span-1-8"><a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">    </span><span class="nt">MAIN_CLK        </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">125</span><span class="w">                           </span><span class="c1"># MHz   </span>
+</span><span id="__span-1-9"><a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">    </span><span class="nt">DIFF_REFCLK     </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= ''</span><span class="w">            </span>
+</span><span id="__span-1-10"><a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="w">    </span><span class="nt">CLK_FREQ        </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= int(REF_CLK*1e6)</span>
+</span><span id="__span-1-12"><a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="w">    </span><span class="nt">CLK_PERIOD      </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= str(1e9/CLK_FREQ) + 'ns'</span><span class="w">    </span><span class="c1">#</span>
+</span><span id="__span-1-13"><a href="#__codelineno-1-13" id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="w">    </span><span class="nt">CLK_HALF_PERIOD </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= str(1e9/CLK_FREQ/2) + 'ns'</span><span class="w">  </span><span class="c1">#</span>
+</span></code></pre></div>
+<p>В этом примере помимо ссылок на параметры текущего файла используется ссылка на параметр другого файла, указанного в разделе <code>import</code>. Расширение импортируемого файла опускается, указывается только имя. Содержимое файла <code>board.yml</code> представляет собой:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1">#</span>
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c1">#  board.yml</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1">#</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">    </span><span class="nt">OSC_FREQ  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span><span class="w">      </span><span class="c1"># MHz               </span>
+</span></code></pre></div>
+<p>Результат обработки конфигурационных файлов, например, с целью получения заголовочного файла с параметрами на языке <code>Verilog</code> будет следующим:</p>
+<div class="language-verilog highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="p">...</span>
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="cp">`define REF_CLK          100</span>
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="cp">`define MAIN_CLK         125</span>
+</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="cp">`define DIFF_REFCLK</span>
+</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="cp">`define CLK_FREQ         100000000</span>
+</span><span id="__span-3-6"><a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="cp">`define CLK_PERIOD       10.0ns</span>
+</span><span id="__span-3-7"><a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="cp">`define CLK_HALF_PERIOD  5.0ns</span>
+</span><span id="__span-3-8"><a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="p">...</span>
+</span></code></pre></div>
+<hr/>
+<div class="admonition info">
+<p class="admonition-title">ЗАМЕЧАНИЕ</p>
+<p>Строка:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="n">DIFF_REFCLK</span> <span class="p">:</span> <span class="o">=</span> <span class="s1">''</span>
+</span></code></pre></div></p>
+<p>демонстрирует способ корректно задавать пустые параметры. Это существенно для некоторых форматов — в частности, в генерируемых <code>Tcl</code> файлах такие параметры преобразуются в переменные со значением     "пустая строка":</p>
+<div class="language-tcl highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="k">set</span><span class="w"> </span>DIFF_REFCLK<span class="w">  </span><span class="s2">""</span>
+</span></code></pre></div>
+</div>
+<p>Также существует специальный синтаксис для описания сток в кавычках, что бывает необходимым при определении макросов со строковыми значениями:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="n">CAPABILITY_STRUCTURE_INIT_FILE</span> <span class="p">:</span> <span class="o">=</span> <span class="s1">'`'</span><span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="o">.</span><span class="n">BUILD</span><span class="p">,</span> <span class="s1">'src'</span><span class="p">,</span> <span class="s1">'capstruct.vhex'</span><span class="p">)</span><span class="o">+</span><span class="s1">'`'</span>
+</span></code></pre></div>
+<p>что в результате даёт:</p>
+<div class="language-verilog highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="cp">`define CAPABILITY_STRUCTURE_INIT_FILE   "/opt/pro/pcie/build/kcu116/src/capstruct.vhex"</span>
+</span></code></pre></div>
+<p>Иногда необходимо генерировать макросы языка <code>Verilog</code>/<code>SystemVerilog</code> по условию: это возникает из-за того, что в этих HDL нет директивы препроцессора <code>if</code>, а есть только <code>ifdef/ifndef</code>, поэтому, например, для условной компиляции нельзя использовать значение макроса, а можно только его наличие или отсутствие. Для того, чтобы задать условную генерацию макроса в генерируемых HDL заголовочных файлах, используется специальное значение <code>__NO_DEFINE__</code>. Например:</p>
+<p><div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1">#</span>
+</span><span id="__span-8-2"><a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="c1">#  params.yml</span>
+</span><span id="__span-8-3"><a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="c1">#</span>
+</span><span id="__span-8-4"><a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="nt">import </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clk</span>
+</span><span id="__span-8-5"><a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-8-7"><a href="#__codelineno-8-7" id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="w">    </span><span class="nt">DATA_WIDTH         </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">16</span>
+</span><span id="__span-8-8"><a href="#__codelineno-8-8" id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="w">    </span><span class="nt">USE_REGISTER_SLICE </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= 'yes' if clk.REF_CLK &gt; 200 else '__NO_DEFINE__'</span>
+</span></code></pre></div>
+В этом примере макрос <code>USE_REGISTER_SLICE</code> будет присутствовать в сгенерированном заголовочном HDL файле только в случае, если параметр <code>REF_CLK</code> из конфигурационного файла <code>clk.yml</code> будет превышать значение 200 (МГц). В HDL коде можно применить условную компиляцию <code>ifdef</code> по наличию этого макроса.</p>
+<hr/>
+<p>В разделе <code>import</code> может быть указано несколько импортируемых файлов, имена которых перечисляются через пробел.</p>
+<hr/>
+<p><a name="configuration-files-search-paths"></a></p>
+<div class="admonition danger">
+<p class="admonition-title">ВАЖНОЕ ЗАМЕЧАНИЕ</p>
+<p>Особенностью реализации является то, что для импортированных конфигурационных файлов не
+требуется указывать путь к ним и расширение. Это сделано для удобства использования, чтобы не
+загромождать описание, а также чтобы не требовалось править конфигурационные файлы в случае их
+перемещения. Поиск конфигурационных файлов осуществляется по списку путей, которые задаются в
+сборочном скрипте с помощью служебной функции <code>add_search_path(&lt;path&gt;|&lt;path-list&gt;)</code>. </p>
+</div>
+<p>Поиск осуществляется в том порядке, в котором пути заданы. Например:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="c1">#</span>
+</span><span id="__span-9-2"><a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="c1">#   Build variant script (SConscript/*.scons file)</span>
+</span><span id="__span-9-3"><a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="c1">#</span>
+</span><span id="__span-9-4"><a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a>    <span class="o">...</span>
+</span><span id="__span-9-5"><a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a>    <span class="n">add_search_path</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s1">'env'</span><span class="p">)</span> <span class="p">)</span>
+</span><span id="__span-9-6"><a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a>    <span class="n">add_search_path</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">,</span> <span class="s1">'common'</span><span class="p">,</span> <span class="s1">'env'</span><span class="p">)</span> <span class="p">)</span>
+</span><span id="__span-9-7"><a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a>    <span class="o">...</span>
+</span></code></pre></div>
+<p>В этом случае поиск конфигурационных файлов будет осуществляться сначала в директории:</p>
+<p><code>&lt;build-variant-dir&gt;/env</code>, </p>
+<p>затем в:</p>
+<p><code>&lt;build-variant-dir&gt;/../common/env</code>.</p>
+<p>Это открывает широкие возможности по гибкому конфигурированию сборочных вариантов — например, в <code>common/env</code> находится конфигурационный файл <code>clk.yml</code>, являющийся общим для всех сборочных вариантов, кроме одного, в котором требуется иметь иные параметры, и это решается путём помещения в <code>&lt;build-variant-dir&gt;/env</code> другого варианта файла <code>clk.yml</code>, содержащего требуемые для этого сборочного варианта параметры. При обработке раздела <code>import</code> поисковая система первым обнаружит <code>clk.yml</code> внутри сборочного варианта, т.к. этот путь находится выше в списке путей поиска.</p>
+<p>Таким образом, получается простая и эффективная схема задания параметров для сборочных вариантов, позволяющая вынести общие параметры в отдельное место (<code>common</code> в примере выше), и "перекрывать" эти общие параметры индивидуальными путём подмены конфигурационных файлов на основе порядка путей поиска.</p>
+<hr/>
+<p>Раздел <code>options</code> предназначен для расширения возможностей при обработке конфигурационных файлов. В частности, этот раздел может содержать параметры <code>prefix</code> и <code>suffix</code>, которые распознаются некоторыми билдерами и используются для формирования имён при генерировании включаемых файлов HDL и скриптов.</p>
+<hr/>
+<h4 id="ip">Конфигурационный файл параметров IP ядра</h4>
+<p>Формат файла конфигурации IP ядер содержит три раздела: <code>import</code>, <code>type</code>, <code>config</code>. Пример:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="c1">#</span>
+</span><span id="__span-10-2"><a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="c1">#  pll.yml</span>
+</span><span id="__span-10-3"><a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="c1">#</span>
+</span><span id="__span-10-4"><a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="nt">import </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clk</span>
+</span><span id="__span-10-5"><a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a>
+</span><span id="__span-10-6"><a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="nt">type  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clk_wiz</span>
+</span><span id="__span-10-7"><a href="#__codelineno-10-7" id="__codelineno-10-7" name="__codelineno-10-7"></a>
+</span><span id="__span-10-8"><a href="#__codelineno-10-8" id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="nt">config</span><span class="p">:</span>
+</span><span id="__span-10-9"><a href="#__codelineno-10-9" id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="w">    </span><span class="nt">PRIMITIVE                  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PLL</span>
+</span><span id="__span-10-10"><a href="#__codelineno-10-10" id="__codelineno-10-10" name="__codelineno-10-10"></a><span class="w">    </span><span class="nt">PRIM_IN_FREQ               </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= clk.REF_CLK</span>
+</span><span id="__span-10-11"><a href="#__codelineno-10-11" id="__codelineno-10-11" name="__codelineno-10-11"></a><span class="w">    </span><span class="nt">CLKOUT1_REQUESTED_OUT_FREQ </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= clk.MAIN_CLK</span>
+</span><span id="__span-10-12"><a href="#__codelineno-10-12" id="__codelineno-10-12" name="__codelineno-10-12"></a><span class="w">    </span><span class="nt">USE_LOCKED                 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-10-13"><a href="#__codelineno-10-13" id="__codelineno-10-13" name="__codelineno-10-13"></a><span class="w">    </span><span class="nt">USE_RESET                  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span id="__span-10-14"><a href="#__codelineno-10-14" id="__codelineno-10-14" name="__codelineno-10-14"></a><span class="w">    </span><span class="nt">USE_SAFE_CLOCK_STARTUP     </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
+<p>Правила действуют те же самые, что и для файлов параметров (импорт и подстановки-выражения). Раздел <code>type</code> необходим для указания типа IP ядра, а раздел <code>config</code> — это то, что определяет собственно свойства IP ядра.</p>
+<p><a name="configuration-files-of-file-lists"></a></p>
+<h4 id="_6">Конфигурационные файлы списков файлов</h4>
+<p>Конфигурационный файл, содержащий список исходных файлов, должен иметь обязательный раздел <code>sources</code>, в котором перечислены исходные файлы с путями, указанными либо от текущего пути сборочного варианта, либо от корневой директории проекта — той, где находится файл <code>SConstruct</code>. Пример:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="c1">#</span>
+</span><span id="__span-11-2"><a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="c1">#   src_syn.yml</span>
+</span><span id="__span-11-3"><a href="#__codelineno-11-3" id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="c1">#</span>
+</span><span id="__span-11-4"><a href="#__codelineno-11-4" id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="nt">sources</span><span class="p">:</span>
+</span><span id="__span-11-5"><a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lib/pf.sv</span>
+</span><span id="__span-11-6"><a href="#__codelineno-11-6" id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lib/axi.sv</span>
+</span><span id="__span-11-7"><a href="#__codelineno-11-7" id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lib/axi/axi_data_shift.sv</span>
+</span><span id="__span-11-8"><a href="#__codelineno-11-8" id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lib/axi/axi_rd_crossbar.sv</span>
+</span><span id="__span-11-9"><a href="#__codelineno-11-9" id="__codelineno-11-9" name="__codelineno-11-9"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lib/axi/axi_wr_crossbar.sv</span>
+</span><span id="__span-11-10"><a href="#__codelineno-11-10" id="__codelineno-11-10" name="__codelineno-11-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lib/fifo/fifo_sc.sv</span>
+</span><span id="__span-11-11"><a href="#__codelineno-11-11" id="__codelineno-11-11" name="__codelineno-11-11"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lib/fifo/fifo_dc.sv</span>
+</span><span id="__span-11-12"><a href="#__codelineno-11-12" id="__codelineno-11-12" name="__codelineno-11-12"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lib/mem/infer/block_ram.sv</span>
+</span><span id="__span-11-13"><a href="#__codelineno-11-13" id="__codelineno-11-13" name="__codelineno-11-13"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lib/mem/infer/distributed_ram.sv</span>
+</span><span id="__span-11-14"><a href="#__codelineno-11-14" id="__codelineno-11-14" name="__codelineno-11-14"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lib/mem/infer/distributed_rom.sv</span>
+</span><span id="__span-11-15"><a href="#__codelineno-11-15" id="__codelineno-11-15" name="__codelineno-11-15"></a>
+</span><span id="__span-11-16"><a href="#__codelineno-11-16" id="__codelineno-11-16" name="__codelineno-11-16"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/syn/top.sv</span>
+</span><span id="__span-11-17"><a href="#__codelineno-11-17" id="__codelineno-11-17" name="__codelineno-11-17"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/syn/core.sv</span>
+</span><span id="__span-11-18"><a href="#__codelineno-11-18" id="__codelineno-11-18" name="__codelineno-11-18"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/syn/task_loader.sv</span>
+</span><span id="__span-11-19"><a href="#__codelineno-11-19" id="__codelineno-11-19" name="__codelineno-11-19"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/syn/task_manager.sv</span>
+</span><span id="__span-11-20"><a href="#__codelineno-11-20" id="__codelineno-11-20" name="__codelineno-11-20"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/syn/pcie/axi4lite_adapter.sv</span>
+</span><span id="__span-11-21"><a href="#__codelineno-11-21" id="__codelineno-11-21" name="__codelineno-11-21"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</span></code></pre></div>
+<p>Такие файлы могут содержать списки файлов любого типа: HDL, констрейны, конфигурационные файлы IP ядер и т.д. Как уже было сказано, пути в списках файлов могут быть заданы от корня проекта (как в примере выше) или от корня директории сборочного варианта. Второй способ предпочтительнее для конфигурационных файлов, использование которых локализовано в пределах текущего сборочного варианта, например:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="c1">#</span>
+</span><span id="__span-12-2"><a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="c1">#   xdc.yml</span>
+</span><span id="__span-12-3"><a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="c1">#</span>
+</span><span id="__span-12-4"><a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="nt">sources</span><span class="p">:</span>
+</span><span id="__span-12-5"><a href="#__codelineno-12-5" id="__codelineno-12-5" name="__codelineno-12-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xdc/timing.xdc</span>
+</span><span id="__span-12-6"><a href="#__codelineno-12-6" id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xdc/properties.xdc</span>
+</span><span id="__span-12-7"><a href="#__codelineno-12-7" id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xdc/floorplan.xdc</span>
+</span></code></pre></div>
+<p>При обработке файлов списков действует следующее правило формирования целевых путей:</p>
+<ol>
+<li>сначала формируется абсолютный путь по схеме <code>&lt;build-variant-path&gt;/&lt;path-from-yml&gt;</code> и проверяется, существует ли файл по этому пути. Если существует, то полученный путь используется в дальнейшем. Если не существует, то:</li>
+<li>формируется абсолютный путь по схеме <code>&lt;project-root-path&gt;/&lt;path-from-yml&gt;</code> и далее аналогичная предыдущему пункту проверка. Если и по этому пути файла не существует, то сборка останавливается с ошибкой и выводом соответствующего сообщения.</li>
+</ol>
+<p>Таким образом, наличие (существование) исходных файлов проверяется системой сборки ещё до начала сборочных действий – это позволяет обнаруживать ошибки задания исходных файлов на ранних стадиях, что экономит время.</p>
+<p>Помимо обязательного раздела <code>sources</code> конфигурационный файл списка может содержать опциональный раздел <code>parameters</code>. Этот раздел является точно таким же, как и в файлах параметров с той разницей, что там он является обязательным, а тут опциональным. Этот раздел позволяет создавать локальные параметры для гибкого управления списками файлов. Например, когда нужно тот или иной исходный файл включать в сборку по условию или подменять на другой в зависимости от внешних параметров. Пример:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="nt">import </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+</span><span id="__span-13-2"><a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a href="#__codelineno-13-3" id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="nt">parameters</span><span class="p">:</span><span class="w"> </span>
+</span><span id="__span-13-4"><a href="#__codelineno-13-4" id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="w">    </span><span class="nt">ADDER_SOURCE    </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= 'adder_bd.sv'  if main.VARIANT_NAME == 'ac701' else</span><span class="w"> </span>
+</span><span id="__span-13-5"><a href="#__codelineno-13-5" id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="w">                        </span><span class="l l-Scalar l-Scalar-Plain">'adder_hls.sv' if main.VARIANT_NAME == '7a50t' else</span>
+</span><span id="__span-13-6"><a href="#__codelineno-13-6" id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="w">                        </span><span class="l l-Scalar l-Scalar-Plain">None</span>
+</span><span id="__span-13-7"><a href="#__codelineno-13-7" id="__codelineno-13-7" name="__codelineno-13-7"></a>
+</span><span id="__span-13-8"><a href="#__codelineno-13-8" id="__codelineno-13-8" name="__codelineno-13-8"></a><span class="w">    </span><span class="nt">ADDER_IF_SOURCE </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= None if main.VARIANT_NAME == '7a35t' else 'adder_if.sv'</span>
+</span><span id="__span-13-9"><a href="#__codelineno-13-9" id="__codelineno-13-9" name="__codelineno-13-9"></a>
+</span><span id="__span-13-10"><a href="#__codelineno-13-10" id="__codelineno-13-10" name="__codelineno-13-10"></a><span class="nt">sources</span><span class="p">:</span>
+</span><span id="__span-13-11"><a href="#__codelineno-13-11" id="__codelineno-13-11" name="__codelineno-13-11"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/syn/top.sv</span>
+</span><span id="__span-13-12"><a href="#__codelineno-13-12" id="__codelineno-13-12" name="__codelineno-13-12"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/syn/$ADDER_SOURCE</span>
+</span><span id="__span-13-13"><a href="#__codelineno-13-13" id="__codelineno-13-13" name="__codelineno-13-13"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/syn/$ADDER_IF_SOURCE</span>
+</span></code></pre></div>
+<p>В этом примере создаются два параметра, содержащие имена исходных файлов. Значения этих параметров зависят от текущего сборочного варианта. Далее в разделе <code>sources</code> осуществляется использование значений параметров через оператор подстановки <code>$</code>. Если подстановочное значение вычисляется до <code>False</code> (т.е. имеет значение <code>0</code>, <code>False</code>, <code>None</code>, пустую строку), то текущая строка списка аннулируется — ничего из данной строки не передаётся далее в проект <em>Vivado</em> или симулятору. Иными словами, это способ исключить исходный файл из сборки по условию.</p>
+<p>В примере выше в качестве исходного файла модуля <code>adder</code> для сборочного варианта <code>ac701</code> будет использоваться исходный файл <code>adder_bd.sv</code>, для сборочного варианта <code>7a50t</code> — <code>adder_hls.sv</code>, для остальных сборочных вариантов этот модуль использоваться не будет. Второй параметр вызовет включение исходного файла <code>adder_if.sv</code> для всех сборочных вариантов кроме <code>7a35t</code>.</p>
+<h4 id="hls"><a name="hls-config"></a> Конфигурационный файл параметров HLS</h4>
+<p>Конфигурационный файл параметров HLS по сути является обычным конфигурационным файлом параметров за исключением того, что в обычном конфигурационном файле набор параметров произволен, а в конфигурационном файле HLS этот набор в значительной степени фиксирован. Как и в обычном конфигурационном файле параметров тут присутствует обязательный раздел <code>parameters</code> и опциональный <code>import</code>. Типовой конфигурационный файл HLS выглядит так:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="nt">import </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main env clk</span>
+</span><span id="__span-14-2"><a href="#__codelineno-14-2" id="__codelineno-14-2" name="__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a href="#__codelineno-14-3" id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-14-4"><a href="#__codelineno-14-4" id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="w">    </span><span class="nt">name                   </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">adder</span>
+</span><span id="__span-14-5"><a href="#__codelineno-14-5" id="__codelineno-14-5" name="__codelineno-14-5"></a><span class="w">    </span><span class="nt">version                </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
+</span><span id="__span-14-6"><a href="#__codelineno-14-6" id="__codelineno-14-6" name="__codelineno-14-6"></a><span class="w">    </span><span class="nt">vendor                 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">slon</span>
+</span><span id="__span-14-7"><a href="#__codelineno-14-7" id="__codelineno-14-7" name="__codelineno-14-7"></a><span class="w">    </span><span class="nt">library                </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hls</span>
+</span><span id="__span-14-8"><a href="#__codelineno-14-8" id="__codelineno-14-8" name="__codelineno-14-8"></a>
+</span><span id="__span-14-9"><a href="#__codelineno-14-9" id="__codelineno-14-9" name="__codelineno-14-9"></a><span class="w">    </span><span class="nt">clock_period           </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= str(1000/clk.MAIN_CLK) + 'ns'</span>
+</span><span id="__span-14-10"><a href="#__codelineno-14-10" id="__codelineno-14-10" name="__codelineno-14-10"></a><span class="w">    </span><span class="nt">clock_name             </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">adder_clk</span>
+</span><span id="__span-14-11"><a href="#__codelineno-14-11" id="__codelineno-14-11" name="__codelineno-14-11"></a><span class="w">    </span><span class="nt">clock_uncertainty      </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25%</span>
+</span><span id="__span-14-12"><a href="#__codelineno-14-12" id="__codelineno-14-12" name="__codelineno-14-12"></a>
+</span><span id="__span-14-13"><a href="#__codelineno-14-13" id="__codelineno-14-13" name="__codelineno-14-13"></a><span class="w">    </span><span class="nt">cflags                 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= ' -g' + ' -DDATA_WIDTH=' + str(main.DATA_WIDTH)</span>
+</span><span id="__span-14-14"><a href="#__codelineno-14-14" id="__codelineno-14-14" name="__codelineno-14-14"></a>
+</span><span id="__span-14-15"><a href="#__codelineno-14-15" id="__codelineno-14-15" name="__codelineno-14-15"></a><span class="w">    </span><span class="nt">csimflags              </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= ' -g' +</span>
+</span><span id="__span-14-16"><a href="#__codelineno-14-16" id="__codelineno-14-16" name="__codelineno-14-16"></a><span class="w">                               </span><span class="l l-Scalar l-Scalar-Plain">' -I' + os.path.join(env.QUESTABASE, 'include') +</span>
+</span><span id="__span-14-17"><a href="#__codelineno-14-17" id="__codelineno-14-17" name="__codelineno-14-17"></a><span class="w">                               </span><span class="l l-Scalar l-Scalar-Plain">' -I' + os.path.join(env.XILINX_HLS, 'include')</span>
+</span><span id="__span-14-18"><a href="#__codelineno-14-18" id="__codelineno-14-18" name="__codelineno-14-18"></a>
+</span><span id="__span-14-19"><a href="#__codelineno-14-19" id="__codelineno-14-19" name="__codelineno-14-19"></a><span class="w">    </span><span class="nt">src_csyn_list          </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src_csyn.yml</span>
+</span><span id="__span-14-20"><a href="#__codelineno-14-20" id="__codelineno-14-20" name="__codelineno-14-20"></a><span class="w">    </span><span class="nt">src_csim_list          </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src_csim.yml</span>
+</span><span id="__span-14-21"><a href="#__codelineno-14-21" id="__codelineno-14-21" name="__codelineno-14-21"></a><span class="w">    </span><span class="nt">hook_list              </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">directives.yml</span>
+</span></code></pre></div>
+<p>Правила описания параметров, поиска импортируемых конфигурационных файлов и т.п. остаются теми же самыми, что и для остальных конфигурационных файлов.</p>
+<h3 id="_7">Использование конфигурационных файлов</h3>
+<h4 id="_8">Файлы параметров</h4>
+<p>Для работы с параметрами на уровне сценария сборочного варианта предназначена функция <code>import_config()</code>. Пример использования:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-15-1"><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="c1">#</span>
+</span><span id="__span-15-2"><a href="#__codelineno-15-2" id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="c1">#   main.yml</span>
+</span><span id="__span-15-3"><a href="#__codelineno-15-3" id="__codelineno-15-3" name="__codelineno-15-3"></a><span class="c1">#</span>
+</span><span id="__span-15-4"><a href="#__codelineno-15-4" id="__codelineno-15-4" name="__codelineno-15-4"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-15-5"><a href="#__codelineno-15-5" id="__codelineno-15-5" name="__codelineno-15-5"></a><span class="w">    </span><span class="nt">VARIANT_NAME   </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7a50t</span>
+</span><span id="__span-15-6"><a href="#__codelineno-15-6" id="__codelineno-15-6" name="__codelineno-15-6"></a><span class="w">    </span><span class="nt">PROJECT_NAME   </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= VARIANT_NAME</span><span class="w">  </span><span class="c1"># ссылка на параметр VARIANT_NAME, определённый выше</span>
+</span><span id="__span-15-7"><a href="#__codelineno-15-7" id="__codelineno-15-7" name="__codelineno-15-7"></a><span class="w">    </span><span class="nt">TOP_NAME       </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">top</span>
+</span><span id="__span-15-8"><a href="#__codelineno-15-8" id="__codelineno-15-8" name="__codelineno-15-8"></a><span class="w">    </span><span class="nt">TESTBENCH_NAME </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">top_tb</span>
+</span><span id="__span-15-9"><a href="#__codelineno-15-9" id="__codelineno-15-9" name="__codelineno-15-9"></a><span class="w">    </span><span class="nt">DEVICE         </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xc7a50tftg256-1</span>
+</span></code></pre></div>
+<p><div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="c1">#</span>
+</span><span id="__span-16-2"><a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="c1">#  &lt;variant_name&gt;.scons</span>
+</span><span id="__span-16-3"><a href="#__codelineno-16-3" id="__codelineno-16-3" name="__codelineno-16-3"></a><span class="c1">#</span>
+</span><span id="__span-16-4"><a href="#__codelineno-16-4" id="__codelineno-16-4" name="__codelineno-16-4"></a><span class="o">...</span>
+</span><span id="__span-16-5"><a href="#__codelineno-16-5" id="__codelineno-16-5" name="__codelineno-16-5"></a><span class="n">cfg</span>  <span class="o">=</span> <span class="n">import_config</span><span class="p">(</span><span class="s1">'main.yml'</span><span class="p">)</span>
+</span><span id="__span-16-6"><a href="#__codelineno-16-6" id="__codelineno-16-6" name="__codelineno-16-6"></a><span class="o">...</span>
+</span><span id="__span-16-7"><a href="#__codelineno-16-7" id="__codelineno-16-7" name="__codelineno-16-7"></a><span class="n">env</span><span class="p">[</span><span class="s1">'VIVADO_PROJECT_NAME'</span><span class="p">]</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PROJECT_NAME</span>
+</span><span id="__span-16-8"><a href="#__codelineno-16-8" id="__codelineno-16-8" name="__codelineno-16-8"></a><span class="n">env</span><span class="p">[</span><span class="s1">'TOP_NAME'</span><span class="p">]</span>            <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">TOP_NAME</span>
+</span><span id="__span-16-9"><a href="#__codelineno-16-9" id="__codelineno-16-9" name="__codelineno-16-9"></a><span class="n">env</span><span class="p">[</span><span class="s1">'TESTBENCH_NAME'</span><span class="p">]</span>      <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">TESTBENCH_NAME</span>
+</span><span id="__span-16-10"><a href="#__codelineno-16-10" id="__codelineno-16-10" name="__codelineno-16-10"></a><span class="n">env</span><span class="p">[</span><span class="s1">'DEVICE'</span><span class="p">]</span>              <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">DEVICE</span>
+</span><span id="__span-16-11"><a href="#__codelineno-16-11" id="__codelineno-16-11" name="__codelineno-16-11"></a><span class="o">...</span>
+</span></code></pre></div>
+Как видно, нотация очень простая: функция возвращает объект, содержащий параметры, заданные в конфигурационном файле, с теми же именами.</p>
+<h4 id="ip_1">Файлы конфигурации IP ядер</h4>
+<p>Работать напрямую с конфигурационными файлами IP ядер на уровне сценария как правило не нужно, всю эту работу выполняют сборщики-билдеры (builders), пользователю достаточно указать только список файлов с описанием параметров IP ядер.</p>
+<h4 id="_9">Конфигурационные файлы списков</h4>
+<p>Для работы с файлами списков исходных файлов служит функция <code>read_sources()</code>. Она получает в качестве параметра имя конфигурационного файла со списком исходных файлов и возвращает список с абсолютными путями исходных файлов, перечисленных в конфигурационном файле:</p>
+<p><div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="n">src</span>     <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'src_syn.yml'</span><span class="p">)</span>
+</span><span id="__span-17-2"><a href="#__codelineno-17-2" id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="n">src_sim</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'src_sim.yml'</span><span class="p">)</span>
+</span><span id="__span-17-3"><a href="#__codelineno-17-3" id="__codelineno-17-3" name="__codelineno-17-3"></a><span class="n">ip</span>      <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'ip.yml'</span><span class="p">)</span>
+</span></code></pre></div>
+Полученные списки в дальнейшем используются в качестве зависимостей для построения сценариев сборки.</p>
+<h3 id="_10">Сценарии сборки</h3>
+<p>Сценарии сборки описываются в файле скрипта <code>SCons</code>, находящемся в корневой директории сборочного варианта — <code>SConscript</code> или <code>&lt;variant-name&gt;.scons</code>. Этот скрипт является файлом на языке <code>Python</code> и содержит настройку сборочного окружения и описание целей сборки. Более подробно см. <a href="../Build-Scripts/">Сценарии сборки</a>.</p>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href=".." title="General"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../Build-Scripts/" title="Build Scripts">Next <span class="icon icon-circle-arrow-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href=".." style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../Build-Scripts/" style="color: #fcfcfc">Next »</a></span>
+</span>
+</div>
+<script>var base_url = '..';</script>
+<script defer="" src="../js/theme_extra.js"></script>
+<script defer="" src="../js/theme.js"></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script defer="">
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+<script>const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});</script></body>
+</html>

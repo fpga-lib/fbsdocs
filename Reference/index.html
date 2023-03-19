@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<title>Reference - FPGA Build System</title>
+<link href="../css/theme.css" rel="stylesheet"/>
+<link href="../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../extra.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Reference";
+        var mkdocs_page_input_path = "Reference.md";
+        var mkdocs_page_url = null;
+      </script>
+<script defer="" src="../js/jquery-3.6.0.min.js"></script>
+<!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href=".."> FPGA Build System
+        </a>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Build System</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="..">General</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Variants/">Build Variants</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Scripts/">Build Scripts</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Topics/">Advanced Topics</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Reference</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#contents">Contents</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#tool-vivado">Tool 'vivado'</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#tool-questa">Tool 'questa'</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#service-api">Service API</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Service-API/">Service API</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Vivado/">Tool Vivado</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Questa/">Tool Questa</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Simple-Example/">Simple</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Example/">Advandced</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="..">FPGA Build System</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a alt="Docs" class="icon icon-home" href=".."></a> »</li>
+<li>Reference »</li>
+<li>Reference</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="reference">Reference</h1>
+<p>Раздел содержит краткое описание переменных <a href="/Build-Scripts/#construction-environment">сборочного окружения</a> (СО), билдеров, вспомогательных функций и других средств, необходимых для работы системы сборки.</p>
+<p>Пользовательский скрипт, содержащий сценарии сборки, может изменять значения переменных СО по своему усмотрению в целях более тонкой настройки или для удовлетворения личных предпочтений.</p>
+<p>Переменные СО, билдеры, псевдобилдеры, сканеры сгруппированы в модули, оформленные специальным образом. В терминах <strong>SCons</strong> эти модули называются инструментами (Tools).</p>
+<h2 id="contents">Contents</h2>
+<h3 id="tool-vivado"><a href="/Tool-Vivado">Tool 'vivado'</a></h3>
+<h3 id="tool-questa"><a href="/Tool-Questa">Tool 'questa'</a></h3>
+<h3 id="service-api"><a href="/Service-API">Service API</a></h3>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../Advanced-Topics/" title="Advanced Topics"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../Service-API/" title="Service API">Next <span class="icon icon-circle-arrow-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../Advanced-Topics/" style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../Service-API/" style="color: #fcfcfc">Next »</a></span>
+</span>
+</div>
+<script>var base_url = '..';</script>
+<script defer="" src="../js/theme_extra.js"></script>
+<script defer="" src="../js/theme.js"></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script defer="">
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+<script>const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});</script></body>
+</html>

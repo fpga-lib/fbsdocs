@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<title>Simple - FPGA Build System</title>
+<link href="../css/theme.css" rel="stylesheet"/>
+<link href="../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../extra.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Simple";
+        var mkdocs_page_input_path = "Simple-Example.md";
+        var mkdocs_page_url = null;
+      </script>
+<script defer="" src="../js/jquery-3.6.0.min.js"></script>
+<!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href=".."> FPGA Build System
+        </a>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Build System</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="..">General</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Variants/">Build Variants</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Scripts/">Build Scripts</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Topics/">Advanced Topics</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Reference/">Reference</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Service-API/">Service API</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Vivado/">Tool Vivado</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Questa/">Tool Questa</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Simple</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage-expamples">Usage expamples</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Example/">Advandced</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="..">FPGA Build System</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a alt="Docs" class="icon icon-home" href=".."></a> »</li>
+<li>Examples »</li>
+<li>Simple</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="vivado-boilerplate">vivado-boilerplate</h1>
+<p>This is an <a href="https://github.com/fpga-lib/vivado-boilerplate">example project</a> to demonstrate features of SCons-based build system for FPGA. Xilinx Vivado and Mentor Questa are supported for now.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Unified configuration subsystem based on <a href="https://en.wikipedia.org/wiki/YAML">YAML format</a>.</li>
+<li>Arbitrary count of build variants (this example project offers three build variants for AC701, 7A35T and 7A50T evaluation boards).</li>
+<li>Fully customizable project layout and build scenarios with construction environment variables and reach set of builders.</li>
+<li>Many different targets such as:<ul>
+<li>IP Create Scripts.</li>
+<li>IP Synthesize Scripts.</li>
+<li>Create IPs.                                                  </li>
+<li>Out-of-context synthesis of IPs.</li>
+<li>Create IP simulation library scripts.</li>
+<li>Compile IP simulation library.</li>
+<li>Generate HDL headers files with specified parameters.</li>
+<li>Generate Tcl scripts with specified parameters.</li>
+<li>Compile work library.</li>
+<li>Launch Questa GUI in destination dir with tool script loaded.</li>
+<li>Launch simulation run in non-GUI mode (console run).</li>
+<li>Create Vivado Project accoring to specified parameters.</li>
+<li>Synthesize Vivado Project in non-GUI (console) mode.</li>
+<li>Implement Vivado Project in non-GUI (console) mode.</li>
+<li>Open Vivado Project in GUI mode.</li>
+</ul>
+</li>
+<li>All targets are built by dependencies.</li>
+<li>Convenient help info (command line option <code>-h</code>)</li>
+<li>Comprehensive debug features (options --debug=exlplain, --tree=all, etc).</li>
+</ul>
+<h2 id="usage-expamples">Usage expamples</h2>
+<p>Commands can be invoked from any directory within project directory tree.</p>
+<p>Display available targets:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>scons -s -D -h
+</span></code></pre></div>
+<p>Create Vivado project:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>scons -s -D prj
+</span></code></pre></div>
+<p>Synthesize Vivado project for variant 7A50T:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>scons -s -D variant=7a50t prjsyn
+</span></code></pre></div>
+<p>Compile simulator work library (this is a default target):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>scons -s -D
+</span></code></pre></div>
+<p>Changing any parameter file that is a dependency for some target[s] raises rebuild for all targes in dependency chain.</p>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../Tool-Questa/" title="Tool Questa"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../Advanced-Example/" title="Advandced">Next <span class="icon icon-circle-arrow-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../Tool-Questa/" style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../Advanced-Example/" style="color: #fcfcfc">Next »</a></span>
+</span>
+</div>
+<script>var base_url = '..';</script>
+<script defer="" src="../js/theme_extra.js"></script>
+<script defer="" src="../js/theme.js"></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script defer="">
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+<script>const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});</script></body>
+</html>

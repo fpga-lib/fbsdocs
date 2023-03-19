@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<title>Tool Vivado - FPGA Build System</title>
+<link href="../css/theme.css" rel="stylesheet"/>
+<link href="../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../extra.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Tool Vivado";
+        var mkdocs_page_input_path = "Tool-Vivado.md";
+        var mkdocs_page_url = null;
+      </script>
+<script defer="" src="../js/jquery-3.6.0.min.js"></script>
+<!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href=".."> FPGA Build System
+        </a>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Build System</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="..">General</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Variants/">Build Variants</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Scripts/">Build Scripts</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Topics/">Advanced Topics</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Reference/">Reference</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Service-API/">Service API</a>
+</li>
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Tool Vivado</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#environment-variables">Environment variables</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#_1">Переменные общего назначения</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_2">Директории и пути</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_3">Расширения файлов</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#builders">Builders</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#ipcreatescript">IpCreateScript</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ipcreatescripts">IpCreateScripts</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ipsynscript">IpSynScript</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ipsynscripts">IpSynScripts</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ipcreate">IpCreate</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#createips">CreateIps</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ipsyn">IpSyn</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#synips">SynIps</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#bdcreate">BdCreate</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#createoocbd">CreateOocBd</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#hlscsynthscript">HlsCSynthScript</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#createhlscsynthscript">CreateHlsCSynthScript</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#hlscsynth">HlsCSynth</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#launchhlscsynth">LaunchHlsCSynth</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#hlsipsynscripts">HlsIpSynScripts</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cfgparamsheader">CfgParamsHeader</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#createcfgparamsheader">CreateCfgParamsHeader</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cfgparamstcl">CfgParamsTcl</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#createcfgparamstcl">CreateCfgParamsTcl</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#vivadoproject">VivadoProject</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#createvivadoproject">CreateVivadoProject</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#synthvivadoproject">SynthVivadoProject</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#launchsynthvivadoproject">LaunchSynthVivadoProject</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#implvivadoproject">ImplVivadoProject</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#launchimplvivadoproject">LaunchImplVivadoProject</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#openvivadoproject">OpenVivadoProject</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#launchopenvivadoproject">LaunchOpenVivadoProject</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Questa/">Tool Questa</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Simple-Example/">Simple</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Example/">Advandced</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="..">FPGA Build System</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a alt="Docs" class="icon icon-home" href=".."></a> »</li>
+<li>Reference »</li>
+<li>Tool Vivado</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="tool-vivado">Tool 'vivado'</h1>
+<h2 id="environment-variables">Environment variables</h2>
+<p>Переменные сборочного и исполнительного окружения удобно задать в сборочном скрипте:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1">#-------------------------------------------------------------------------------</span>
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="c1">#</span>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="c1">#    Environment</span>
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1">#</span>
+</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'DISPLAY'</span><span class="p">]</span>            <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'DISPLAY'</span><span class="p">]</span>
+</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'HOME'</span><span class="p">]</span>               <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'HOME'</span><span class="p">]</span>
+</span><span id="__span-0-7"><a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'XILINX'</span><span class="p">]</span>             <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX</span>
+</span><span id="__span-0-8"><a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'MENTOR'</span><span class="p">]</span>             <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">MENTOR</span>
+</span><span id="__span-0-9"><a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'MGLS_LICENSE_FILE'</span><span class="p">]</span>  <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">MGLS_LICENSE_FILE</span>
+</span><span id="__span-0-10"><a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'XILINX_VIVADO'</span><span class="p">]</span>      <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX_VIVADO</span>
+</span><span id="__span-0-11"><a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'XILINX_VIVADO'</span><span class="p">]</span>             <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX_VIVADO</span>
+</span><span id="__span-0-12"><a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'XILINX_HLS'</span><span class="p">]</span>                <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX_HLS</span>
+</span><span id="__span-0-13"><a href="#__codelineno-0-13" id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'QUESTABIN'</span><span class="p">]</span>                 <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">QUESTABIN</span>
+</span><span id="__span-0-14"><a href="#__codelineno-0-14" id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'QUESTASIM'</span><span class="p">]</span>                 <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">QUESTASIM</span>
+</span><span id="__span-0-15"><a href="#__codelineno-0-15" id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'VENDOR_LIB_PATH'</span><span class="p">]</span>           <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">VENDOR_LIB_PATH</span>
+</span></code></pre></div>
+<p>где <code>env</code> — объект с параметрами, получаемый:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="n">env</span> <span class="o">=</span> <span class="n">import_config</span><span class="p">(</span><span class="s1">'env.yml'</span><span class="p">)</span>
+</span></code></pre></div>
+<p>а конфигурационный файл <code>env.yml</code> представляет собой нечто подобное:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1">#</span>
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c1">#   env.yml</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1">#</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">    </span><span class="nt">XILINX              </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.environ['XILINX']</span>
+</span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">    </span><span class="nt">MENTOR              </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.environ['MENTOR']</span>
+</span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">    </span><span class="nt">XILINX_TOOL_VERSION </span><span class="p">:</span><span class="w"> </span><span class="s">'2021.2'</span>
+</span><span id="__span-2-9"><a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">    </span><span class="nt">QUESTA_TOOL_VERSION </span><span class="p">:</span><span class="w"> </span><span class="s">'2021.1'</span>
+</span><span id="__span-2-10"><a href="#__codelineno-2-10" id="__codelineno-2-10" name="__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a href="#__codelineno-2-11" id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">    </span><span class="nt">XILINX_VIVADO       </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(XILINX, 'Vivado', XILINX_TOOL_VERSION)</span>
+</span><span id="__span-2-12"><a href="#__codelineno-2-12" id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="w">    </span><span class="nt">XILINX_HLS          </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(XILINX, 'Vitis_HLS', XILINX_TOOL_VERSION)</span>
+</span><span id="__span-2-13"><a href="#__codelineno-2-13" id="__codelineno-2-13" name="__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a href="#__codelineno-2-14" id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">    </span><span class="nt">MGLS_LICENSE_FILE   </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(MENTOR, 'license.dat')</span>
+</span><span id="__span-2-15"><a href="#__codelineno-2-15" id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">    </span><span class="nt">QUESTABASE          </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(MENTOR, QUESTA_TOOL_VERSION, 'questasim')</span>
+</span><span id="__span-2-16"><a href="#__codelineno-2-16" id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="w">    </span><span class="nt">QUESTABIN           </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(QUESTABASE, 'bin')</span>
+</span><span id="__span-2-17"><a href="#__codelineno-2-17" id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="w">    </span><span class="nt">QUESTASIM           </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(QUESTABASE, 'linux_x86_64', 'vsim')</span>
+</span><span id="__span-2-18"><a href="#__codelineno-2-18" id="__codelineno-2-18" name="__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a href="#__codelineno-2-19" id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="w">    </span><span class="nt">VENDOR_LIB_NAME     </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= 'xlib-vv' + XILINX_TOOL_VERSION + '-qs' + QUESTA_TOOL_VERSION</span>
+</span><span id="__span-2-20"><a href="#__codelineno-2-20" id="__codelineno-2-20" name="__codelineno-2-20"></a><span class="w">    </span><span class="nt">VENDOR_LIB_PATH     </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(MENTOR, 'vendor', VENDOR_LIB_NAME, 'func')</span>
+</span></code></pre></div>
+<p>Из описанных переменных окружения далее строятся все пути к исполняемым файлам внешних инструментов.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1">#-------------------------------------------------------------------------------</span>
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="c1">#</span>
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="c1">#    Tool 'vivado'</span>
+</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="c1">#</span>
+</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="o">...</span>
+</span><span id="__span-3-6"><a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="n">VIVADO</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">'XILINX_VIVADO'</span><span class="p">],</span> <span class="s1">'bin'</span><span class="p">,</span> <span class="s1">'vivado'</span><span class="p">)</span>
+</span><span id="__span-3-7"><a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="n">HLS</span>    <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">'XILINX_HLS'</span><span class="p">],</span> <span class="s1">'bin'</span><span class="p">,</span> <span class="s1">'vitis_hls'</span><span class="p">)</span>
+</span><span id="__span-3-8"><a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="o">...</span>
+</span></code></pre></div>
+<h3 id="_1">Переменные общего назначения</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VIVADO_VERNUM</code></td>
+<td>Номер используемой<br/> версии САПР Vivado</td>
+<td>Извлекается из <br/><code>env['XILINX_VIVADO']</code></td>
+</tr>
+<tr>
+<td><code>VIVADO_PROJECT_NAME</code></td>
+<td>Название проекта САПР Vivado</td>
+<td><code>'vivado_project'</code></td>
+</tr>
+<tr>
+<td><code>TOP_NAME</code></td>
+<td>Имя модуля верхнего уровня</td>
+<td><code>'top'</code></td>
+</tr>
+<tr>
+<td><code>DEVICE</code></td>
+<td>Наименование ПЛИС</td>
+<td><code>'xc7a200tfbg676-2'</code></td>
+</tr>
+<tr>
+<td><code>VIVADO_PROJECT_MODE</code></td>
+<td>Режим работы с САПР.<br/> В настоящее время поддерживается <br/>только Project Mode</td>
+<td><code>True</code></td>
+</tr>
+<tr>
+<td><code>SYNCOM</code></td>
+<td>Команда запуска САПР в пакетном<br/> режиме</td>
+<td><code>VIVADO + ' -mode batch'</code></td>
+</tr>
+<tr>
+<td><code>SYNSHELL</code></td>
+<td>Команда запуска САПР в <br/>интерактивном режиме</td>
+<td><code>VIVADO + ' -mode tcl'</code></td>
+</tr>
+<tr>
+<td><code>SYNGUI</code></td>
+<td>Команда запуска САПР в <br/>графическом режиме</td>
+<td><code>VIVADO + ' -mode gui'</code></td>
+</tr>
+<tr>
+<td><code>HLSCOM</code></td>
+<td>Команда запуска HLS компилятора</td>
+<td><code>HLS</code></td>
+</tr>
+<tr>
+<td><code>SYN_TRACE</code></td>
+<td>Опция управления трассировкой<br/> команд</td>
+<td><code>' -notrace'</code></td>
+</tr>
+<tr>
+<td><code>SYN_JOURNAL</code></td>
+<td>Опция ведения журнала</td>
+<td><code>' -nojournal'</code></td>
+</tr>
+<tr>
+<td><code>PROJECT_CREATE_FLAGS</code></td>
+<td>Опции, передаваемые Tcl <br/>команде <code>create_project</code>. <br/>Типовое значение <code>-f</code> (force),<br/> что вынуждает САПР FPGA <br/>создавать проект даже если он<br/> открыт</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>HLSFLAGS</code></td>
+<td>Флаги компилятора HLS</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>VERBOSE</code></td>
+<td>Управляет печатью полной<br/> командной строки выполняемого<br/> действия</td>
+<td><code>True</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_2">Директории и пути</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ROOT_PATH</code></td>
+<td>Корневая директория проекта</td>
+<td><code>os.path.abspath(str(Dir('#')))</code></td>
+</tr>
+<tr>
+<td><code>CFG_PATH</code></td>
+<td>Директория текущего сборочного<br/> варианта</td>
+<td><code>os.path.abspath(os.curdir)</code></td>
+</tr>
+<tr>
+<td><code>CONFIG_SEARCH_PATH</code></td>
+<td>Список путей, по которым<br/> осуществляется поиск конфи-<br/>гурационных файлов во время <br/>работы сканера (обработка <br/>секции <code>import</code> в конфигу-<br/>рационных файлах)</td>
+<td><code>env['CFG_PATH']</code></td>
+</tr>
+<tr>
+<td><code>BUILD_SRC_PATH</code></td>
+<td>Директория, куда помещаются <br/>сгенерированные исходные файлы <br/>(*.svh, *.tcl)</td>
+<td><code>os.path.join(root_dir, 'build', os.path.basename(cfg_name), 'src')</code></td>
+</tr>
+<tr>
+<td><code>BUILD_SYN_PATH</code></td>
+<td>Директория, в которой создаётся<br/> исполнительное окружение <br/>для синтеза (проект, IP ядра и т.п.)</td>
+<td><code>os.path.join(root_dir, 'build', os.path.basename(cfg_name), 'syn')</code></td>
+</tr>
+<tr>
+<td><code>IP_OOC_PATH</code></td>
+<td>Директория для IP ядер, скриптов, <br/>библиотеки симуляционных <br/>моделей</td>
+<td><code>os.path.join(env['BUILD_SYN_PATH'], 'ip_ooc')</code></td>
+</tr>
+<tr>
+<td><code>BD_OOC_PATH</code></td>
+<td>Директория для блочных дизайнов, <br/>создаваемых out-of-context</td>
+<td><code>os.path.join(root_dir, 'build', build_variant, 'bd')</code></td>
+</tr>
+<tr>
+<td><code>BUILD_HLS_PATH</code></td>
+<td>Директория для создания проектов<br/> HLS, скриптов их создания и компи-<br/>ляции и репозитория целевых IP <br/>ядер</td>
+<td><code>os.path.join(env['BUILD_SYN_PATH'], 'hls')</code></td>
+</tr>
+<tr>
+<td><code>INC_PATH</code></td>
+<td>Список путей, в которых произво-<br/>дится поиск включаемых файлов. <br/>Поиск автоматически выполняется<br/> в директориях, где расположены<br/> исходные файлы, и <code>INC_PATH</code> <br/>дополняет этот список элементами,<br/> в которых исходных файлов нет,<br/> но есть включаемые —<br/> например, <code>BUILD_SRC_PATH</code></td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>IP_SCRIPT_DIRNAME</code></td>
+<td>Имя директории, в которую поме-<br/>щаются скрипты для обслужива-<br/>ния IP ядер. Сама директория <br/>располагается в <code>IP_OOC_PATH</code></td>
+<td><code>'_script'</code></td>
+</tr>
+<tr>
+<td><code>BD_SCRIPT_DIRNAME</code></td>
+<td>Имя директории, в которую <br/>помещаются <strong>Tcl</strong> скрипты <br/>создания OOC блочных<br/> дизайнов. Сама директория<br/> располагается в <code>BD_OOC_PATH</code></td>
+<td><code>'_script'</code></td>
+</tr>
+<tr>
+<td><code>SIM_SCRIPT_DIRNAME</code></td>
+<td>Имя директории, где поме-<br/>щаются скрипты для создания <br/>симуляционных библиотек IP ядер,<br/> блочных дизайнов, HLS IP ядер и т.п.</td>
+<td><code>'sim_script'</code></td>
+</tr>
+<tr>
+<td><code>SIM_SCRIPT_PATH</code></td>
+<td>Директория, содержащая скрипты<br/> для создания симуляционных <br/>библиотек IP ядер, блочных<br/> дизайнов, HLS IP ядер и т.п.</td>
+<td><code>os.path.join(env['BUILD_SYN_PATH'], env['SIM_SCRIPT_DIRNAME'])</code></td>
+</tr>
+<tr>
+<td><code>HLS_SCRIPT_DIRNAME</code></td>
+<td>Имя директории, в которую<br/> помещаются скрипты для создания<br/> и компиляции HLS IP</td>
+<td><code>'_script'</code></td>
+</tr>
+<tr>
+<td><code>HLS_IP_NAME_SUFFIX</code></td>
+<td>Суффикс для имён HLS IP</td>
+<td><code>'_hlsip'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">Расширения файлов</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CONFIG_SUFFIX</code></td>
+<td>конфигурационные файлы</td>
+<td><code>'yml'</code></td>
+</tr>
+<tr>
+<td><code>TOOL_SCRIPT_SUFFIX</code></td>
+<td>скрипты</td>
+<td><code>'tcl'</code></td>
+</tr>
+<tr>
+<td><code>IP_CORE_SUFFIX</code></td>
+<td>IP ядра</td>
+<td><code>'xci'</code></td>
+</tr>
+<tr>
+<td><code>BD_SUFFIX</code></td>
+<td>Блочные дизайны</td>
+<td><code>'bd'</code></td>
+</tr>
+<tr>
+<td><code>DCP_SUFFIX</code></td>
+<td>Design Checkpoint. Архив, содержащий<br/> результат работы САПР: синтезированный <br/>проект, разведённый, синтезированное <br/>IP ядро и т.п.</td>
+<td><code>'dcp'</code></td>
+</tr>
+<tr>
+<td><code>BITSTREAM_SUFFIX</code></td>
+<td>выходной файл</td>
+<td><code>'bit'</code></td>
+</tr>
+<tr>
+<td><code>CONSTRAINTS_SUFFIX</code></td>
+<td>констрейны</td>
+<td><code>'xdc'</code></td>
+</tr>
+<tr>
+<td><code>VIVADO_PROJECT_SUFFIX</code></td>
+<td>проект Vivado</td>
+<td><code>'xpr'</code></td>
+</tr>
+<tr>
+<td><code>V_SUFFIX</code></td>
+<td>Verilog</td>
+<td><code>'v'</code></td>
+</tr>
+<tr>
+<td><code>SV_SUFFIX</code></td>
+<td>SystemVerilog</td>
+<td><code>'sv'</code></td>
+</tr>
+<tr>
+<td><code>V_HEADER_SUFFIX</code></td>
+<td>Verilog header</td>
+<td><code>'vh'</code></td>
+</tr>
+<tr>
+<td><code>SV_HEADER_SUFFIX</code></td>
+<td>SystemVerilog header</td>
+<td><code>'svh'</code></td>
+</tr>
+<tr>
+<td><code>HLS_TARGET_SUFFIX</code></td>
+<td>HLS IP repository archived item</td>
+<td><code>'zip'</code></td>
+</tr>
+<tr>
+<td><code>USER_DEFINED_PARAMS</code></td>
+<td>Пользовательские параметры, передаваемые<br/> на этап создания проекта САПР путём создания <br/>соответствующих переменных в скрипте, <br/>который создаёт проект Vivado</td>
+<td><code>{}</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="builders">Builders</h2>
+<p>Перечислены <a href="/Build-Scripts#builders">билдеры</a> и <a href="/Build-Scripts#pseudo-builders">псевдобилдеры</a>. Билдеры как правило не используются напрямую, т.к. они имеют вполне определённый интерфейс запуска, который далеко не всегда удобен, поэтому в скрипте сборочных сценариев используются как правило псевдобилдеры, которые по сути являются "обёртками" вокруг самих билдеров.</p>
+<hr/>
+<h3 id="ipcreatescript"><pre>IpCreateScript</pre></h3>
+<p><u>True builder</u></p>
+<p>Генерирует <strong>Tcl</strong> скрипт, с помощью которого создаётся IP ядро. </p>
+<hr/>
+<h3 id="ipcreatescripts"><pre>IpCreateScripts</pre></h3>
+<p><u>Pseudo-builder</u></p>
+<p>Генерирует <strong>Tcl</strong> скрипты для создания IP ядер из списка конфигурационных файлов. Создаёт скрипты по схеме <code>&lt;name&gt;-create.tcl</code>. Использует билдер <code>IpCreateScript</code>.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="n">ip</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'ip.yml'</span><span class="p">)</span>
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="o">...</span>
+</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="n">IP_Create_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpCreateScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="ipsynscript"><pre>IpSynScript</pre></h3>
+<p><u>True builder</u></p>
+<p>Генерирует скрипт для out-of-context синтеза IP ядра.</p>
+<hr/>
+<h3 id="ipsynscripts"><pre>IpSynScripts</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Генерирует <strong>Tcl</strong> скрипты для синтеза IP ядер из списка конфигурационных файлов. Создаёт скрипты по схеме <code>&lt;name&gt;-syn.tcl</code>. Использует билдер <code>IpSynScript</code>.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="n">ip</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'ip.yml'</span><span class="p">)</span>
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="o">...</span>
+</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="n">IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpSynScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="ipcreate"><pre>IpCreate</pre></h3>
+<p><u>True builder</u></p>
+<p>Создаёт IP ядро.</p>
+<hr/>
+<h3 id="createips"><pre>CreateIps</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Создаёт IP ядра по списку скриптов, сгенерированны с помощью <code>IpCreateScripts</code>. Использует билдер <code>IpCreate</code>.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="n">IP_Cores</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateIps</span><span class="p">(</span><span class="n">IP_Create_Scripts</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="ipsyn"><pre>IpSyn</pre></h3>
+<p><u>True builder</u></p>
+<p>Синтезирует IP ядро в режиме out-of-context.</p>
+<hr/>
+<h3 id="synips"><pre>SynIps</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Синтезирует IP ядра, используя в качестве зависимостей скрипты, созданные <code>IpSynScrips</code> и файлы самих IP ядер. Использует билдер <code>IpSyn</code>.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="n">IP_OOC_Syn</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">SynIps</span><span class="p">(</span><span class="n">IP_Syn_Scripts</span><span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="bdcreate"><pre>BdCreate</pre></h3>
+<p><u>True builder</u></p>
+<p>Создаёт блочный дизайн на основе <strong>Tcl</strong> скрипта, описывающего используемые элементы (cells), их межсоединения и порты. Блочный дизайн создаётся в виде отдельно стоящего Vivado проекта (out-of-context). В дальнейшем блочный дизайн из такого проекта может быть подключен в рабочий проект. Методика подготовки <strong>Tcl</strong> скрипта описана <a href="/Advanced-Topics#bd-create-example">по ссылке</a>.</p>
+<hr/>
+<h3 id="createoocbd"><pre>CreateOocBd</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Создаёт проекты с блочными дизайнами на основе списка конфигурационных файлов. Использует <code>BdCreate</code> билдер.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="n">bd</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'bd.yml'</span><span class="p">)</span>
+</span><span id="__span-8-2"><a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="o">...</span>
+</span><span id="__span-8-3"><a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="n">bd_ooc</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateOocBd</span><span class="p">(</span><span class="n">bd</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="hlscsynthscript"><pre>HlsCSynthScript</pre></h3>
+<p><u>True builder</u></p>
+<p>Создаёт <strong>Tcl</strong> скрипт для создания HLS проекта и его компиляции. Зависимостью является <code>yml</code> <a href="/Build-Variants#hls-config">файл параметров HLS</a>. В результате создаётся <strong>Tcl</strong> скрипт с командами создания HLS проекта и его компиляции до элемента IP репозитория. Пример целевого скрипта:</p>
+<div class="language-tcl highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="nv">--------------------------------------------------------------------------------</span>
+</span><span id="__span-9-2"><a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="c">#</span>
+</span><span id="__span-9-3"><a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="c">#   This file is automatically generated. Do not edit the file!</span>
+</span><span id="__span-9-4"><a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="c">#</span>
+</span><span id="__span-9-5"><a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="c">#--------------------------------------------------------------------------------</span>
+</span><span id="__span-9-6"><a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="k">set</span><span class="w"> </span>PROJECT_NAME<span class="w">  </span>adder
+</span><span id="__span-9-8"><a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="k">set</span><span class="w"> </span>TOP_NAME<span class="w">      </span>adder
+</span><span id="__span-9-9"><a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="k">set</span><span class="w"> </span>DEVICE<span class="w">        </span>xc7a50tftg256-1
+</span><span id="__span-9-10"><a href="#__codelineno-9-10" id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="k">set</span><span class="w"> </span>SOLUTION_NAME<span class="w"> </span>sol_1
+</span><span id="__span-9-11"><a href="#__codelineno-9-11" id="__codelineno-9-11" name="__codelineno-9-11"></a>
+</span><span id="__span-9-12"><a href="#__codelineno-9-12" id="__codelineno-9-12" name="__codelineno-9-12"></a><span class="c"># Project structure</span>
+</span><span id="__span-9-13"><a href="#__codelineno-9-13" id="__codelineno-9-13" name="__codelineno-9-13"></a><span class="nv">open_project</span><span class="w"> </span><span class="o">-</span>reset<span class="w"> </span><span class="nv">${PROJECT_NAME}</span>
+</span><span id="__span-9-14"><a href="#__codelineno-9-14" id="__codelineno-9-14" name="__codelineno-9-14"></a>
+</span><span id="__span-9-15"><a href="#__codelineno-9-15" id="__codelineno-9-15" name="__codelineno-9-15"></a><span class="c"># Add syn sources</span>
+</span><span id="__span-9-16"><a href="#__codelineno-9-16" id="__codelineno-9-16" name="__codelineno-9-16"></a><span class="nv">add_files</span><span class="w"> </span><span class="o">-</span>cflags<span class="w"> </span><span class="s2">"-g -DDATA_WIDTH=4"</span><span class="w"> </span><span class="o">/</span>opt<span class="o">/</span>slon<span class="o">/</span>xilinx<span class="o">/</span>build-system-examples<span class="o">/</span>src<span class="o">/</span>hls<span class="o">/</span>adder<span class="o">/</span>src<span class="o">/</span>adder.cpp
+</span><span id="__span-9-17"><a href="#__codelineno-9-17" id="__codelineno-9-17" name="__codelineno-9-17"></a>
+</span><span id="__span-9-18"><a href="#__codelineno-9-18" id="__codelineno-9-18" name="__codelineno-9-18"></a>
+</span><span id="__span-9-19"><a href="#__codelineno-9-19" id="__codelineno-9-19" name="__codelineno-9-19"></a><span class="c"># Add sim sources</span>
+</span><span id="__span-9-20"><a href="#__codelineno-9-20" id="__codelineno-9-20" name="__codelineno-9-20"></a><span class="nv">add_files</span><span class="w"> </span><span class="o">-</span>tb<span class="w"> </span><span class="o">-</span>csimflags<span class="w"> </span><span class="s2">"-g -I/opt/cad/mentor/2021.1/questasim/include -I/opt/cad/xilinx/Vitis_HLS/2021.2/include"</span><span class="w"> </span><span class="o">/</span>opt<span class="o">/</span>slon<span class="o">/</span>xilinx<span class="o">/</span>build-system-examples<span class="o">/</span>src<span class="o">/</span>hls<span class="o">/</span>adder<span class="o">/</span>tb<span class="o">/</span>main.cpp
+</span><span id="__span-9-21"><a href="#__codelineno-9-21" id="__codelineno-9-21" name="__codelineno-9-21"></a>
+</span><span id="__span-9-22"><a href="#__codelineno-9-22" id="__codelineno-9-22" name="__codelineno-9-22"></a>
+</span><span id="__span-9-23"><a href="#__codelineno-9-23" id="__codelineno-9-23" name="__codelineno-9-23"></a><span class="nv">set_top</span><span class="w"> </span><span class="nv">${TOP_NAME}</span>
+</span><span id="__span-9-24"><a href="#__codelineno-9-24" id="__codelineno-9-24" name="__codelineno-9-24"></a><span class="c"># Add solution</span>
+</span><span id="__span-9-25"><a href="#__codelineno-9-25" id="__codelineno-9-25" name="__codelineno-9-25"></a><span class="nv">open_solution</span><span class="w"> </span><span class="o">-</span>reset<span class="w"> </span><span class="o">-</span>flow_target<span class="w"> </span>vivado<span class="w"> </span><span class="nv">${SOLUTION_NAME}</span>
+</span><span id="__span-9-26"><a href="#__codelineno-9-26" id="__codelineno-9-26" name="__codelineno-9-26"></a><span class="nv">set_part</span><span class="w"> </span><span class="nv">${DEVICE}</span>
+</span><span id="__span-9-27"><a href="#__codelineno-9-27" id="__codelineno-9-27" name="__codelineno-9-27"></a><span class="nv">create_clock</span><span class="w"> </span><span class="o">-</span>period<span class="w"> </span><span class="mf">8.0</span>ns<span class="w"> </span><span class="o">-</span>name<span class="w"> </span>adder_clk
+</span><span id="__span-9-28"><a href="#__codelineno-9-28" id="__codelineno-9-28" name="__codelineno-9-28"></a><span class="nv">set_clock_uncertainty</span><span class="w"> </span><span class="mi">25</span><span class="o">%</span>
+</span><span id="__span-9-29"><a href="#__codelineno-9-29" id="__codelineno-9-29" name="__codelineno-9-29"></a>
+</span><span id="__span-9-30"><a href="#__codelineno-9-30" id="__codelineno-9-30" name="__codelineno-9-30"></a><span class="c"># Add hooks</span>
+</span><span id="__span-9-31"><a href="#__codelineno-9-31" id="__codelineno-9-31" name="__codelineno-9-31"></a><span class="nb">source</span><span class="w"> </span><span class="o">/</span>opt<span class="o">/</span>slon<span class="o">/</span>xilinx<span class="o">/</span>build-system-examples<span class="o">/</span>src<span class="o">/</span>cfg<span class="o">/</span><span class="mi">7</span>a50t<span class="o">/</span>hls<span class="o">/</span>adder<span class="o">/</span>directives.tcl
+</span><span id="__span-9-32"><a href="#__codelineno-9-32" id="__codelineno-9-32" name="__codelineno-9-32"></a>
+</span><span id="__span-9-33"><a href="#__codelineno-9-33" id="__codelineno-9-33" name="__codelineno-9-33"></a>
+</span><span id="__span-9-34"><a href="#__codelineno-9-34" id="__codelineno-9-34" name="__codelineno-9-34"></a><span class="nv">csynth_design</span>
+</span><span id="__span-9-35"><a href="#__codelineno-9-35" id="__codelineno-9-35" name="__codelineno-9-35"></a>
+</span><span id="__span-9-36"><a href="#__codelineno-9-36" id="__codelineno-9-36" name="__codelineno-9-36"></a><span class="nv">export_design</span><span class="w"> </span><span class="o">-</span>rtl<span class="w"> </span>verilog<span class="w"> </span><span class="o">-</span>format<span class="w"> </span>ip_catalog<span class="w"> </span><span class="o">-</span>ipname<span class="w"> </span>adder<span class="w"> </span><span class="o">-</span>version<span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span>vendor<span class="w"> </span>slon<span class="w"> </span><span class="o">-</span>library<span class="w"> </span>hls<span class="w"> </span><span class="o">-</span>output<span class="w"> </span><span class="o">/</span>opt<span class="o">/</span>slon<span class="o">/</span>xilinx<span class="o">/</span>build-system-examples<span class="o">/</span>build<span class="o">/</span><span class="mi">7</span>a50t<span class="o">/</span>syn<span class="o">/</span>hls<span class="o">/</span>ip<span class="o">/</span>adder.zip
+</span><span id="__span-9-37"><a href="#__codelineno-9-37" id="__codelineno-9-37" name="__codelineno-9-37"></a>
+</span><span id="__span-9-38"><a href="#__codelineno-9-38" id="__codelineno-9-38" name="__codelineno-9-38"></a><span class="nb">exit</span>
+</span><span id="__span-9-39"><a href="#__codelineno-9-39" id="__codelineno-9-39" name="__codelineno-9-39"></a><span class="c">#--------------------------------------------------------------------------------</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="createhlscsynthscript"><pre>CreateHlsCSynthScript</pre></h3>
+<p><u>Pseudo-builder</u></p>
+<p>Псевдобилдер, получающий аргументом список конфигурационных HLS <code>yml</code> файлов и осуществляющий запуск для каждого из них билдера <code>HlsCSynthScript</code>. Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="n">HlsCSynScripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateHlsCSynthScript</span><span class="p">(</span><span class="n">hls</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="hlscsynth"><pre>HlsCSynth</pre></h3>
+<p><u>True builder</u></p>
+<p>Билдер выполняет создание HLS проекта и его компиляцию, в результате которой создаётся элемент IP репозитория, пригодный для использования в качестве IP ядра в целевом проекте. Напрямую не используется, вызывается из псевдобилдера <code>LaunchHlsCSynth</code> (см. ниже)</p>
+<hr/>
+<h3 id="launchhlscsynth"><pre>LaunchHlsCSynth</pre></h3>
+<p><u>Pseudo-builder</u></p>
+<p>Служит для запуска создания и компиляции HLS проектов. Пример использования:</p>
+<p><div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="n">HlsCsyn</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchHlsCSynth</span><span class="p">(</span><span class="n">HlsCSynScripts</span><span class="p">,</span> <span class="n">hls</span><span class="p">)</span>
+</span></code></pre></div>
+где, <code>HlsCSynScripts</code> — список скриптов, полученных в результате работы <code>CreateHlsCSynthScript</code>, <code>hls</code> — список конфигурационных <code>yml</code> файлов HLS.</p>
+<hr/>
+<h3 id="hlsipsynscripts"><pre>HlsIpSynScripts</pre></h3>
+<p><u>Pseudo-builder</u></p>
+<p>Псевдобилдер осуществляет генерирование скриптов создания IP ядер из HLS IP репозитория, созданного инструментами, описанными выше. Полученные скрипты далее используются точно так же, как и скрипты для синтеза IP ядер, получаемые из конфигурационных <code>yml</code> файлов IP ядер.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="n">HLS_IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">HlsIpSynScripts</span><span class="p">(</span><span class="n">HlsCsyn</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Использование результата:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="c1">#   IP scripts</span>
+</span><span id="__span-13-2"><a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="n">IP_Create_Scripts</span>  <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpCreateScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>                 <span class="c1"># скрипты создания IP из yml описания</span>
+</span><span id="__span-13-3"><a href="#__codelineno-13-3" id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="n">IP_Syn_Scripts</span>     <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpSynScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>                    <span class="c1"># скрипты синтеза IP</span>
+</span><span id="__span-13-4"><a href="#__codelineno-13-4" id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="n">HLS_IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">HlsIpSynScripts</span><span class="p">(</span><span class="n">HlsCsyn</span><span class="p">)</span>            <span class="c1"># скрипты синтеза HLS IP</span>
+</span><span id="__span-13-5"><a href="#__codelineno-13-5" id="__codelineno-13-5" name="__codelineno-13-5"></a>
+</span><span id="__span-13-6"><a href="#__codelineno-13-6" id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="c1">#   IP cores</span>
+</span><span id="__span-13-7"><a href="#__codelineno-13-7" id="__codelineno-13-7" name="__codelineno-13-7"></a><span class="n">IP_Cores</span>           <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateIps</span><span class="p">(</span><span class="n">IP_Create_Scripts</span><span class="p">)</span>        <span class="c1"># создание IP ядер</span>
+</span><span id="__span-13-8"><a href="#__codelineno-13-8" id="__codelineno-13-8" name="__codelineno-13-8"></a><span class="n">All_IP</span>             <span class="o">=</span> <span class="n">IP_Cores</span> <span class="o">+</span> <span class="n">HlsCsyn</span>                       <span class="c1"># полный список IP ядер: пользовательских и HLS</span>
+</span><span id="__span-13-9"><a href="#__codelineno-13-9" id="__codelineno-13-9" name="__codelineno-13-9"></a>
+</span><span id="__span-13-10"><a href="#__codelineno-13-10" id="__codelineno-13-10" name="__codelineno-13-10"></a><span class="n">All_IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">IP_Syn_Scripts</span> <span class="o">+</span> <span class="n">HLS_IP_Syn_Scripts</span>      <span class="c1"># скрипты для синтеза всех IP ядер</span>
+</span><span id="__span-13-11"><a href="#__codelineno-13-11" id="__codelineno-13-11" name="__codelineno-13-11"></a><span class="n">IP_OOC_Syn</span>         <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">SynIps</span><span class="p">(</span><span class="n">All_IP_Syn_Scripts</span><span class="p">,</span> <span class="n">All_IP</span><span class="p">)</span>  <span class="c1"># синтез всех IP ядер</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="cfgparamsheader"><pre>CfgParamsHeader</pre></h3>
+<p><u>True builder</u></p>
+<p>Создаёт HDL заголовочный файл с параметрами, взятыми из указанных конфигурационных файлов. Если в конфигурационном файле, являющимся зависимостью, определён раздел <code>options</code>, в котором, в свою очередь, определены параметры <code>prefix</code>, <code>suffix</code>, то значения этих параметров конкатенируются с именами рабочих параметров, соответственно до и после:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="c1">#</span>
+</span><span id="__span-14-2"><a href="#__codelineno-14-2" id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="c1">#  params.yml</span>
+</span><span id="__span-14-3"><a href="#__codelineno-14-3" id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="c1">#</span>
+</span><span id="__span-14-4"><a href="#__codelineno-14-4" id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="nn">...</span>
+</span><span id="__span-14-5"><a href="#__codelineno-14-5" id="__codelineno-14-5" name="__codelineno-14-5"></a><span class="nt">options</span><span class="p">:</span>
+</span><span id="__span-14-6"><a href="#__codelineno-14-6" id="__codelineno-14-6" name="__codelineno-14-6"></a><span class="w">    </span><span class="nt">prefix </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PARAMS_</span>
+</span><span id="__span-14-7"><a href="#__codelineno-14-7" id="__codelineno-14-7" name="__codelineno-14-7"></a>
+</span><span id="__span-14-8"><a href="#__codelineno-14-8" id="__codelineno-14-8" name="__codelineno-14-8"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-14-9"><a href="#__codelineno-14-9" id="__codelineno-14-9" name="__codelineno-14-9"></a><span class="w">    </span><span class="nt">DATA  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</span><span id="__span-14-10"><a href="#__codelineno-14-10" id="__codelineno-14-10" name="__codelineno-14-10"></a><span class="w">    </span><span class="nt">WIDTH </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+</span></code></pre></div>
+<p>Результат:</p>
+<div class="language-verilog highlight"><pre><span></span><code><span id="__span-15-1"><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="cp">`define PARAMS_DATA  10</span>
+</span><span id="__span-15-2"><a href="#__codelineno-15-2" id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="cp">`define PARAMS_WIDTH 8  </span>
+</span></code></pre></div>
+<hr/>
+<h3 id="createcfgparamsheader"><pre>CreateCfgParamsHeader</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Может принимать в качестве зависимостей строку с именами файлов, разделёнными пробелом, или список. Создаёт полный (абсолютный) путь для каждого файла и вызывает билдер <code>CfgParamsHeader</code>.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="n">hdl_param_deps</span> <span class="o">=</span> <span class="s1">'main.yml clk.yml'</span>
+</span><span id="__span-16-2"><a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="o">...</span>
+</span><span id="__span-16-3"><a href="#__codelineno-16-3" id="__codelineno-16-3" name="__codelineno-16-3"></a><span class="n">CfgParamsHeader</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateCfgParamsHeader</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">envx</span><span class="p">[</span><span class="s1">'BUILD_SRC_PATH'</span><span class="p">],</span> <span class="s1">'cfg_params.svh'</span><span class="p">),</span> <span class="n">hdl_param_deps</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="cfgparamstcl"><pre>CfgParamsTcl</pre></h3>
+<p><u>True builder</u></p>
+<p>Создаёт <strong>Tcl</strong> файл с параметрами, взятыми из указанных конфигурационных файлов. Как и билдер по генерированию включаемых HDL файлов, данный билдер распознаёт раздел <code>options</code> с параметрами <code>prefix</code> и <code>suffix</code>, используя их сходным образом:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-17-1"><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="c1">#</span>
+</span><span id="__span-17-2"><a href="#__codelineno-17-2" id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="c1">#   dirpath.yml</span>
+</span><span id="__span-17-3"><a href="#__codelineno-17-3" id="__codelineno-17-3" name="__codelineno-17-3"></a><span class="c1">#</span>
+</span><span id="__span-17-4"><a href="#__codelineno-17-4" id="__codelineno-17-4" name="__codelineno-17-4"></a><span class="nt">options</span><span class="p">:</span><span class="w"> </span>
+</span><span id="__span-17-5"><a href="#__codelineno-17-5" id="__codelineno-17-5" name="__codelineno-17-5"></a><span class="w">    </span><span class="nt">suffix </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">_DIR</span>
+</span><span id="__span-17-6"><a href="#__codelineno-17-6" id="__codelineno-17-6" name="__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a href="#__codelineno-17-7" id="__codelineno-17-7" name="__codelineno-17-7"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-17-8"><a href="#__codelineno-17-8" id="__codelineno-17-8" name="__codelineno-17-8"></a><span class="w">    </span><span class="nt">SRC_SYN  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= '{' + os.path.join('src', 'syn') + '}'</span>
+</span><span id="__span-17-9"><a href="#__codelineno-17-9" id="__codelineno-17-9" name="__codelineno-17-9"></a><span class="w">    </span><span class="nt">SRC_SIM  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= '{' + os.path.join('src', 'sim') + '}'</span>
+</span></code></pre></div>
+<p>Результат:</p>
+<div class="language-tcl highlight"><pre><span></span><code><span id="__span-18-1"><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="k">set</span><span class="w"> </span>SRC_SYN_DIR<span class="w"> </span><span class="k">{</span><span class="nv">src</span><span class="o">/</span>syn<span class="k">}</span>
+</span><span id="__span-18-2"><a href="#__codelineno-18-2" id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="k">set</span><span class="w"> </span>SRC_SIM_DIR<span class="w"> </span><span class="k">{</span><span class="nv">src</span><span class="o">/</span>sim<span class="k">}</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="createcfgparamstcl"><pre>CreateCfgParamsTcl</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Может принимать в качестве зависимостей строку с именами файлов, разделёнными пробелом, или список. Создаёт полный (абсолютный) путь для каждого файла и вызывает билдер <code>CfgParamsTcl</code>.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="n">CfgParamsTcl</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateCfgParamsTcl</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">envx</span><span class="p">[</span><span class="s1">'BUILD_SRC_PATH'</span><span class="p">],</span> <span class="s1">'cfg_params.tcl'</span><span class="p">),</span> <span class="s1">'params.yml'</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="vivadoproject"><pre>VivadoProject</pre></h3>
+<p><u>True builder</u></p>
+<p>Создаёт проект САПР Vivado.</p>
+<hr/>
+<h3 id="createvivadoproject"><pre>CreateVivadoProject</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Принимает в качестве зависимостей исходные файлы HDL, файлы констрейнов и IP ядер. Генерирует имя целевого файла, обрабатывает список зависимостей, формируя полные (абсолютные) пути для каждого файла HDL и констрейнов, подготавливает результирующий список и вызывает билдер <code>VivadoProject</code>. Целевым файлом является <code>&lt;project name&gt;.prj</code>, который является копией <code>project name&gt;.xpr</code>. Такое решение используется по той причине, что САПР Vivado в процессе работы постоянно изменяет <code>xpr</code> файл, что делает его непригодным в качестве цели для системы сборки. С другой стороны, целевой файл должен быть релевантным к изменениям настроек проекта, т.к. система сборки проверяет актуальность файла по MD хэшу. Копия файла проекта достаточно хорошо отвечает вышеперечисленным требованиям.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-20-1"><a href="#__codelineno-20-1" id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="n">xpr_hook</span>       <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'xpr_hook.yml'</span><span class="p">)</span>
+</span><span id="__span-20-2"><a href="#__codelineno-20-2" id="__codelineno-20-2" name="__codelineno-20-2"></a><span class="o">...</span>
+</span><span id="__span-20-3"><a href="#__codelineno-20-3" id="__codelineno-20-3" name="__codelineno-20-3"></a><span class="n">xpr_deps</span> <span class="o">=</span> <span class="s1">'src_syn.yml xdc.yml'</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="o">+</span> <span class="n">xpr_hook</span>
+</span><span id="__span-20-4"><a href="#__codelineno-20-4" id="__codelineno-20-4" name="__codelineno-20-4"></a><span class="o">...</span>
+</span><span id="__span-20-5"><a href="#__codelineno-20-5" id="__codelineno-20-5" name="__codelineno-20-5"></a><span class="n">VivadoProject</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateVivadoProject</span><span class="p">(</span><span class="n">xpr_deps</span> <span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="synthvivadoproject"><pre>SynthVivadoProject</pre></h3>
+<p><u>True builder</u></p>
+<p>Выполняет синтез проекта. Целевым файлом является <code>&lt;top name&gt;</code>.dcp, расположенный в <code>&lt;project name&gt;.runs/synth_1</code>.</p>
+<hr/>
+<h3 id="launchsynthvivadoproject"><pre>LaunchSynthVivadoProject</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Осуществляет подготовку и запуск проекта на синтез. Принимает в качестве зависимостей целевой файл проекта и перечень исходных файлов, который может быть представлен в виде строки с именами файлов, разделёнными пробелом, либо в виде списка. Запускает билдер <code>SynthVivadoProject</code>.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a href="#__codelineno-21-1" id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="n">src_syn</span>  <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'src_syn.yml'</span><span class="p">)</span>
+</span><span id="__span-21-2"><a href="#__codelineno-21-2" id="__codelineno-21-2" name="__codelineno-21-2"></a><span class="n">xdc</span>      <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'xdc.yml'</span><span class="p">)</span>
+</span><span id="__span-21-3"><a href="#__codelineno-21-3" id="__codelineno-21-3" name="__codelineno-21-3"></a><span class="o">...</span>
+</span><span id="__span-21-4"><a href="#__codelineno-21-4" id="__codelineno-21-4" name="__codelineno-21-4"></a><span class="n">syn_deps</span> <span class="o">=</span> <span class="n">src_syn</span> <span class="o">+</span> <span class="n">xdc</span>
+</span><span id="__span-21-5"><a href="#__codelineno-21-5" id="__codelineno-21-5" name="__codelineno-21-5"></a><span class="o">...</span>
+</span><span id="__span-21-6"><a href="#__codelineno-21-6" id="__codelineno-21-6" name="__codelineno-21-6"></a><span class="n">VivadoProject</span>      <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateVivadoProject</span><span class="p">(</span><span class="n">xpr_deps</span> <span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
+</span><span id="__span-21-7"><a href="#__codelineno-21-7" id="__codelineno-21-7" name="__codelineno-21-7"></a><span class="o">...</span>
+</span><span id="__span-21-8"><a href="#__codelineno-21-8" id="__codelineno-21-8" name="__codelineno-21-8"></a><span class="n">SynthVivadoProject</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchSynthVivadoProject</span><span class="p">(</span><span class="n">VivadoProject</span><span class="p">,</span> <span class="n">syn_deps</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="implvivadoproject"><pre>ImplVivadoProject</pre></h3>
+<p><u>True builder</u></p>
+<p>Производит этапы размещения и разводки проекта (place and route). Целевым файлом является битстрим <code>&lt;project name&gt;.runs/impl_1/&lt;top level&gt;.bit</code></p>
+<hr/>
+<h3 id="launchimplvivadoproject"><pre>LaunchImplVivadoProject</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Выполняет формирование целевого пути и запускает билдер <code>ImplVivadoProject</code>.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-22-1"><a href="#__codelineno-22-1" id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="n">SynthVivadoProject</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchSynthVivadoProject</span><span class="p">(</span><span class="n">VivadoProject</span><span class="p">,</span> <span class="n">syn_deps</span><span class="p">)</span>
+</span><span id="__span-22-2"><a href="#__codelineno-22-2" id="__codelineno-22-2" name="__codelineno-22-2"></a><span class="n">ImplVivadoProject</span>  <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchImplVivadoProject</span><span class="p">(</span><span class="n">SynthVivadoProject</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="openvivadoproject"><pre>OpenVivadoProject</pre></h3>
+<p><u>True builder</u></p>
+<p>Запускает САПР Vivado в графическом режиме с переходом в директорию проекта и загрузкой проекта. При этом проверяются зависимости и при необходимости выполняется сборка по всей цепочке. Типовой сценарий построен так, что при запуске проекта в графическом режиме проверяется актуальность целевого файла проекта и целевых файлов синтезированных IP ядер. Смысл этого в том, чтобы когда проект запущен в графическом режиме, все "пререквизиты" (проект и IP ядра)  были в актуальном состоянии, и пользователь сразу мог приступить к синтезу проекта, не ожидая завершение посторонних заданий (которые в том числе "засоряют" лог сообщений), и, самое главное, чтобы всё требуемое было в актуальном состоянии, чтобы пользователю не нужно было следить за этим, поменяв тот или иной параметр <a href="/Build-Variants">сборочного варианта</a>.</p>
+<hr/>
+<h3 id="launchopenvivadoproject"><pre>LaunchOpenVivadoProject</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Запускает билдер <code>OpenVivadoProject</code> с фиктивной целью, что вынуждает билдер всегда включать цель в граф зависимостей как находящуюся в неактуальном состоянии.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a href="#__codelineno-23-1" id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="n">VivadoProject</span>      <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateVivadoProject</span><span class="p">(</span><span class="n">xpr_deps</span> <span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
+</span><span id="__span-23-2"><a href="#__codelineno-23-2" id="__codelineno-23-2" name="__codelineno-23-2"></a><span class="o">...</span>
+</span><span id="__span-23-3"><a href="#__codelineno-23-3" id="__codelineno-23-3" name="__codelineno-23-3"></a><span class="n">OpenVivadoProject</span>  <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchOpenVivadoProject</span><span class="p">(</span><span class="n">VivadoProject</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../Service-API/" title="Service API"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../Tool-Questa/" title="Tool Questa">Next <span class="icon icon-circle-arrow-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../Service-API/" style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../Tool-Questa/" style="color: #fcfcfc">Next »</a></span>
+</span>
+</div>
+<script>var base_url = '..';</script>
+<script defer="" src="../js/theme_extra.js"></script>
+<script defer="" src="../js/theme.js"></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script defer="">
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+<script>const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});</script></body>
+</html>

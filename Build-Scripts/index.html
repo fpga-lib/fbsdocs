@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<title>Build Scripts - FPGA Build System</title>
+<link href="../css/theme.css" rel="stylesheet"/>
+<link href="../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../extra.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Build Scripts";
+        var mkdocs_page_input_path = "Build-Scripts.md";
+        var mkdocs_page_url = null;
+      </script>
+<script defer="" src="../js/jquery-3.6.0.min.js"></script>
+<!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href=".."> FPGA Build System
+        </a>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Build System</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="..">General</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Variants/">Build Variants</a>
+</li>
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Build Scripts</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#_2">Общие сведения</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#construction-environment"> Сборочное окружение (Construction Environment)</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#scons">Логика работы SCons</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#builders"> Builders</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#_3">  Псевдобилдеры</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tools">Tools</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#_4">Реализация сценария сборки</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#_5">Общий план</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_6">Подготовка параметров</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_7">Настройка сборочного окружения</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_8">Подготовка списков исходных файлов</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_9">Описание целей</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Topics/">Advanced Topics</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Reference/">Reference</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Service-API/">Service API</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Vivado/">Tool Vivado</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Questa/">Tool Questa</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Simple-Example/">Simple</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Example/">Advandced</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="..">FPGA Build System</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a alt="Docs" class="icon icon-home" href=".."></a> »</li>
+<li>Build System »</li>
+<li>Build Scripts</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="_1">Сценарии сборки</h1>
+<h2 id="_2">Общие сведения</h2>
+<p>Сценарием сборки называется описание способов получения <strong>целей</strong> сборки из <strong>источников</strong> (как правило, файлов), которые называются <strong>зависимостями</strong>. Установление связей между <strong>целями</strong> и <strong>зависимостями</strong> осуществляется разными способами, основным из которых является использование <strong>билдеров</strong> (builders, см. ниже) и явное указание зависимости с помощью <code>Depends()</code>. Помимо обычных (основных) целей существуют так называемые мнимые цели (phony targets), которые не являются файлами или директориями, а, как правило, обозначают действия — например, запуск какого-либо инструмента безусловно.</p>
+<div class="admonition tip">
+<p class="admonition-title">ЗАМЕТКА</p>
+<p>Смысл оформлять такие действия в виде целей состоит в том, что при этом появляется возможность
+обработать сопутствующие зависимости – например, при запуске симулятора на прогон теста
+нужно     не забыть сгенерировать заголовочные файлы с параметрами, если были изменения
+параметров. </p>
+<p>При прямом запуске симулятора нужно помнить об этом и выполнять это действие вручную, а при
+наличии мнимой цели, осуществляющей запуск симулятора, можно поставить ей в зависимость эти
+заголовочные файлы, и система сборки сама автоматически будет производить генерирование всех
+нужных файлов в зависимости от того, изменились ли файлы с параметрами проекта, от которых
+зависят     эти заголовочные файлы.</p>
+</div>
+<h2 id="construction-environment"><a name="construction-environment"></a> Сборочное окружение (Construction Environment)</h2>
+<p>Сборочное окружение (СО) — это объект <strong>SCons</strong>, содержащий всё необходимое для реализации сборки по требуемому сценарию. Основу СО составляют переменные сборочного окружения, которые содержат различные настройки, начиная от названий и путей внешних инструментов, опций их запуска, и заканчивая вспомогательными параметрами разного назначения (название проекта, расширения файлов, пути, определяющие структуру проекта и т.п.).</p>
+<p>Помимо переменных сборочное окружение содержит набор билдеров (см. ниже), сканеров и других необходимых для осуществления процесса сборки объектов. Создаётся сборочное окружение с помощью конструктора специального объекта <strong>SCons</strong>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="n">envx</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>   <span class="c1"># создание сборочного окружения по умолчанию, </span>
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>                       <span class="c1"># имя объекта может быть произвольным</span>
+</span></code></pre></div>
+<p>Такое СО содержит набор билдеров и переменных по умолчанию, большинство из которых относится к миру традиционного ПО. Например, с помощью такого СО очень легко организовать сборку исполняемого файла из исходных файлов на языках <strong>C/C++</strong> (билдер <code>Program</code>, см. официальную документацию на <strong>SCons</strong>). Можно было бы легко создать СО без этих переменных и билдеров, указав аргументом конструктору <code>tools = { }</code>, но смысла в этом немного, а эти инструменты могут пригодиться в какой-либо ситуации, если, потребуется собрать исполняемую программу — например, для Verilog/DPI.</p>
+<p>Поведение инструментов (tools) можно легко изменить, указав соответствующие значения переменным окружения. То же самое относится и к специализированным инструментам, реализованным для поддержки работы <strong>SCons</strong> с проектами на FPGA, речь о которых пойдёт ниже.</p>
+<p>Доступ к переменными СО может осуществляться как непосредственно в нотации словаря языка <code>Python</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'TOP_NAME'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'top_level_module'</span>
+</span></code></pre></div>
+<p>при которой производится присвоение значения переменной, так и с помощью специальных функций:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="n">envx</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="n">VLOG_FLAGS</span> <span class="o">=</span> <span class="s1">' -O5 -timescale=1ns/1ps'</span><span class="p">)</span>
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="o">...</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="n">envx</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="n">USER_DEFINED_PARAMS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'ROOT_DIR'</span>      <span class="p">:</span> <span class="n">envx</span><span class="p">[</span><span class="s1">'ROOT_PATH'</span><span class="p">]})</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="n">envx</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="n">USER_DEFINED_PARAMS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'CFG_DIR'</span>       <span class="p">:</span> <span class="n">envx</span><span class="p">[</span><span class="s1">'CFG_PATH'</span><span class="p">]})</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="n">envx</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="n">USER_DEFINED_PARAMS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'BUILD_SRC_DIR'</span> <span class="p">:</span> <span class="n">envx</span><span class="p">[</span><span class="s1">'BUILD_SRC_PATH'</span><span class="p">]})</span>
+</span></code></pre></div>
+<p>модифицирующих переменную, добавляя к ней новые объекты (переменная в этом случае является списком). Вместо <code>Append()</code> можно использовать <code>Prepend()</code>, которая добавляет аргументы не в конец, а в начало списка. Более подробную справочную информацию по способам работы с переменными сборочных окружений можно найти в <a href="https://scons.org/docversions.html">официальной документации</a> на <strong>SCons</strong>. </p>
+<h2 id="scons">Логика работы SCons</h2>
+<p>Принципы, возможности и подходы, реализованные в сборочном инструментарии <strong>SCons</strong>, подробно и доходчиво описаны в <a href="https://scons.org/docversions.html">официальной документации</a>. Для облегчения понимания данного раздела ниже даётся краткое описание работы инструмента применительно к рассматриваемой системе сборки.</p>
+<p><strong>SCons</strong> выполняется сборочные действия в два этапа:</p>
+<ol>
+<li>чтение скриптов, начиная с корневого <code>SConstruct</code> и далее по иерархии сборки, выявление целей и зависимостей, построение графа зависимостей и определение того, какие действия необходимо выполнить для обеспечения актуальности целей;</li>
+<li>запуск внешних или внутренних (скриптов) инструментов в требуемой последовательности для реализации плана действий, составленного в п.1.</li>
+</ol>
+<p>Работа <strong>SCons</strong> всегда начинается с чтения и анализа файла <code>SConstruct</code>, в котором содержатся общие действия, такие как:</p>
+<ul>
+<li>обработка аргументов командной строки;</li>
+<li>создание сборочного окружения (СО);</li>
+<li>установление значений (при необходимости) некоторых переменных СО;</li>
+<li>управление сборкой по иерархии — передача управления в <code>SConscript</code>/<code>*.scons</code> файлы сборочных вариантов, в которых описываются основные сценарии сборки.</li>
+</ul>
+<p>При чтении <code>SConscript</code>/<code>*.scons</code> файла происходит <strong>переход в директорию сборочного варианта, которая с этого момента является текущей</strong>. Это обстоятельство используется для автоматического определения имени сборочного варианта, которое в дальнейшем служат для соответствующего именования исполнительного окружения (проект <strong>Vivado</strong>, симулятора и т.п.) в директории <code>build</code>. </p>
+<p>Следует отметить, что при этом происходит передача объекта сборочного окружения из корневого файла в файл сборочного варианта:</p>
+<p><div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1">#</span>
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="c1">#  SConstruct</span>
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="c1">#</span>
+</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="o">...</span>
+</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="n">SConscript</span><span class="p">(</span><span class="n">variant_path</span><span class="p">,</span> <span class="n">exports</span><span class="o">=</span><span class="s1">'envx'</span><span class="p">)</span>
+</span><span id="__span-3-6"><a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="o">...</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1">#</span>
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="c1">#  SConscript/*.scons</span>
+</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="c1">#</span>
+</span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="n">Import</span><span class="p">(</span><span class="s1">'envx'</span><span class="p">)</span>
+</span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="o">...</span>
+</span></code></pre></div></p>
+<p>По окончании чтения и анализа <code>SConscript</code>/<code>*.scons</code> файла осуществляется переход к непосредственным действиям. При этом <strong>SCons</strong> переходит в корневую директорию проекта (туда, где находится файл <code>SConsctruct</code>), и вызов всех инструментов производится из этой директории. Учитывая вышеописанное и во избежание проблем с путями к файлам и директориям, которые будут непосредственно участвовать в процессах запусках инструментов, необходимо, чтобы пути были либо от корневой директории проекта, либо абсолютными. Сборочные сценарии и их компоненты (в частности, билдеры) должны учитывать эту особенность, что, впрочем, достигается без особых трудностей, и пользователю об этом заботиться, как правило, не приходится.</p>
+<h2 id="builders"><a name="builders"><a></a> Builders</a></h2>
+<p>Билдер — это специальный объект <strong>SCons</strong>, обеспечивающий связь цели и зависимости при построении графа зависимостей, а так же реализующий непосредственное действие, приводящее цель в актуальное состояние. Билдер имеет ассоциированную с ним исполнительную функцию (action function), которая собственно и отвечает за действия, направленные на приведение цели в актуальное состояние. Функция принимает три агрумента:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="k">def</span> <span class="nf">action_function</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">env</span><span class="p">):</span>
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>   <span class="o">...</span>
+</span></code></pre></div>
+<p>первые два из которых являются списками целей и источников (зависимостей) соответственно.</p>
+<p>Конструктор билдера имеет два аргумента, а запуск билдера устанавливает непосредственную связь между целью и зависимостями:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="n">trg</span> <span class="o">=</span> <span class="n">SomeBuilder</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Конструктор билдера возвращает список целей, который может быть использован в качестве зависимости в для другого билдера и т.д. Это позволяет выстраивать цепочки зависимостей от исходных файлов к промежуточным и финальным целям.</p>
+<h3 id="_3"><a name="pseudo-builders"><a></a>  Псевдобилдеры</a></h3>
+<p>Использование билдера напрямую зачастую оказывается не очень подходящим. Например, имя цели удобно сформировать автоматически из имени зависимости либо оно (имя цели) определяется из действия в случае мнимых целей. Или другой случай: существует множество исходных файлов, для каждого из которых нужно создать соответствующую цель, т.е. по сути выполнить запуск билдера в цикле для каждой зависимости. </p>
+<p>Для решения описанных задач <strong>SCons</strong> предусматривает концепцию псевдобилдеров. Псевдобилдер — это по сути объект-"обёртка" вокруг настоящего билдера, осуществляющая все необходимые вспомогательные действия перед вызовом собственно билдера. Технически псевдобилдер представляет собой функцию языка <code>Python</code>, содержащую два и более аргумента:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="k">def</span> <span class="nf">pseudo_builder</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">src</span> <span class="p">[,</span><span class="o">...</span><span class="p">]):</span>
+</span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a>    <span class="o">...</span>
+</span></code></pre></div>
+<p>первым из которых является объект сборочного окружения, к которому относится псевдобилдер, вторым, как правило, список источников (зависимостей), остальные аргументы опциональны.  Чтобы псевдобилдер был доступен при работе с сборочным окружением, его необходимо добавить к СО с помощью функции <code>AddMethod()</code>. За дополнительными деталями можно обратиться к <a href="https://scons.org/docversions.html">официальной документации</a>.</p>
+<p>Сценарии сборки рассматриваемой сборочной системы используют преимущественно псевдобилдеры.</p>
+<h2 id="tools">Tools</h2>
+<p>Для реализации сборочных сценариев в системе сборки для работы над проектами с FPGA требуются специализированные билдеры (и псевдобилдеры), обеспечивающие создание и обновление промежуточных и финальных целей проекта на FPGA, таких как:</p>
+<ul>
+<li>создание IP ядер, out-of-context компиляция IP ядер;</li>
+<li>компиляция симуляционных моделей IP ядер;</li>
+<li>компиляция рабочей библиотеки симулятора;</li>
+<li>создание проектов блочных дизайнов и их синтез;</li>
+<li>компиляция IP ядер из HLS описаний;</li>
+<li>создание проекта САПР FPGA;</li>
+<li>запуск моделирования и синтеза и т.д. </li>
+</ul>
+<p>Все эти действия выполняются по зависимостям и реализуются с помощью соответствующих билдеров. </p>
+<p>Для того, чтобы не загромождать файл сборочного сценария текущего варианта, весь код билдеров, псевдобилдеров, сканеров, переменных СО и ряда вспомогательных функций вынесен в специальные файлы или пакеты языка <code>Python</code>, называемые в терминологии <strong>SCons</strong> инструментами — <code>tools</code>. Рассматриваемая система сборки в настоящий момент поддерживает два инструмента: <code>vivado</code> и <code>questa</code>, для синтеза и моделирования соответственно. Перечень доступных средств упомянутых инструментов кратко описан в разделе <a href="../Reference/">Reference</a>.</p>
+<p>Подключение инструмента к сборочному сценарию осуществляется с помощью объекта 'Tool':</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1">#</span>
+</span><span id="__span-8-2"><a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="c1">#  &lt;variant-name&gt;.scons</span>
+</span><span id="__span-8-3"><a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="c1">#</span>
+</span><span id="__span-8-4"><a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="n">Import</span><span class="p">(</span><span class="s1">'envx'</span><span class="p">)</span>
+</span><span id="__span-8-5"><a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="n">envx</span><span class="o">.</span><span class="n">Tool</span><span class="p">(</span><span class="s1">'vivado'</span><span class="p">)</span>
+</span><span id="__span-8-7"><a href="#__codelineno-8-7" id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="n">envx</span><span class="o">.</span><span class="n">Tool</span><span class="p">(</span><span class="s1">'questa'</span><span class="p">)</span>
+</span></code></pre></div>
+<p>после чего можно пользоваться всеми средствами инструментов, начиная от изменения значений переменных СО, заданных инструментами по умолчанию, и заканчивая построением непосредственно сценария сборки, устанавливая связь <em>зависимость→цель</em> с помощью билдеров (псевдобилдеров).</p>
+<h2 id="_4">Реализация сценария сборки</h2>
+<h3 id="_5">Общий план</h3>
+<p>Сценарии сборки строятся приблизительно по одной схеме, различия касаются в основном каких-то индивидуальных потребностей того или иного сборочного варианта. Общая схема файла сценария сборки выглядит так:</p>
+<ul>
+<li>подготовка параметров проекта (сборочного варианта) для дальнейшего использования;</li>
+<li>настройка сборочного окружения;</li>
+<li>подготовка списков исходных файлов;</li>
+<li>описание целей:<ul>
+<li>цели по зависимостям;</li>
+<li>указание явных зависимостей;</li>
+<li>дополнительные настройки (безусловная сборка, цели по умолчанию);</li>
+<li>псевдонимы целей.</li>
+</ul>
+</li>
+</ul>
+<p>Схема не является жёсткой, вполне допустимы различные отклонения. В частности, как правило, не важно, что идёт сначала — настройка сборочного окружения или подготовка списков исходных файлов, эти части можно описывать в любом порядке.</p>
+<h3 id="_6">Подготовка параметров</h3>
+<p>Подготовка параметров сводится к чтению файлов параметров (см. <a href="/Build-Variants#configuration-files">Конфигурационные файлы</a>) и созданию внутренних объектов, которые являются по сути контейнерами этих параметров:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="n">cfg</span>  <span class="o">=</span> <span class="n">import_config</span><span class="p">(</span><span class="s1">'main.yml'</span><span class="p">)</span>
+</span><span id="__span-9-2"><a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="n">dirs</span> <span class="o">=</span> <span class="n">import_config</span><span class="p">(</span><span class="s1">'dirpath.yml'</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Технически объекты <code>cfg</code>, <code>dirs</code> являются классами <code>Python</code>, что позволяет работать с ними в удобной нотации <code>&lt;object&gt;.&lt;name&gt;</code>.</p>
+<h3 id="_7">Настройка сборочного окружения</h3>
+<p>Здесь выполняется основная работа по подготовке и настройке внутреннего инструментария сборки:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="n">Import</span><span class="p">(</span><span class="s1">'envx'</span><span class="p">)</span>        
+</span><span id="__span-10-2"><a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="c1">#  tools</span>
+</span><span id="__span-10-4"><a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="n">envx</span><span class="o">.</span><span class="n">Tool</span><span class="p">(</span><span class="s1">'vivado'</span><span class="p">)</span>   
+</span><span id="__span-10-5"><a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="n">envx</span><span class="o">.</span><span class="n">Tool</span><span class="p">(</span><span class="s1">'questa'</span><span class="p">)</span> 
+</span><span id="__span-10-6"><a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a>
+</span><span id="__span-10-7"><a href="#__codelineno-10-7" id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="c1"># some project parameters</span>
+</span><span id="__span-10-8"><a href="#__codelineno-10-8" id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'VIVADO_PROJECT_NAME'</span><span class="p">]</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PROJECT_NAME</span>   
+</span><span id="__span-10-9"><a href="#__codelineno-10-9" id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'TOP_NAME'</span><span class="p">]</span>            <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">TOP_NAME</span>       
+</span><span id="__span-10-10"><a href="#__codelineno-10-10" id="__codelineno-10-10" name="__codelineno-10-10"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'TESTBENCH_NAME'</span><span class="p">]</span>      <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">TESTBENCH_NAME</span>  
+</span><span id="__span-10-11"><a href="#__codelineno-10-11" id="__codelineno-10-11" name="__codelineno-10-11"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'DEVICE'</span><span class="p">]</span>              <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">DEVICE</span>         
+</span><span id="__span-10-12"><a href="#__codelineno-10-12" id="__codelineno-10-12" name="__codelineno-10-12"></a>
+</span><span id="__span-10-13"><a href="#__codelineno-10-13" id="__codelineno-10-13" name="__codelineno-10-13"></a><span class="c1"># path</span>
+</span><span id="__span-10-14"><a href="#__codelineno-10-14" id="__codelineno-10-14" name="__codelineno-10-14"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'SETTINGS_SEARCH_PATH'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">dirs</span><span class="o">.</span><span class="n">SETTINGS</span><span class="p">]</span>         <span class="c1"># dirs for setting files (typically *.yml) need for import scanners</span>
+</span><span id="__span-10-15"><a href="#__codelineno-10-15" id="__codelineno-10-15" name="__codelineno-10-15"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'INC_PATH'</span><span class="p">]</span>             <span class="o">=</span> <span class="n">envx</span><span class="p">[</span><span class="s1">'BUILD_SRC_PATH'</span><span class="p">]</span>
+</span><span id="__span-10-16"><a href="#__codelineno-10-16" id="__codelineno-10-16" name="__codelineno-10-16"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'SIM_INC_PATH'</span><span class="p">]</span>         <span class="o">=</span> <span class="n">envx</span><span class="p">[</span><span class="s1">'INC_PATH'</span><span class="p">]</span>
+</span><span id="__span-10-17"><a href="#__codelineno-10-17" id="__codelineno-10-17" name="__codelineno-10-17"></a>
+</span><span id="__span-10-18"><a href="#__codelineno-10-18" id="__codelineno-10-18" name="__codelineno-10-18"></a><span class="c1"># simulator invocation flags</span>
+</span><span id="__span-10-19"><a href="#__codelineno-10-19" id="__codelineno-10-19" name="__codelineno-10-19"></a><span class="n">envx</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="n">VLOG_FLAGS</span> <span class="o">=</span> <span class="s1">' -O5 -timescale=1ns/1ps'</span><span class="p">)</span>
+</span><span id="__span-10-20"><a href="#__codelineno-10-20" id="__codelineno-10-20" name="__codelineno-10-20"></a><span class="n">envx</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="n">VOPT_FLAGS</span> <span class="o">=</span> <span class="s1">' -O5 -L wlib -L unifast_ver -L unisims_ver -L unimacro_ver -L secureip -L xpmlib -L ipsimlib'</span><span class="p">)</span>
+</span><span id="__span-10-21"><a href="#__codelineno-10-21" id="__codelineno-10-21" name="__codelineno-10-21"></a>
+</span><span id="__span-10-22"><a href="#__codelineno-10-22" id="__codelineno-10-22" name="__codelineno-10-22"></a><span class="c1"># user-defined parameters</span>
+</span><span id="__span-10-23"><a href="#__codelineno-10-23" id="__codelineno-10-23" name="__codelineno-10-23"></a><span class="n">envx</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="n">USER_DEFINED_PARAMS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'ROOT_DIR'</span>      <span class="p">:</span> <span class="n">envx</span><span class="p">[</span><span class="s1">'ROOT_PATH'</span><span class="p">]})</span>
+</span><span id="__span-10-24"><a href="#__codelineno-10-24" id="__codelineno-10-24" name="__codelineno-10-24"></a><span class="n">envx</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="n">USER_DEFINED_PARAMS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'CFG_DIR'</span>       <span class="p">:</span> <span class="n">envx</span><span class="p">[</span><span class="s1">'CFG_PATH'</span><span class="p">]})</span>
+</span><span id="__span-10-25"><a href="#__codelineno-10-25" id="__codelineno-10-25" name="__codelineno-10-25"></a><span class="n">envx</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="n">USER_DEFINED_PARAMS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'BUILD_SRC_DIR'</span> <span class="p">:</span> <span class="n">envx</span><span class="p">[</span><span class="s1">'BUILD_SRC_PATH'</span><span class="p">]})</span>
+</span><span id="__span-10-26"><a href="#__codelineno-10-26" id="__codelineno-10-26" name="__codelineno-10-26"></a><span class="o">...</span>
+</span></code></pre></div>
+<h3 id="_8">Подготовка списков исходных файлов</h3>
+<p>Подготовка списков исходных файлов — это чтение конфигурационных файлов со списками и формирование списков языка <code>Python</code>, составляющих зависимости для различных целей, например:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="n">src</span>     <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'src_syn.yml'</span><span class="p">)</span>
+</span><span id="__span-11-2"><a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="n">src_sim</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'src_sim.yml'</span><span class="p">)</span>
+</span><span id="__span-11-3"><a href="#__codelineno-11-3" id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="n">ip</span>      <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'ip.yml'</span><span class="p">)</span>
+</span><span id="__span-11-4"><a href="#__codelineno-11-4" id="__codelineno-11-4" name="__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="n">src_par</span> <span class="o">=</span> <span class="s1">'main.yml clk.yml'</span>
+</span><span id="__span-11-6"><a href="#__codelineno-11-6" id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="n">src_xpr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'src_syn.yml'</span><span class="p">,</span> <span class="s1">'xdc.yml'</span><span class="p">,</span> <span class="s1">'xpr_hook.tcl'</span><span class="p">]</span>
+</span></code></pre></div>
+<p>В этом примере создаются разные списки исходных файлов для описания различных целей. Списки создаются как с помощью чтения конфигурационных файлов (<code>src</code>, <code>src_sim</code>, <code>ip</code>), так и вручную (<code>src_par</code>, <code>src_xpr</code>). Поддерживается строковое описание (<code>src_par</code>) и в виде списка ЯП <code>Python</code> (<code>src_xpr</code>).</p>
+<h3 id="_9">Описание целей</h3>
+<p>Описание целей технически является простой задачей — просто указать зависимости с помощью билдеров. Но в действительности это самая сложная часть, она требует хорошего понимания, что из чего строится и от чего зависит. Например, цель "Создание проекта <strong>Vivado</strong>" зависит от <code>src_xpr</code> (см. пример выше) и от IP ядер, т.е. если поменялся один из файлов в списке <code>src_xpr</code> или обновилось хотя бы одно IP ядро, то проект <strong>Vivado</strong> будет пересоздан. Но помимо явных зависимостей есть ещё неявные, изменение которых тоже влияет на цель. К таким неявным зависимостям относятся, в частности, файлы, создаваемые из параметров — в примере ниже, это заголовочный файл (<code>CfgParamsHeader</code>) <strong>Verilog/SystemVerilog</strong> для HDL и <code>Tcl</code> файл (<code>CfgParamsTcl</code>) для скриптов, запускаемых во время создания проекта <strong>Vivado</strong>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="o">...</span>
+</span><span id="__span-12-2"><a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="c1">#   scripts</span>
+</span><span id="__span-12-3"><a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="n">IP_Create_Scripts</span>  <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpCreateScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+</span><span id="__span-12-4"><a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="n">IP_Cores</span>           <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateIps</span><span class="p">(</span><span class="n">IP_Create_Scripts</span><span class="p">)</span>
+</span><span id="__span-12-5"><a href="#__codelineno-12-5" id="__codelineno-12-5" name="__codelineno-12-5"></a>
+</span><span id="__span-12-6"><a href="#__codelineno-12-6" id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="o">...</span>
+</span><span id="__span-12-7"><a href="#__codelineno-12-7" id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="c1">#   generated sources</span>
+</span><span id="__span-12-8"><a href="#__codelineno-12-8" id="__codelineno-12-8" name="__codelineno-12-8"></a><span class="n">CfgParamsHeader</span>    <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateCfgParamsHeader</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">envx</span><span class="p">[</span><span class="s1">'BUILD_SRC_PATH'</span><span class="p">],</span> <span class="s1">'cfg_params.svh'</span><span class="p">),</span> <span class="n">src_par</span><span class="p">)</span>
+</span><span id="__span-12-9"><a href="#__codelineno-12-9" id="__codelineno-12-9" name="__codelineno-12-9"></a><span class="n">CfgParamsTcl</span>       <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateCfgParamsTcl</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">envx</span><span class="p">[</span><span class="s1">'BUILD_SRC_PATH'</span><span class="p">],</span> <span class="s1">'cfg_params.tcl'</span><span class="p">),</span> <span class="s1">'params.yml'</span><span class="p">)</span>
+</span><span id="__span-12-10"><a href="#__codelineno-12-10" id="__codelineno-12-10" name="__codelineno-12-10"></a><span class="o">...</span>
+</span><span id="__span-12-11"><a href="#__codelineno-12-11" id="__codelineno-12-11" name="__codelineno-12-11"></a><span class="n">VivadoProject</span>      <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateVivadoProject</span><span class="p">(</span><span class="n">src_xpr</span> <span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
+</span><span id="__span-12-12"><a href="#__codelineno-12-12" id="__codelineno-12-12" name="__codelineno-12-12"></a><span class="o">...</span>
+</span><span id="__span-12-13"><a href="#__codelineno-12-13" id="__codelineno-12-13" name="__codelineno-12-13"></a><span class="n">Depends</span><span class="p">(</span><span class="n">VivadoProject</span><span class="p">,</span> <span class="p">[</span><span class="n">CfgParamsHeader</span><span class="p">,</span> <span class="n">CfgParamsTcl</span><span class="p">])</span>
+</span><span id="__span-12-14"><a href="#__codelineno-12-14" id="__codelineno-12-14" name="__codelineno-12-14"></a><span class="o">...</span>
+</span></code></pre></div>
+<p>В этом примере показаны все зависимости, необходимые для создания цели <code>VivadoProject</code>. Указание явной зависимости через <code>Depends()</code> вынудит <strong>SCons</strong> проверить зависимость промежуточных целей <code>CfgParamsHeader</code> и <code>CfgParamsTcl</code> от их источников, которыми являются конфигурационные файлы с параметрами проекта. Таким образом, если, например, изменён какой-то файл с параметром, влияющий на любой из этих генерируемых файлов, то при запуске сборки цели <code>VivadoProject</code> эти промежуточные файлы будут обновлены перед запуском обновления основной цели. </p>
+<p>Это один из вариантов решения. Цель примера — проиллюстрировать приблизительный путь работы с целями и зависимостями.</p>
+<p>Для удобства использования при запуске <strong>SCons</strong> предусмотрена возможность создавать псевдонимы целей:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="n">envx</span><span class="o">.</span><span class="n">Alias</span><span class="p">(</span><span class="s1">'cparam'</span><span class="p">,</span>     <span class="n">CfgParamsHeader</span><span class="p">)</span>
+</span><span id="__span-13-2"><a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="n">envx</span><span class="o">.</span><span class="n">Alias</span><span class="p">(</span><span class="s1">'cparam-tcl'</span><span class="p">,</span> <span class="p">[</span><span class="n">CfgParamsTcl</span><span class="p">])</span>
+</span><span id="__span-13-3"><a href="#__codelineno-13-3" id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="n">envx</span><span class="o">.</span><span class="n">Alias</span><span class="p">(</span><span class="s1">'xpr'</span><span class="p">,</span>        <span class="n">VivadoProject</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Теперь достаточно указать имя псевдонима в командной строке запуска <strong>SCons</strong>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a>scons variant=&lt;variant-name&gt; xpr
+</span></code></pre></div>
+<p>Это создаст, если необходимо, проект <strong>Vivado</strong> в директории <code>build/&lt;variant-name&gt;/syn</code>, предварительно создав (тоже если необходимо) все промежуточные цели (как правило это IP ядра, HLS IP ядра, out-of-context блочные дизайны).</p>
+<p>Рабочие примеры сборочного сценария можно найти:</p>
+<ul>
+<li>в <a href="https://github.com/fpga-lib/vivado-boilerplate">тестовом проекте-шаблоне</a>;</li>
+<li>в <a href="https://github.com/fpga-lib/build-system-examples">примерах использования основных возможностей системы сбоки</a>.</li>
+</ul>
+<p>Второй пример является более полным и совершенными, он рекомендуется как отправная точка для старта – можно есть взять как есть и заменить исходные файлы примеров на свои, а скрипт сборочного сценария можно взять без изменений.</p>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../Build-Variants/" title="Build Variants"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../Advanced-Topics/" title="Advanced Topics">Next <span class="icon icon-circle-arrow-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../Build-Variants/" style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../Advanced-Topics/" style="color: #fcfcfc">Next »</a></span>
+</span>
+</div>
+<script>var base_url = '..';</script>
+<script defer="" src="../js/theme_extra.js"></script>
+<script defer="" src="../js/theme.js"></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script defer="">
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+<script>const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});</script></body>
+</html>

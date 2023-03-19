@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<title>Service API - FPGA Build System</title>
+<link href="../css/theme.css" rel="stylesheet"/>
+<link href="../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../extra.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Service API";
+        var mkdocs_page_input_path = "Service-API.md";
+        var mkdocs_page_url = null;
+      </script>
+<script defer="" src="../js/jquery-3.6.0.min.js"></script>
+<!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href=".."> FPGA Build System
+        </a>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Build System</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="..">General</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Variants/">Build Variants</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Scripts/">Build Scripts</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Topics/">Advanced Topics</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Reference/">Reference</a>
+</li>
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Service API</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#utils">Модуль utils</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#pexeccmd-wdir-oscurdir">pexec(cmd, wdir = os.curdir)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#print_infotext-print_actiontext-print_errortext-print_successtext">print_info(text), print_action(text), print_error(text), print_success(text)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#colorizetext-color">colorize(text, color)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#clog2n-int-int">clog2(n: int) -&gt; int</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#max_str_lenx">max_str_len(x)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#search_filefn-search_root">search_file(fn, search_root='')</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#class-configdictobject">class ConfigDict(object)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#read_configfn-str-param_sectparameters-search_root">read_config(fn: str, param_sect='parameters', search_root='')</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#import_configfn-str">import_config(fn: str)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#read_ip_configfn-param_sect-search_root">read_ip_config(fn, param_sect, search_root='')</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#read_src_listfn-str-search_root">read_src_list(fn: str, search_root='')</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#read_sourcesargs">read_sources(*args)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#get_dirsflist">get_dirs(flist)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#get_namepath">get_name(path)</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#create_dirsdirs">create_dirs(dirs)</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Vivado/">Tool Vivado</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Questa/">Tool Questa</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Simple-Example/">Simple</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Example/">Advandced</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="..">FPGA Build System</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a alt="Docs" class="icon icon-home" href=".."></a> »</li>
+<li>Reference »</li>
+<li>Service API</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="_1">Вспомогательные и служебные средства</h1>
+<h2 id="utils">Модуль utils</h2>
+<hr/>
+<h4 id="pexeccmd-wdir-oscurdir"><code>pexec(cmd, wdir = os.curdir)</code></h4>
+<p>Process execute. Функция осуществляет запуск внешнего процесса, производит вычитывание его выходного буфера и печатает полученное в консоль. По окончании работы процесса функция возвращает код завершения, полученный от процесса.</p>
+<hr/>
+<h4 id="print_infotext-print_actiontext-print_errortext-print_successtext"><code>print_info(text)</code>, <code>print_action(text)</code>, <code>print_error(text)</code>, <code>print_success(text)</code></h4>
+<p>Группа функций, предназначенная для печати информационных сообщений. Выводят на экран сообщения в цветном виде, каждая своим цветом.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>info</td>
+<td><code>LIGHTCYAN</code></td>
+</tr>
+<tr>
+<td>action</td>
+<td><code>LIGHTGREEN</code></td>
+</tr>
+<tr>
+<td>error</td>
+<td><code>LIGHTRED</code></td>
+</tr>
+<tr>
+<td>success</td>
+<td><code>GREEN</code></td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h4 id="colorizetext-color"><code>colorize(text, color)</code></h4>
+<p>Раскрашивает строку в указанный цвет. Поддерживаются цвета: <code>red</code>, <code>green</code>, <code>yelllow</code>.</p>
+<hr/>
+<h4 id="clog2n-int-int"><code>clog2(n: int) -&gt; int</code></h4>
+<p>Функция возвращает результат <code>ceil(log2(int)</code>. Функциональный аналог системной функции <code>$clog2()</code> языка <code>SystemVerilog</code>.</p>
+<hr/>
+<h4 id="max_str_lenx"><code>max_str_len(x)</code></h4>
+<p>Функция получает список строк и возвращает длину самой длинной. Используется как правило при формировании скриптов для одинакового выравнивания правых частей выражений.</p>
+<hr/>
+<h4 id="search_filefn-search_root"><code>search_file(fn, search_root='')</code></h4>
+<p>Осуществляет рекурсивный поиск файла по имени, начиная с пути <code>search_root</code> (если не указан, то с текущего). Возвращает полный (абсолютный) путь файла. Используется главным образом для поиска конфигурационных файлов внутри сборочных вариантов.</p>
+<hr/>
+<h4 id="class-configdictobject"><code>class ConfigDict(object)</code></h4>
+<p>Принимает словарь, конструирует объект класса с членами, имена которых соответствуют ключам словаря, а значения — соответствующим значениям ключей. Позволяет получать объекты с нотацией доступа <code>&lt;name.member&gt;</code> на уровне скрипта сценариев сборки. Например:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="o">...</span>
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="n">cfg</span>  <span class="o">=</span> <span class="n">import_config</span><span class="p">(</span><span class="s1">'main.yml'</span><span class="p">)</span>  <span class="c1"># import_config  возвращает класс типа ConfigDict</span>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="o">...</span>
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'TOP_NAME'</span><span class="p">]</span>       <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">TOP_NAME</span>
+</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'TESTBENCH_NAME'</span><span class="p">]</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">TESTBENCH_NAME</span>
+</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="o">...</span>
+</span></code></pre></div>
+<hr/>
+<h4 id="read_configfn-str-param_sectparameters-search_root"><code>read_config(fn: str, param_sect='parameters', search_root='')</code></h4>
+<p>Читает секцию конфигурационного файла (по умолчанию секцию <code>parameters</code>), возвращает словарь, содержащий имена и значения параметров, описанных в указанной секции конфигурационного файла.</p>
+<hr/>
+<h4 id="import_configfn-str"><code>import_config(fn: str)</code></h4>
+<p>Аналог функции <code>read_config()</code>, возвращающая объект класса <code>Dict2Class</code>.</p>
+<hr/>
+<h4 id="read_ip_configfn-param_sect-search_root"><code>read_ip_config(fn, param_sect, search_root='')</code></h4>
+<p>Функция читает конфигурационный файл, описывающий свойства IP ядра, возвращает словарь, содержащий тип IP ядра и его конфигурационные параметры.</p>
+<hr/>
+<h4 id="read_src_listfn-str-search_root"><code>read_src_list(fn: str, search_root='')</code></h4>
+<p>Рекурсивно ищет конфигурационный файл со списком файлов (как правило это исходные файлы разных типов — HDL, констрейны и т.д.), читает его, возвращает список файлов, описанный в секции <code>sources</code>. Является вспомогательной.</p>
+<hr/>
+<h4 id="read_sourcesargs"><code>read_sources(*args)</code></h4>
+<p>Функция использует <code>read_src_list()</code> для получения списка файлов, преобразует пути файлов в абсолютные, возвращает полученный список. Поддерживаются два контекста вызова:</p>
+<ol>
+<li>с одним аргументом;</li>
+<li>с двумя аргументами.</li>
+</ol>
+<p>При вызове с одним аргументом функции передаётся имя конфигурационного файла (со списком файлов). Функция в этом случае возвращает список абсолютных путей файлов, перечисленных в конфигурационном файле.</p>
+<p>При вызове с двумя аргументами первым аргументом передаётся имя конфигурационного файла (как и в предыдущем варианте), а вторым ­­— путь, от которого осуществляется поиск конфигурационного файла. Функция возвращает два объекта:</p>
+<ol>
+<li>список абсолютных путей файлов (как и в предыдущем варианте);</li>
+<li>значение опции <code>usedin</code>, которое извлекается из конфигурационного файла, если определено в нём, а если не определено, то по умолчанию равно <code>syn</code>. Эта опция служит для обозначения списка файлов, которые предназначены для специального использования в проекте Vivado — например, для симулятора.</li>
+</ol>
+<p>Вариант с двумя аргументами предназначен для использования на этапе запуска билдеров. Все действия на этом этапе выполняются от корневой директории проекта, поэтому для локализации поиска конфигурационных файлов списков необходимо указывать путь, от которого необходимо осуществлять поиск — как правило, это корневая директория текущего сборочного варианта. Именно такой вызов используется в билдере создания проекта Vivado.</p>
+<hr/>
+<h4 id="get_dirsflist"><code>get_dirs(flist)</code></h4>
+<p>Возвращает список директорий из списка файлов. Такой список директорий нужен, как правило, для организации поиска включаемых файлов, которые могут находиться в тех же директориях, что и сами исходные файлы. По сути это простой способ организовать поиск включаемых файлов во всех директориях с исходными файлами.</p>
+<hr/>
+<h4 id="get_namepath"><code>get_name(path)</code></h4>
+<p>Принимает абсолютный или относительный путь, возвращает имя файла (без расширения).</p>
+<hr/>
+<h4 id="create_dirsdirs"><code>create_dirs(dirs)</code></h4>
+<p>Принимает список путей директорий, создаёт указанные директории.</p>
+<hr/>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../Reference/" title="Reference"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../Tool-Vivado/" title="Tool Vivado">Next <span class="icon icon-circle-arrow-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../Reference/" style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../Tool-Vivado/" style="color: #fcfcfc">Next »</a></span>
+</span>
+</div>
+<script>var base_url = '..';</script>
+<script defer="" src="../js/theme_extra.js"></script>
+<script defer="" src="../js/theme.js"></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script defer="">
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+<script>const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});</script></body>
+</html>

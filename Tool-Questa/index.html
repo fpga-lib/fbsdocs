@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<title>Tool Questa - FPGA Build System</title>
+<link href="../css/theme.css" rel="stylesheet"/>
+<link href="../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../extra.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Tool Questa";
+        var mkdocs_page_input_path = "Tool-Questa.md";
+        var mkdocs_page_url = null;
+      </script>
+<script defer="" src="../js/jquery-3.6.0.min.js"></script>
+<!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href=".."> FPGA Build System
+        </a>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Build System</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="..">General</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Variants/">Build Variants</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Scripts/">Build Scripts</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Topics/">Advanced Topics</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Reference/">Reference</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Service-API/">Service API</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Vivado/">Tool Vivado</a>
+</li>
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Tool Questa</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#environment-variables">Environment variables</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#_1">Вспомогательный командный скрипт</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_2">Переменные общего назначения</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_3">Внешние инструменты</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#builders">Builders</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#simlib">SimLib</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#compilesimlib">CompileSimLib</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#worklib">WorkLib</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#compileworklib">CompileWorkLib</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#questagui">QuestaGui</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#launchquestagui">LaunchQuestaGui</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#questarun">QuestaRun</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#launchquestarun">LaunchQuestaRun</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Simple-Example/">Simple</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Example/">Advandced</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="..">FPGA Build System</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a alt="Docs" class="icon icon-home" href=".."></a> »</li>
+<li>Reference »</li>
+<li>Tool Questa</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="tool-questa">Tool 'questa'</h1>
+<h2 id="environment-variables">Environment variables</h2>
+<p>Пользовательский скрипт должен предоставить следующие внешние переменные сборочного окружения, необходимые для работы инструмента:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MENTOR</code></td>
+<td>Путь до директории с устано-<br/>вленными продуктами Mentor</td>
+<td><code>os.environ['MENTOR']</code> — <br/>переменная окружения должна<br/> быть определена на используе-<br/>мом хосте</td>
+</tr>
+<tr>
+<td><code>MGLS_LICENSE_FILE</code></td>
+<td>Путь до файла лицензии <br/>симулятора</td>
+<td><code>os.path.join(MENTOR, 'license.dat')</code></td>
+</tr>
+<tr>
+<td><code>QUESTABASE</code></td>
+<td>Путь до коренной директории <br/>используемой версии симулятора</td>
+<td><code>os.path.join(MENTOR, QUESTA_TOOL_VERSION, 'questasim')</code></td>
+</tr>
+<tr>
+<td><code>QUESTABIN</code></td>
+<td>Путь до директории с исполня-<br/>емыми файлами симулятора <br/>(<code>vlog</code>, <code>vlib</code>, <code>vmap</code>)</td>
+<td><code>os.path.join(QUESTABASE, 'bin')</code></td>
+</tr>
+<tr>
+<td><code>QUESTASIM</code></td>
+<td>Команда (скрипт) для запуска <br/>симулятора в графическом режи-<br/>ме</td>
+<td><code>os.path.join(QUESTABASE, 'linux_x86_64', 'vsim')</code></td>
+</tr>
+<tr>
+<td><code>VENDOR_LIB_PATH</code></td>
+<td>Путь до директории, содержащей <br/>скомплированные библиотеки<br/> производителя ПЛИС</td>
+<td><code>os.path.join( os.path.dirname(env['QUESTASIM']), 'vendor', 'xlib', 'func')</code></td>
+</tr>
+</tbody>
+</table>
+<p>Переменные <code>QUESTABIN</code>, <code>QUESTASIM</code> проверяются при запуске, и если любая из них не определена, сборочная система завершает работу с ошибкой.  Переменная <code>VENDOR_LIB_PATH</code> так же проверяется на наличие, и если не определена, то ей присваивается значение по умолчанию.</p>
+<p>Определить переменные удобно в сборочном скрипте, например:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1">#-------------------------------------------------------------------------------</span>
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="c1">#</span>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="c1">#    Environment</span>
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1">#</span>
+</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'DISPLAY'</span><span class="p">]</span>            <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'DISPLAY'</span><span class="p">]</span>
+</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'HOME'</span><span class="p">]</span>               <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'HOME'</span><span class="p">]</span>
+</span><span id="__span-0-7"><a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'XILINX'</span><span class="p">]</span>             <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX</span>
+</span><span id="__span-0-8"><a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'MENTOR'</span><span class="p">]</span>             <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">MENTOR</span>
+</span><span id="__span-0-9"><a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'MGLS_LICENSE_FILE'</span><span class="p">]</span>  <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">MGLS_LICENSE_FILE</span>
+</span><span id="__span-0-10"><a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'XILINX_VIVADO'</span><span class="p">]</span>      <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX_VIVADO</span>
+</span><span id="__span-0-11"><a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'XILINX_VIVADO'</span><span class="p">]</span>             <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX_VIVADO</span>
+</span><span id="__span-0-12"><a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'XILINX_HLS'</span><span class="p">]</span>                <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX_HLS</span>
+</span><span id="__span-0-13"><a href="#__codelineno-0-13" id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'QUESTABIN'</span><span class="p">]</span>                 <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">QUESTABIN</span>
+</span><span id="__span-0-14"><a href="#__codelineno-0-14" id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'QUESTASIM'</span><span class="p">]</span>                 <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">QUESTASIM</span>
+</span><span id="__span-0-15"><a href="#__codelineno-0-15" id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'VENDOR_LIB_PATH'</span><span class="p">]</span>           <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">VENDOR_LIB_PATH</span>
+</span></code></pre></div>
+<p>где <code>env</code> — объект с параметрами, получаемый:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="n">env</span> <span class="o">=</span> <span class="n">import_config</span><span class="p">(</span><span class="s1">'env.yml'</span><span class="p">)</span>
+</span></code></pre></div>
+<p>а конфигурационный файл <code>env.yml</code> представляет собой нечто подобное:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1">#</span>
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c1">#   env.yml</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1">#</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">    </span><span class="nt">XILINX              </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.environ['XILINX']</span>
+</span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">    </span><span class="nt">MENTOR              </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.environ['MENTOR']</span>
+</span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">    </span><span class="nt">XILINX_TOOL_VERSION </span><span class="p">:</span><span class="w"> </span><span class="s">'2021.2'</span>
+</span><span id="__span-2-9"><a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">    </span><span class="nt">QUESTA_TOOL_VERSION </span><span class="p">:</span><span class="w"> </span><span class="s">'2021.1'</span>
+</span><span id="__span-2-10"><a href="#__codelineno-2-10" id="__codelineno-2-10" name="__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a href="#__codelineno-2-11" id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">    </span><span class="nt">XILINX_VIVADO       </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(XILINX, 'Vivado', XILINX_TOOL_VERSION)</span>
+</span><span id="__span-2-12"><a href="#__codelineno-2-12" id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="w">    </span><span class="nt">XILINX_HLS          </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(XILINX, 'Vitis_HLS', XILINX_TOOL_VERSION)</span>
+</span><span id="__span-2-13"><a href="#__codelineno-2-13" id="__codelineno-2-13" name="__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a href="#__codelineno-2-14" id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">    </span><span class="nt">MGLS_LICENSE_FILE   </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(MENTOR, 'license.dat')</span>
+</span><span id="__span-2-15"><a href="#__codelineno-2-15" id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">    </span><span class="nt">QUESTABASE          </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(MENTOR, QUESTA_TOOL_VERSION, 'questasim')</span>
+</span><span id="__span-2-16"><a href="#__codelineno-2-16" id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="w">    </span><span class="nt">QUESTABIN           </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(QUESTABASE, 'bin')</span>
+</span><span id="__span-2-17"><a href="#__codelineno-2-17" id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="w">    </span><span class="nt">QUESTASIM           </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(QUESTABASE, 'linux_x86_64', 'vsim')</span>
+</span><span id="__span-2-18"><a href="#__codelineno-2-18" id="__codelineno-2-18" name="__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a href="#__codelineno-2-19" id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="w">    </span><span class="nt">VENDOR_LIB_NAME     </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= 'xlib-vv' + XILINX_TOOL_VERSION + '-qs' + QUESTA_TOOL_VERSION</span>
+</span><span id="__span-2-20"><a href="#__codelineno-2-20" id="__codelineno-2-20" name="__codelineno-2-20"></a><span class="w">    </span><span class="nt">VENDOR_LIB_PATH     </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(MENTOR, 'vendor', VENDOR_LIB_NAME, 'func')</span>
+</span></code></pre></div>
+<p>Директория, на которую указывает <code>VENDOR_LIB_PATH</code>, должна содержать следующий перечень библиотек:</p>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>.
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>├── secureip
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>├── simprims_ver
+</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a>├── unifast
+</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a>├── unifast_ver
+</span><span id="__span-3-6"><a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a>├── unimacro
+</span><span id="__span-3-7"><a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a>├── unimacro_ver
+</span><span id="__span-3-8"><a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a>├── unisim
+</span><span id="__span-3-9"><a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a>├── unisims_ver
+</span><span id="__span-3-10"><a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a>├── xilinx_vip
+</span><span id="__span-3-11"><a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a>└── xpmlib
+</span></code></pre></div>
+Указанный перечень библиотек, кроме <code>xpmlib</code> может быть создан путём запуска в консоли <strong>Vivado</strong> команды:</p>
+<div class="language-tcl highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="nv">compile_simlib</span><span class="w"> </span><span class="o">-</span>force<span class="w"> </span><span class="o">-</span>language<span class="w"> </span>verilog<span class="w"> </span><span class="o">-</span>language<span class="w"> </span>vhdl<span class="w"> </span><span class="o">-</span>dir<span class="w"> </span><span class="o">&lt;</span>path-to-target-dir<span class="o">&gt;</span><span class="w"> </span><span class="o">-</span>simulator<span class="w"> </span>questa<span class="w"> </span><span class="o">-</span>simulator_exec_path<span class="w"> </span><span class="o">&lt;</span>path-to-simulator-bin-dir<span class="o">&gt;</span><span class="w"> </span><span class="o">-</span>library<span class="w"> </span>all<span class="w"> </span><span class="o">-</span>family<span class="w"> </span>all<span class="w"> </span><span class="o">-</span>no_ip_compile
+</span></code></pre></div>
+<p><code>xpmlib</code> можно создать с помощью shell скрипта:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="ch">#!/bin/sh</span>
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="nv">MENTOR_QUESTA</span><span class="o">=</span>&lt;path-to-questa-bin-dir&gt;
+</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="nv">XILINX_VIVADO</span><span class="o">=</span>&lt;path-to-xilinx-home&gt;/Vivado/&lt;version-number&gt;
+</span><span id="__span-5-5"><a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="nv">$MENTOR_QUESTA</span>/vlog<span class="w"> </span>-work<span class="w"> </span>xpmlib<span class="w"> </span>-64<span class="w"> </span>-sv<span class="w"> </span>-O5<span class="w"> </span>-mfcu<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-7"><a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="nv">$XILINX_VIVADO</span>/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-8"><a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="nv">$XILINX_VIVADO</span>/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-9"><a href="#__codelineno-5-9" id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="nv">$XILINX_VIVADO</span>/data/ip/xpm/xpm_fifo/hdl/xpm_fifo.sv
+</span></code></pre></div>
+<p>Из описанных переменных окружения далее строятся все пути к исполняемым файлам внешних инструментов.</p>
+<h3 id="_1">Вспомогательный командный скрипт</h3>
+<p>Симулятор используется в non-project режиме и управляется из консоли (transcript window). Доступные действия:</p>
+<ul>
+<li><u>Compile Work Library</u>, команда консоли <code>'c'</code>;</li>
+<li><u>Start simulation</u>, команда консоли <code>'s [cfg]'</code>, где <code>cfg</code> — имя конфигурации, которая есть
+  простой <code>do</code> скрипт (<strong>Tcl</strong>) с перечислением команд, которые требуется запустить после остановки
+  прогона симулятора;</li>
+<li><u>Restart simulation</u>, команда консоли <code>'r'</code> (<code>'rr'</code> со сбросом текущего лога transcript);</li>
+<li><u>Show Simulation Results</u>, команда консоли <code>'show_res &lt;cfg&gt;'</code>, где <code>cfg</code> — имя
+  конфигурации(см. выше).</li>
+</ul>
+<p>Для поддержки этой функциональности система сборки содержит соответствующий файл <code>questa.tcl</code>. Этот же скрипт используется и для пакетного запуска, при этом симулятору передаётся соответствующая команда (<code>'c'</code>, <code>'s'</code>).</p>
+<h3 id="_2">Переменные общего назначения</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TESTBENCH_NAME</code></td>
+<td>Имя модуля тестбенча</td>
+<td><code>'top_tb'</code></td>
+</tr>
+<tr>
+<td><code>SIMLIB_NAME</code></td>
+<td>Имя директории для <br/>библиотек симуляционных мо-<br/>делей IP ядер, блочных дизайнов<br/> и т.п.</td>
+<td><code>'sim_lib'</code></td>
+</tr>
+<tr>
+<td><code>SIMLIB_PATH</code></td>
+<td>Путь до директории для библи-<br/>отек симуляционных моделей IP <br/>ядер, блочных дизайнов и т.п.</td>
+<td><code>os.path.join(env['BUILD_SYN_PATH'], env['SIMLIB_NAME'])</code></td>
+</tr>
+<tr>
+<td><code>SIM_WORKLIB_NAME</code></td>
+<td>Имя рабочей библиотеки</td>
+<td><code>'wlib'</code></td>
+</tr>
+<tr>
+<td><code>SIM_INC_PATH</code></td>
+<td>Список путей поиска заголовоч-<br/>ных файлов при запуске симуля-<br/>тора</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>BUILD_SIM_PATH</code></td>
+<td>Путь, по которому формируется<br/> исполнительное окружение для<br/> выполнения задач моделирова-<br/>ния</td>
+<td><code>os.path.join(root_dir, 'build', os.path.basename(cfg_name), 'sim')</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">Внешние инструменты</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VLOGCOM</code></td>
+<td>компилятор языка <br/><code>Verilog/SystemVerilog</code></td>
+<td><code>os.path.join(env['QUESTABIN'], 'vlog')</code></td>
+</tr>
+<tr>
+<td><code>VCOMCOM</code></td>
+<td>компилятор языка <code>VHDL</code></td>
+<td><code>os.path.join(env['QUESTABIN'], 'vcom')</code></td>
+</tr>
+<tr>
+<td><code>VLIBCOM</code></td>
+<td>утилита создания библиотеки</td>
+<td><code>os.path.join(env['QUESTABIN'], 'vlib')</code></td>
+</tr>
+<tr>
+<td><code>VMAPCOM</code></td>
+<td>утилита, выполняющая отобра-<br/>жение логического имени библи-<br/>отеки на физический файл</td>
+<td><code>os.path.join(env['QUESTABIN'], 'vmap')</code></td>
+</tr>
+<tr>
+<td><code>VSIMCOM</code></td>
+<td>симулятор</td>
+<td><code>os.path.join(env['QUESTABIN'], 'vsim')</code></td>
+</tr>
+<tr>
+<td><code>VERBOSE</code></td>
+<td>управляет печатью команд при<br/> запуске целей на сборку</td>
+<td><code>True</code></td>
+</tr>
+<tr>
+<td><code>VLOG_FLAGS</code></td>
+<td>опции компилятора языков<br/> <code>Verilog/SystemVerilog</code></td>
+<td><code>' -incr -sv -mfcu'</code></td>
+</tr>
+<tr>
+<td><code>VCOM_FLAGS</code></td>
+<td>опции компилятора языка <code>VHDL</code></td>
+<td><code>' -64 -93'</code></td>
+</tr>
+<tr>
+<td><code>VLOG_OPTIMIZATION</code></td>
+<td>опции оптимизации компилятора <br/>языков <code>Verilog/SystemVerilog</code></td>
+<td><code>' -O5'</code></td>
+</tr>
+<tr>
+<td><code>VOPT_FLAGS</code></td>
+<td>опции <code>vopt</code></td>
+<td><code>''</code></td>
+</tr>
+</tbody>
+</table>
+<p>В случае использования синтеза от <strong>Xilinx</strong> на этапе elaboration необходимо загружать файл глобальных сигналов:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="k">if</span> <span class="s1">'vivado'</span> <span class="ow">in</span> <span class="n">env</span><span class="p">[</span><span class="s1">'TOOLS'</span><span class="p">]:</span>
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>    <span class="n">env</span><span class="p">[</span><span class="s1">'VOPT_FLAGS'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">' glbl'</span>
+</span></code></pre></div>
+<h2 id="builders">Builders</h2>
+<p>Перечислены <a href="/Build-Scripts#builders">билдеры</a> и <a href="/Build-Scripts#pseudo-builders">псевдобилдеры</a>. Билдеры как правило не используются напрямую, т.к. они имеют вполне определённый интерфейс запуска, который далеко не всегда удобен, поэтому в скрипте сборочных сценариев используются как правило псевдобилдеры, которые по сути являются "обёртками" вокруг самих билдеров.</p>
+<hr/>
+<h3 id="simlib"><pre>SimLib</pre></h3>
+<p><u>True builder</u> </p>
+<p>Осуществляет создание симуляционной библиотеки, отображение логического имени на физический файл, компиляцию симуляционных моделей IP ядер, блочных дизайнов и т.п. из скриптов компиляции, созданных с помощью команды <code>export_simulation</code> САПР <strong>Vivado</strong>.</p>
+<hr/>
+<h3 id="compilesimlib"><pre>CompileSimLib</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Формирует имя целевой директории симуляционной библиотеки библиотеки. Запускает билдер <code>IpSimLib</code>, который выполняет основную работу.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="n">IP_Cores</span>   <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateIps</span><span class="p">(</span><span class="n">IP_Create_Scripts</span><span class="p">)</span>
+</span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="o">...</span>
+</span><span id="__span-7-3"><a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="n">IP_SimLib</span>  <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CompileSimLib</span><span class="p">(</span><span class="n">IP_Cores</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="worklib"><pre>WorkLib</pre></h3>
+<p><u>True builder</u> </p>
+<p>Создаёт рабочую библиотеку симулятора (и производит все связанные с этим действия), генерирует файл с параметрами запуска симулятора <code>handoff.do</code> (опции запуска, списки исходных файлов и директорий поиска включаемых файлов, переменные и т.д.) и производит собственно компиляцию библиотеки.</p>
+<hr/>
+<h3 id="compileworklib"><pre>CompileWorkLib</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Формирует имя целевой директории рабочей библиотеки симулятора, создаёт эту директорию и запускает билдер <code>WorkLib</code>.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="n">src_syn</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'src_syn.yml'</span><span class="p">)</span>
+</span><span id="__span-8-2"><a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="n">src_sim</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'src_sim.yml'</span><span class="p">)</span>
+</span><span id="__span-8-3"><a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="o">...</span>
+</span><span id="__span-8-4"><a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="n">WLib</span>    <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CompileWorkLib</span><span class="p">(</span><span class="n">src_syn</span> <span class="o">+</span> <span class="n">src_sim</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="questagui"><pre>QuestaGui</pre></h3>
+<p><u>True builder</u> </p>
+<p>Выполняет переход к исполнительному окружению симулятора (env['BUILD_SIM_PATH']) и запускает симулятор в графическом режиме.</p>
+<hr/>
+<h3 id="launchquestagui"><pre>LaunchQuestaGui</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Вызывает билдер <code>QuestaGui</code>, передавая фиктивную цель, что вынуждает всегда запускать действие билдера.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="n">LaunchQuestaGui</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchQuestaGui</span><span class="p">()</span>
+</span></code></pre></div>
+<hr/>
+<h3 id="questarun"><pre>QuestaRun</pre></h3>
+<p><u>True builder</u> </p>
+<p>Производит прогон симуляционной сессии в пакетном режиме (в консоли). Для этого сначала делается переход в директорию с исполнительным окружением симулятора, после чего непосредственно запускается симулятор в пакетном режиме.</p>
+<hr/>
+<h3 id="launchquestarun"><pre>LaunchQuestaRun</pre></h3>
+<p><u>Pseudo-builder</u> </p>
+<p>Вызывает билдер <code>QuestaRun</code>, передавая фиктивную цель, что вынуждает всегда запускать действие билдера.</p>
+<p>Пример использования:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="n">LaunchQuestaRun</span>    <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchQuestaRun</span><span class="p">()</span>
+</span></code></pre></div>
+<hr/>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../Tool-Vivado/" title="Tool Vivado"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+<a class="btn btn-neutral float-right" href="../Simple-Example/" title="Simple">Next <span class="icon icon-circle-arrow-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../Tool-Vivado/" style="color: #fcfcfc">« Previous</a></span>
+<span><a href="../Simple-Example/" style="color: #fcfcfc">Next »</a></span>
+</span>
+</div>
+<script>var base_url = '..';</script>
+<script defer="" src="../js/theme_extra.js"></script>
+<script defer="" src="../js/theme.js"></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script defer="">
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+<script>const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});</script></body>
+</html>

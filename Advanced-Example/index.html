@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<title>Advandced - FPGA Build System</title>
+<link href="../css/theme.css" rel="stylesheet"/>
+<link href="../css/theme_extra.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" rel="stylesheet"/>
+<link href="../extra.css" rel="stylesheet"/>
+<script>
+        // Current page data
+        var mkdocs_page_name = "Advandced";
+        var mkdocs_page_input_path = "Advanced-Example.md";
+        var mkdocs_page_url = null;
+      </script>
+<script defer="" src="../js/jquery-3.6.0.min.js"></script>
+<!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
+<body class="wy-body-for-nav" role="document">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href=".."> FPGA Build System
+        </a>
+</div>
+<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Build System</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="..">General</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Variants/">Build Variants</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Build-Scripts/">Build Scripts</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Advanced-Topics/">Advanced Topics</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Reference/">Reference</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Service-API/">Service API</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Vivado/">Tool Vivado</a>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tool-Questa/">Tool Questa</a>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Simple-Example/">Simple</a>
+</li>
+<li class="toctree-l1 current"><a class="reference internal current" href="./">Advandced</a>
+<ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="#_2">Цель</a>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#_3">Краткое описание проекта</a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="..">FPGA Build System</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a alt="Docs" class="icon icon-home" href=".."></a> »</li>
+<li>Examples »</li>
+<li>Advandced</li>
+<li class="wy-breadcrumbs-aside">
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div class="section" itemprop="articleBody">
+<h1 id="_1">Введение</h1>
+<h2 id="_2">Цель</h2>
+<p>Настоящий документ преследует цель дать подробное описание использования основных возможностей <a href="https://github.com/fpga-lib/site_scons/tree/dev">системы сборки FPGA проектов</a>. Сюда относится:</p>
+<ul>
+<li>способность генерировать файлы параметров на целевых языках (<strong>SystemVerilog</strong>, <strong>Tcl</strong>) из исходных конфигурационных файлов формата <strong>YAML</strong>;</li>
+<li>генерировать и синтезитровать IP ядра;</li>
+<li>создавать блочные дизайны (БД);</li>
+<li>компилировать HLS описания;</li>
+<li>создавать и компилировать библиотеки симуляционных моделей от IP ядер, блочных дизайнов, HLS IP;</li>
+<li>запускать симулятор в консольном и графическом режимах;</li>
+<li>создавать проект САПР <strong>Vivado</strong>, подключая всё необходимое: исходные файлы, IP ядра, блочных дизайны и т.п.;</li>
+<li>синтезировать проект;</li>
+<li>осуществлять размещение и трассировку (P&amp;R).</li>
+</ul>
+<p>Более подробно о возможностях системы сборки и принципах её работы можно ознакомиться <a href="/">в документации на систему сборки</a>.</p>
+<p>Код проекта, описываемого настоящим документом, <a href="https://github.com/fpga-lib/build-system-examples">доступен по ссылке</a>.</p>
+<h2 id="_3">Краткое описание проекта</h2>
+<p>FPGA проект описывает сумматор, принимающий два операнда и возвращающий сумму их значений. Проект содержит 3 сборочных варианта, каждый из которых демонстрирует собственный способ реализации указанной функции. Проект не претендует на логическую правильность и ни в коем случае не является эталоном проектирования, главная его цель — продемонстрировать возможности системы сборки и показать типовые приёмы её использования.</p>
+<p>Сборочных вариантов, как было сказано выше, 3, они названы по именам целевых отладочных плат <strong>Xilinx</strong>:</p>
+<ul>
+<li>7a35t. Реализует традиционный HDL способ описания сумматора.</li>
+<li>7a50t. Функция суммирования реализована в виде HLS описания.</li>
+<li>ac701. Модуль суммирования выполнен на основе блочного дизайна.</li>
+</ul>
+<p>Проект является параметризованным, каждый сборочный вариант (СВ) имеет собственные значения параметров. Во избежание дублирования общие части конфигурации размещены в одном, общем для всех сборочных вариантов, месте. Все СВ собираются из <strong>единого дерева исходных файлов</strong>.</p>
+<p>Структура дерева исходных файлов:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>└── src                           # директория с исходными файлами
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>    ├── cfg                       # директория с описаниями сборочных вариантов (конфигураций)
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>    │   ├── 7a35t                 # директория сборочного варианта 7a35t
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>    │   │   ├── 7a35t.scons       # сборочный скрипт данного СВ
+</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>    │   │   ├── env               # конфигурационные файлы СВ
+</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>    │   │   ├── script            # вспомогательные скрипты СВ
+</span><span id="__span-0-7"><a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>    │   │   ├── sim               # командные и конфигурационные файлы, используемые при работе с симулятором
+</span><span id="__span-0-8"><a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a>    │   │   └── xdc               # файлы констрейнов
+</span><span id="__span-0-9"><a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a>    │   ├── 7a50t                 # директория сборочного варианта 7a35t
+</span><span id="__span-0-10"><a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a>    │   │   ├── 7a50t.scons       # сборочный скрипт данного СВ
+</span><span id="__span-0-11"><a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a>    │   │   ├── env               # см. выше
+</span><span id="__span-0-12"><a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a>    │   │   ├── hls               # конфигурационные файлы HLS описаний
+</span><span id="__span-0-13"><a href="#__codelineno-0-13" id="__codelineno-0-13" name="__codelineno-0-13"></a>    │   │   ├── script            # см. выше
+</span><span id="__span-0-14"><a href="#__codelineno-0-14" id="__codelineno-0-14" name="__codelineno-0-14"></a>    │   │   ├── sim               # см. выше
+</span><span id="__span-0-15"><a href="#__codelineno-0-15" id="__codelineno-0-15" name="__codelineno-0-15"></a>    │   │   └── xdc               # см. выше
+</span><span id="__span-0-16"><a href="#__codelineno-0-16" id="__codelineno-0-16" name="__codelineno-0-16"></a>    │   ├── ac701                 # директория сборочного варианта ac701
+</span><span id="__span-0-17"><a href="#__codelineno-0-17" id="__codelineno-0-17" name="__codelineno-0-17"></a>    │   │   ├── ac701.scons       # сборочный скрипт данного СВ
+</span><span id="__span-0-18"><a href="#__codelineno-0-18" id="__codelineno-0-18" name="__codelineno-0-18"></a>    │   │   ├── bd                # описание блочных дизайнов
+</span><span id="__span-0-19"><a href="#__codelineno-0-19" id="__codelineno-0-19" name="__codelineno-0-19"></a>    │   │   ├── env               # см. выше
+</span><span id="__span-0-20"><a href="#__codelineno-0-20" id="__codelineno-0-20" name="__codelineno-0-20"></a>    │   │   ├── script            # см. выше
+</span><span id="__span-0-21"><a href="#__codelineno-0-21" id="__codelineno-0-21" name="__codelineno-0-21"></a>    │   │   ├── sim               # см. выше
+</span><span id="__span-0-22"><a href="#__codelineno-0-22" id="__codelineno-0-22" name="__codelineno-0-22"></a>    │   │   └── xdc               # см. выше
+</span><span id="__span-0-23"><a href="#__codelineno-0-23" id="__codelineno-0-23" name="__codelineno-0-23"></a>    │   └── common                # директория общих для всех СВ определений
+</span><span id="__span-0-24"><a href="#__codelineno-0-24" id="__codelineno-0-24" name="__codelineno-0-24"></a>    │       ├── build_base.py     # базовый скрипт сценариев сборки
+</span><span id="__span-0-25"><a href="#__codelineno-0-25" id="__codelineno-0-25" name="__codelineno-0-25"></a>    │       ├── env               # общие конфигурационные файлы 
+</span><span id="__span-0-26"><a href="#__codelineno-0-26" id="__codelineno-0-26" name="__codelineno-0-26"></a>    │       ├── ip                # конфигурационные файлы общих IP ядер
+</span><span id="__span-0-27"><a href="#__codelineno-0-27" id="__codelineno-0-27" name="__codelineno-0-27"></a>    │       └── script            # общие для всех СВ скрипты.
+</span><span id="__span-0-28"><a href="#__codelineno-0-28" id="__codelineno-0-28" name="__codelineno-0-28"></a>    ├── hls                       # исходные файлы HLS описаний
+</span><span id="__span-0-29"><a href="#__codelineno-0-29" id="__codelineno-0-29" name="__codelineno-0-29"></a>    │   └── adder                 #
+</span><span id="__span-0-30"><a href="#__codelineno-0-30" id="__codelineno-0-30" name="__codelineno-0-30"></a>    │       ├── src               # синтезирумое HLS описание
+</span><span id="__span-0-31"><a href="#__codelineno-0-31" id="__codelineno-0-31" name="__codelineno-0-31"></a>    │       └── tb                # файлы симуляции на уровне C/C++ (цель csim)
+</span><span id="__span-0-32"><a href="#__codelineno-0-32" id="__codelineno-0-32" name="__codelineno-0-32"></a>    ├── sim                       # исходные файлы симулятора
+</span><span id="__span-0-33"><a href="#__codelineno-0-33" id="__codelineno-0-33" name="__codelineno-0-33"></a>    │   └── top_tb.sv             #
+</span><span id="__span-0-34"><a href="#__codelineno-0-34" id="__codelineno-0-34" name="__codelineno-0-34"></a>    └── syn                       # исходные файлы для синтеза
+</span><span id="__span-0-35"><a href="#__codelineno-0-35" id="__codelineno-0-35" name="__codelineno-0-35"></a>        ├── adder_bd.sv           # исходный файл-"обёртка" для сумматора в виде БД
+</span><span id="__span-0-36"><a href="#__codelineno-0-36" id="__codelineno-0-36" name="__codelineno-0-36"></a>        ├── adder_hls.sv          # исходный файл-"обёртка" для сумматора, выполненного на основе HLS
+</span><span id="__span-0-37"><a href="#__codelineno-0-37" id="__codelineno-0-37" name="__codelineno-0-37"></a>        ├── adder_if.sv           # исходный файл с описанием интерфейсов
+</span><span id="__span-0-38"><a href="#__codelineno-0-38" id="__codelineno-0-38" name="__codelineno-0-38"></a>        └── top.sv                # исходный файл верхнего уровня
+</span></code></pre></div>
+<h1 id="_4">Реализация</h1>
+<h2 id="_5">Методика</h2>
+<p>Несмотря на значительные различия в реализации, все три сборочных варианта имеют много общего. Общего как в конфигурационных параметрах, IP ядрах, так и (что очень существенно) в сценарии сборки. Собственно, сценарий сборки для всех вариантов почти один и тот же, различия касаются  в основном необходимости в том или ином СВ выполнить дополнительные действия — подключить БД или HLS описание.</p>
+<h3 id="_6">Скрипт сценария сборки</h3>
+<p>Скрипт сценария сборки — это описание на языке программирования (ЯП) <strong>Python</strong>, передаваемое утилите <strong>scons</strong>. Традиционный способ описания — в виде обычных выражений ЯП <strong>Python</strong> представлен <a href="https://github.com/fpga-lib/vivado-boilerplate/tree/dev">в этом проекте</a>: в нём каждый сборочный вариант имеет свой собственный отдельный скрипт сборочного сценария (<code>*.scons</code> файл), описывающий полностью самостоятельно весь сценарий сборки. Друг от друга эти скрипты отличаются достаточно незначительно, т.е. имеют обширную общую часть. Это делает процесс модификации весьма обременительным — например, при внесении какого-либо изменения в скрипт сборочного сценария какого-нибудь СВ, если это изменение касается и других СВ, возникает необходимость вручную править соответствующие места и скриптах сборочных сценариев этих СВ.</p>
+<p>В настоящем примере применён подход, свободный от вышеописанного серьёзного недостатка. Благодаря возможностям ЯП <strong>Python</strong> общая часть скриптов сборочных сценариев выделена в специальный объект — класс, этапы сборочного сценария оформлены в виде функций-членов этого класса, их запуск осуществляется из конструктора класса. Таким образом, для запуска сборочного сценария достаточно просто создать объект класса. Если сборочный сценарий какого-то СВ должен выполнять действия, отличные от заданных в базовом скрипте (классе), то тут существует ряд штатных для  ЯП <strong>Python</strong> способов изменять функциональность — например, создать класс-наследник от базового и переопределить в нём нужную функцию. Механизм наследования позволяет эффективно <strong>вынести общую часть в базовый класс</strong>, а <strong>различия определять в классах-потомках</strong>.</p>
+<p>Собственно, конструктор класса достаточно наглядно представляет схему сборочного сценария:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="k">class</span> <span class="nc">BuildBase</span><span class="p">:</span>
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="o">**</span><span class="n">src_dict</span><span class="p">):</span>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">envx</span> <span class="o">=</span> <span class="n">env</span>
+</span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a>        <span class="n">src_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'src_syn'</span><span class="p">,</span> <span class="s1">'src_sim'</span><span class="p">,</span> <span class="s1">'ip'</span><span class="p">,</span> <span class="s1">'bd'</span><span class="p">,</span> <span class="s1">'hls'</span><span class="p">]</span>
+</span><span id="__span-1-8"><a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a>        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">src_dict</span><span class="p">:</span>
+</span><span id="__span-1-9"><a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a>            <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">src_keys</span><span class="p">:</span>
+</span><span id="__span-1-10"><a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a>                <span class="n">print_error</span><span class="p">(</span><span class="s1">'E: invalid source key </span><span class="se">\'</span><span class="s1">'</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\'</span><span class="s1"> specified for build class constructor'</span><span class="p">)</span>
+</span><span id="__span-1-11"><a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a>                <span class="n">print_error</span><span class="p">(</span><span class="s1">'   valid source keys: </span><span class="se">\'</span><span class="s1">'</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\'</span><span class="s1">, </span><span class="se">\'</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">src_keys</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\'</span><span class="s1">'</span><span class="p">)</span>
+</span><span id="__span-1-12"><a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a>                <span class="n">Exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-1-13"><a href="#__codelineno-1-13" id="__codelineno-1-13" name="__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a href="#__codelineno-1-14" id="__codelineno-1-14" name="__codelineno-1-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">src_dict</span>   <span class="o">=</span> <span class="n">src_dict</span>
+</span><span id="__span-1-15"><a href="#__codelineno-1-15" id="__codelineno-1-15" name="__codelineno-1-15"></a>
+</span><span id="__span-1-16"><a href="#__codelineno-1-16" id="__codelineno-1-16" name="__codelineno-1-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">setup_search_paths</span><span class="p">()</span>
+</span><span id="__span-1-17"><a href="#__codelineno-1-17" id="__codelineno-1-17" name="__codelineno-1-17"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">add_sources</span><span class="p">()</span>
+</span><span id="__span-1-18"><a href="#__codelineno-1-18" id="__codelineno-1-18" name="__codelineno-1-18"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">setup_constr_env</span><span class="p">()</span>
+</span><span id="__span-1-19"><a href="#__codelineno-1-19" id="__codelineno-1-19" name="__codelineno-1-19"></a>
+</span><span id="__span-1-20"><a href="#__codelineno-1-20" id="__codelineno-1-20" name="__codelineno-1-20"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">add_hls_script_targets</span><span class="p">()</span>
+</span><span id="__span-1-21"><a href="#__codelineno-1-21" id="__codelineno-1-21" name="__codelineno-1-21"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">add_hls_targets</span><span class="p">()</span>
+</span><span id="__span-1-22"><a href="#__codelineno-1-22" id="__codelineno-1-22" name="__codelineno-1-22"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">add_ip_targets</span><span class="p">()</span>
+</span><span id="__span-1-23"><a href="#__codelineno-1-23" id="__codelineno-1-23" name="__codelineno-1-23"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">add_bd_targets</span><span class="p">()</span>
+</span><span id="__span-1-24"><a href="#__codelineno-1-24" id="__codelineno-1-24" name="__codelineno-1-24"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">add_hdl_params_targets</span><span class="p">()</span>
+</span><span id="__span-1-25"><a href="#__codelineno-1-25" id="__codelineno-1-25" name="__codelineno-1-25"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">add_tcl_params_targets</span><span class="p">()</span>
+</span><span id="__span-1-26"><a href="#__codelineno-1-26" id="__codelineno-1-26" name="__codelineno-1-26"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">add_main_targes</span><span class="p">()</span>
+</span><span id="__span-1-27"><a href="#__codelineno-1-27" id="__codelineno-1-27" name="__codelineno-1-27"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">add_phony_targes</span><span class="p">()</span>
+</span><span id="__span-1-28"><a href="#__codelineno-1-28" id="__codelineno-1-28" name="__codelineno-1-28"></a>
+</span><span id="__span-1-29"><a href="#__codelineno-1-29" id="__codelineno-1-29" name="__codelineno-1-29"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">setup_explicit_dependensies</span><span class="p">()</span>
+</span><span id="__span-1-30"><a href="#__codelineno-1-30" id="__codelineno-1-30" name="__codelineno-1-30"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">setup_default_targets</span><span class="p">()</span>
+</span><span id="__span-1-31"><a href="#__codelineno-1-31" id="__codelineno-1-31" name="__codelineno-1-31"></a>
+</span><span id="__span-1-32"><a href="#__codelineno-1-32" id="__codelineno-1-32" name="__codelineno-1-32"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">define_target_aliases</span><span class="p">()</span>
+</span><span id="__span-1-33"><a href="#__codelineno-1-33" id="__codelineno-1-33" name="__codelineno-1-33"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">setup_target_help</span><span class="p">()</span>
+</span><span id="__span-1-34"><a href="#__codelineno-1-34" id="__codelineno-1-34" name="__codelineno-1-34"></a>
+</span><span id="__span-1-35"><a href="#__codelineno-1-35" id="__codelineno-1-35" name="__codelineno-1-35"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">setup_extensions</span><span class="p">()</span>
+</span><span id="__span-1-36"><a href="#__codelineno-1-36" id="__codelineno-1-36" name="__codelineno-1-36"></a><span class="o">...</span>
+</span></code></pre></div>
+<p>Конструктор класса принимает один обязательный аргумент — это объект сборочного окружения (СО) <code>env</code>, и некоторое количество опциональных именованных аргументов, которые позволяют задавать:</p>
+<ul>
+<li><code>src_syn</code>: списки исходных файлов для синтеза;</li>
+<li><code>src_sim</code>: списки исходных файлов для симуляции;</li>
+<li><code>ip</code>: списки конфигурационных файлов для IP ядер;</li>
+<li><code>bd</code>: списки конфигурационных файлов для блочных дизайнов;</li>
+<li><code>hls</code>: списки конфигурационных файлов HLS описаний.</li>
+</ul>
+<p>Все эти списки файлов сохраняются во внутренней переменной класса и в дальнейшем используются для построения сценария сборки. Возможность задавать списки исходных и конфигурационных файлов как аргументы конструктора класса позволяет абстрагировать исполняемый код от данных, которыми являются эти файлы списков. В каждом СВ скрипт сборочного сценария может указывать индивидуальный набор списков исходных и конфигурационных файлов.</p>
+<p>Далее в конструкторе идёт вызов функций-членов, которые осуществляют все основные этапы работы скрипта сборочного сценария. Этапы работы сценария сборки описаны в таблице:</p>
+<table>
+<thead>
+<tr>
+<th>Stage Name</th>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Настройка путей <br/>поиска</td>
+<td><code>setup_search_paths()</code></td>
+<td>Формирование списка путей поиска<br/> конфигурационных файлов. <br/><a href="/Build-Variants#configuration-files">Подробнее о правилах поиска <br/>конфигурационных файлов</a>.</td>
+</tr>
+<tr>
+<td>Создание списков <br/>исходных файлов</td>
+<td><code>add_sources()</code></td>
+<td>Формирование внутренних <br/>объектов-списков, содержимое <br/>которых является зависимостями<br/> для различных целей скрипта<br/> сценария сборки.</td>
+</tr>
+<tr>
+<td>Настройка сборочно-<br/>го окружения</td>
+<td><code>setup_constr_env()</code></td>
+<td>Установка значений переменных СО.</td>
+</tr>
+<tr>
+<td>Описание целей</td>
+<td><code>add_hls_script_targets()</code><br/><code>add_hls_targets()</code><br/><code>add_ip_targets()</code><br/><code>add_bd_targets()</code><br/><code>add_hdl_params_targets()</code><br/><code>add_tcl_params_targets()</code><br/><code>add_main_targes()</code><br/><code>add_phony_targes()</code></td>
+<td>Описание цепочек целей <br/>по зависимостям</td>
+</tr>
+<tr>
+<td>Указание явных <br/>зависимостей</td>
+<td><code>setup_explicit_dependensies()</code></td>
+<td>Настройка явных зависимостей <br/>для некоторых целей</td>
+</tr>
+<tr>
+<td>Определение целей <br/>по умолчанию</td>
+<td><code>setup_default_targets()</code></td>
+<td>Цели по умолчанию — это те,<br/> которые собираются когда цели <br/>при запуске не указаны явно.</td>
+</tr>
+<tr>
+<td>Описание псевдони-<br/>мов целей</td>
+<td><code>define_target_aliases()</code></td>
+<td>Псевдонимы целей — это, как<br/> правило, более короткие и удобные <br/>при запуске из командной <br/>строки имена целей.</td>
+</tr>
+<tr>
+<td>Описание справки <br/>по запуску</td>
+<td><code>setup_target_help()</code></td>
+<td>Выводит справку по целям <br/>командной строки</td>
+</tr>
+<tr>
+<td>Добавление <br/>расширений</td>
+<td><code>setup_extensions()</code></td>
+<td>Добавление вспомогательных <br/>функций таких как: <br/>формирование отчёта о предупреж-<br/>дениях, таймингах, утилизации, воз-<br/>можность запуска сторонней про-<br/>граммы просмотра логов <br/>синтеза и P&amp;R.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_7">Конфигурационные файлы</h3>
+<p>Второй аспект, влияющий на результат сборки помимо скрипта сборочного сценария, — это используемый набор конфигурационных файлов. Именно они определяют списки файлов исходного кода, констрейнов, IP ядер и т.п., а так же параметры сборки. Как и в случае со скриптом сборочного сценария общая для всех СВ часть конфигурации вынесена в <code>cfg/common</code>. Структура директорий такая же, как и в рабочих сборочных вариантах. Сценарий сборки написан так, что конфигурационный файл сначала ищется внутри дерева файлов самого СВ, и если файл не найден, поиск переходит в дерево файлов <code>cfg/common</code> (<a href="/Build-Variants#configuration-files-search-paths">подробнее о правилах поиска конфигурационных файлов</a>).</p>
+<h2 id="_8">Сборочные варианты</h2>
+<h3 id="7a35t"><pre>7a35t</pre></h3>
+<p>Данный СВ реализует самый простой способ сумматора — непосредственно средствами HDL. Он не требует никаких дополнительных модулей и не требует модификации базового сборочного скрипта. Всё, что необходимо для организации сборки — это создать объект класса, конструктор которого выполнит все необходимые действия:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1">#-------------------------------------------------------------------------------</span>
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c1">#</span>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1">#    Environment</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="c1">#</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="n">Import</span><span class="p">(</span><span class="s1">'envx'</span><span class="p">)</span>
+</span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="n">bv</span> <span class="o">=</span> <span class="n">BuildBase</span><span class="p">(</span><span class="n">envx</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="ac701"><pre>ac701</pre></h3>
+<p>Этот СВ использует для реализации сумматора блочный дизайн (методика создания <a href="/Advanced-Topics#bd-create-example">блочных дизайнов из Tcl конфигурационных скриптов</a>). В этом случае необходимо добавить в проект конфигурационный <code>Tcl</code> скрипт с описанием БД и подключить его к проекту:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1">#</span>
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="c1">#  bd.yml</span>
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="c1">#</span>
+</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="nt">sources</span><span class="p">:</span>
+</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bd/adder.tcl</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1">#-------------------------------------------------------------------------------</span>
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="c1">#</span>
+</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="c1">#    Environment</span>
+</span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="c1">#</span>
+</span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="n">Import</span><span class="p">(</span><span class="s1">'envx'</span><span class="p">)</span>
+</span><span id="__span-4-6"><a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="n">bv</span> <span class="o">=</span> <span class="n">BuildBase</span><span class="p">(</span><span class="n">envx</span><span class="p">,</span> <span class="n">bd</span><span class="o">=</span><span class="s1">'bd.yml'</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="7a50t"><pre>7a50t</pre></h3>
+<p>Здесь реализация сумматора выполнена на основе HLS описания. Помимо самого HLS описания СВ поддерживает сборочную цель HLS <code>csim</code> — симуляция  HLS описания на уровне C/C++. Для этого с скрипт сборочного сценария добавлен код для подключения этой цели:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1">#</span>
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="c1">#  hls.yml</span>
+</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="c1">#</span>
+</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="nt">sources</span><span class="p">:</span>
+</span><span id="__span-5-5"><a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hls/adder/adder.yml</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1">#-------------------------------------------------------------------------------</span>
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="c1">#</span>
+</span><span id="__span-6-3"><a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="c1">#    Environment</span>
+</span><span id="__span-6-4"><a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="c1">#</span>
+</span><span id="__span-6-5"><a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="n">Import</span><span class="p">(</span><span class="s1">'envx'</span><span class="p">)</span>
+</span><span id="__span-6-6"><a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a href="#__codelineno-6-7" id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="k">class</span> <span class="nc">Build7a50t</span><span class="p">(</span><span class="n">BuildBase</span><span class="p">):</span>
+</span><span id="__span-6-8"><a href="#__codelineno-6-8" id="__codelineno-6-8" name="__codelineno-6-8"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="o">**</span><span class="n">src_list</span><span class="p">):</span>
+</span><span id="__span-6-9"><a href="#__codelineno-6-9" id="__codelineno-6-9" name="__codelineno-6-9"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="o">**</span><span class="n">src_list</span><span class="p">)</span>
+</span><span id="__span-6-10"><a href="#__codelineno-6-10" id="__codelineno-6-10" name="__codelineno-6-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">adder</span> <span class="o">=</span> <span class="n">SConscript</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">'hls'</span><span class="p">,</span> <span class="s1">'adder'</span><span class="p">,</span> <span class="s1">'adder.scons'</span><span class="p">),</span> <span class="n">exports</span> <span class="o">=</span> <span class="s1">'envx'</span><span class="p">)</span>
+</span><span id="__span-6-11"><a href="#__codelineno-6-11" id="__codelineno-6-11" name="__codelineno-6-11"></a>        <span class="n">Depends</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LaunchQuestaRun</span><span class="p">,</span>    <span class="bp">self</span><span class="o">.</span><span class="n">adder</span><span class="p">)</span>
+</span><span id="__span-6-12"><a href="#__codelineno-6-12" id="__codelineno-6-12" name="__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a href="#__codelineno-6-13" id="__codelineno-6-13" name="__codelineno-6-13"></a><span class="n">bv</span> <span class="o">=</span> <span class="n">Build7a50t</span><span class="p">(</span><span class="n">envx</span><span class="p">,</span> <span class="n">hls</span> <span class="o">=</span> <span class="s1">'hls.yml'</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Здесь создаётся класс-наследник класса базового сборочного сценария, в конструкторе которого добавляется цель иерархической сборки, которая осуществляет компиляцию и запуск HLS <code>csim</code>. Кроме этого, данная цель устанавливается явной зависимостью для цели запуска симулятора в консольном режиме, что будет при каждом прогоне симулятора сначала вызывать сборку цели <code>csim</code> и ещё запуск. Ну, и в конструктор класса передаётся список для HLS описаний.</p>
+<h3 id="_9">Управление условной сборкой</h3>
+<p>Как было сказано выше, все три сборочных варианта реализуются из одного и того же дерева исходных файлов. Т.к. проект очень простой, то для описания основной структуры достаточно одного файла — это <code>top.sv</code>. В нём описана вся необходимая инфраструктура, которая является общей для всех трёх СВ. К ней относятся входной буфер, описание тактового генератора (PLL) и формирователь выходного тактового сигнала (ODDR). Различия касаются реализации собственно сумматора. Для учёта этих различий служит параметр <code>ADDER_MODULE</code>, который определён для СВ <code>7a50t</code> и <code>ac701</code> (т.е. вариантов, которые используют реализацию через отдельный модуль) в их конфигурационных файлах <code>main.yml</code>.</p>
+<p>Помимо этого для всех трёх СВ требуется немного разный набор исходных файлов. Например, для <code>7a35t</code> никакие дополнительные исходные файлы не нужны, а для <code>7a50t</code> и <code>ac701</code> нужен файл с описанием SystemVerilog интерфейсов, используемых в качестве портов внешнего модуля сумматора, и для каждого из <code>7a50t</code> и <code>ac701</code> требуется свой собственный HDL файл-"обёртка", т.к. БД и HLS реализации сумматора дают существенно разные наборы портов модулей. Решить эту проблему можно достаточно легко, определив в каждом СВ свою версию конфигурационного файла-списка исходных файлов <code>src_syn.yml</code>. Но существует более компактное и наглядное решение:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="c1">#</span>
+</span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="c1">#  src/cfg/common/env/src_syn.yml</span>
+</span><span id="__span-7-3"><a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="c1">#</span>
+</span><span id="__span-7-4"><a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="nt">import </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+</span><span id="__span-7-5"><a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="nt">parameters</span><span class="p">:</span><span class="w"> </span>
+</span><span id="__span-7-7"><a href="#__codelineno-7-7" id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="w">    </span><span class="nt">ADDER_SOURCE    </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= 'adder_bd.sv'  if main.VARIANT_NAME == 'ac701' else</span><span class="w"> </span>
+</span><span id="__span-7-8"><a href="#__codelineno-7-8" id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="w">                        </span><span class="l l-Scalar l-Scalar-Plain">'adder_hls.sv' if main.VARIANT_NAME == '7a50t' else</span>
+</span><span id="__span-7-9"><a href="#__codelineno-7-9" id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="w">                        </span><span class="l l-Scalar l-Scalar-Plain">None</span>
+</span><span id="__span-7-10"><a href="#__codelineno-7-10" id="__codelineno-7-10" name="__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a href="#__codelineno-7-11" id="__codelineno-7-11" name="__codelineno-7-11"></a><span class="w">    </span><span class="nt">ADDER_IF_SOURCE </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= None if main.VARIANT_NAME == '7a35t' else 'adder_if.sv'</span>
+</span><span id="__span-7-12"><a href="#__codelineno-7-12" id="__codelineno-7-12" name="__codelineno-7-12"></a>
+</span><span id="__span-7-13"><a href="#__codelineno-7-13" id="__codelineno-7-13" name="__codelineno-7-13"></a><span class="nt">sources</span><span class="p">:</span>
+</span><span id="__span-7-14"><a href="#__codelineno-7-14" id="__codelineno-7-14" name="__codelineno-7-14"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/syn/top.sv</span>
+</span><span id="__span-7-15"><a href="#__codelineno-7-15" id="__codelineno-7-15" name="__codelineno-7-15"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/syn/$ADDER_SOURCE</span>
+</span><span id="__span-7-16"><a href="#__codelineno-7-16" id="__codelineno-7-16" name="__codelineno-7-16"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src/syn/$ADDER_IF_SOURCE</span>
+</span></code></pre></div>
+<p>Здесь путём вычисляемых параметров и подстановкой их значений формируется корректный список исходных файлов для всех сборочных вариантов. Подробнее описано в <a href="/Build-Variants#configuration-files-of-file-lists">документации на систему сборки</a>.</p>
+<h2 id="_10">Итог</h2>
+<p>Описанные примеры реализации простого сумматора демонстрируют значительную мощь и гибкость системы сборки FPGA проектов, показывая, как достаточно легко организовать параметризованные сборочные варианты, реализуемые на основе единого дерева исходных файлов, не дублируя при этом ни код скриптов сборочных сценариев, ни конфигурационные файлы, ни файлы исходного кода. Базовый скрипт сборочного сценария является вполне универсальным и почти без изменений может применяться для сборки крупных проектов. Описанный <strong>пример является по сути шаблоном, который можно использовать для старта любого рабочего проекта</strong>.</p>
+</div>
+</div><footer>
+<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
+<a class="btn btn-neutral float-left" href="../Simple-Example/" title="Simple"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+</div>
+<hr/>
+<div role="contentinfo">
+<!-- Copyright etc -->
+</div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+</div>
+</div>
+</section>
+</div>
+<div aria-label="Versions" class="rst-versions" role="note">
+<span class="rst-current-version" data-toggle="rst-current-version">
+<span><a href="../Simple-Example/" style="color: #fcfcfc">« Previous</a></span>
+</span>
+</div>
+<script>var base_url = '..';</script>
+<script defer="" src="../js/theme_extra.js"></script>
+<script defer="" src="../js/theme.js"></script>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script defer="">
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+<script>const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});</script></body>
+</html>

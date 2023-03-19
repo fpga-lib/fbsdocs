@@ -23,8 +23,8 @@ nav:
         - Tool Vivado         : Tool-Vivado.md  
         - Tool Questa         : Tool-Questa.md  
     - Examples:
-        Simple                : Simple-Example.md
-        Advandced             : Advanced-Example.md
+        - Simple                : Simple-Example.md
+        - Advandced             : Advanced-Example.md
 
 
 

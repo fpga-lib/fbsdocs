@@ -240,7 +240,7 @@
 </ul>
 <p>Схема не является жёсткой, вполне допустимы различные отклонения. В частности, как правило, не важно, что идёт сначала — настройка сборочного окружения или подготовка списков исходных файлов, эти части можно описывать в любом порядке.</p>
 <h3 id="_6">Подготовка параметров</h3>
-<p>Подготовка параметров сводится к чтению файлов параметров (см. <a href="/Build-Variants#configuration-files">Конфигурационные файлы</a>) и созданию внутренних объектов, которые являются по сути контейнерами этих параметров:</p>
+<p>Подготовка параметров сводится к чтению файлов параметров (см. <a href="../Build-Variants#configuration-files">Конфигурационные файлы</a>) и созданию внутренних объектов, которые являются по сути контейнерами этих параметров:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="n">cfg</span>  <span class="o">=</span> <span class="n">import_config</span><span class="p">(</span><span class="s1">'main.yml'</span><span class="p">)</span>
 </span><span id="__span-9-2"><a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="n">dirs</span> <span class="o">=</span> <span class="n">import_config</span><span class="p">(</span><span class="s1">'dirpath.yml'</span><span class="p">)</span>
 </span></code></pre></div>

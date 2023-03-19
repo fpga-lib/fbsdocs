@@ -158,8 +158,8 @@
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
-<h1 id="tool-vivado">Tool 'vivado'</h1>
-<h2 id="environment-variables">Environment variables</h2>
+<h3 id="tool-vivado">Tool 'vivado'<a class="headerlink" href="#tool-vivado" title="Permanent link">🔗</a></h3>
+<h4 id="environment-variables">Environment variables<a class="headerlink" href="#environment-variables" title="Permanent link">🔗</a></h4>
 <p>Переменные сборочного и исполнительного окружения удобно задать в сборочном скрипте:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1">#-------------------------------------------------------------------------------</span>
 </span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="c1">#</span>
@@ -212,7 +212,7 @@
 </span><span id="__span-3-7"><a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="n">HLS</span>    <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">'XILINX_HLS'</span><span class="p">],</span> <span class="s1">'bin'</span><span class="p">,</span> <span class="s1">'vitis_hls'</span><span class="p">)</span>
 </span><span id="__span-3-8"><a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="o">...</span>
 </span></code></pre></div>
-<h3 id="_1">Переменные общего назначения</h3>
+<h5 id="_1">Переменные общего назначения<a class="headerlink" href="#_1" title="Permanent link">🔗</a></h5>
 <table>
 <thead>
 <tr>
@@ -294,7 +294,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="_2">Директории и пути</h3>
+<h5 id="_2">Директории и пути<a class="headerlink" href="#_2" title="Permanent link">🔗</a></h5>
 <table>
 <thead>
 <tr>
@@ -381,7 +381,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="_3">Расширения файлов</h3>
+<h5 id="_3">Расширения файлов<a class="headerlink" href="#_3" title="Permanent link">🔗</a></h5>
 <table>
 <thead>
 <tr>
@@ -463,17 +463,17 @@
 </tr>
 </tbody>
 </table>
-<h2 id="builders">Builders</h2>
+<h4 id="builders">Builders<a class="headerlink" href="#builders" title="Permanent link">🔗</a></h4>
 <p>Перечислены <a href="../Build-Scripts#builders">билдеры</a> и <a href="../Build-Scripts#pseudo-builders">псевдобилдеры</a>. Билдеры как правило не используются напрямую, т.к. они имеют
 вполне определённый интерфейс запуска, который далеко не всегда удобен, поэтому в скрипте сборочных
 сценариев обычно используются псевдобилдеры, которые по сути являются "обёртками" вокруг самих
 билдеров.</p>
 <hr/>
-<h3 id="ipcreatescript"><pre>IpCreateScript</pre></h3>
+<h5 id="ipcreatescript"><pre>IpCreateScript</pre><a class="headerlink" href="#ipcreatescript" title="Permanent link">🔗</a></h5>
 <p><u>True builder</u></p>
 <p>Генерирует <strong>Tcl</strong> скрипт, с помощью которого создаётся IP ядро. </p>
 <hr/>
-<h3 id="ipcreatescripts"><pre>IpCreateScripts</pre></h3>
+<h5 id="ipcreatescripts"><pre>IpCreateScripts</pre><a class="headerlink" href="#ipcreatescripts" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u></p>
 <p>Генерирует <strong>Tcl</strong> скрипты для создания IP ядер из списка конфигурационных файлов. Создаёт скрипты по схеме <code>&lt;name&gt;-create.tcl</code>. Использует билдер <code>IpCreateScript</code>.</p>
 <p>Пример использования:</p>
@@ -482,11 +482,11 @@
 </span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="n">IP_Create_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpCreateScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="ipsynscript"><pre>IpSynScript</pre></h3>
+<h5 id="ipsynscript"><pre>IpSynScript</pre><a class="headerlink" href="#ipsynscript" title="Permanent link">🔗</a></h5>
 <p><u>True builder</u></p>
 <p>Генерирует скрипт для out-of-context синтеза IP ядра.</p>
 <hr/>
-<h3 id="ipsynscripts"><pre>IpSynScripts</pre></h3>
+<h5 id="ipsynscripts"><pre>IpSynScripts</pre><a class="headerlink" href="#ipsynscripts" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u> </p>
 <p>Генерирует <strong>Tcl</strong> скрипты для синтеза IP ядер из списка конфигурационных файлов. Создаёт скрипты по схеме <code>&lt;name&gt;-syn.tcl</code>. Использует билдер <code>IpSynScript</code>.</p>
 <p>Пример использования:</p>
@@ -495,33 +495,33 @@
 </span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="n">IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpSynScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="ipcreate"><pre>IpCreate</pre></h3>
+<h5 id="ipcreate"><pre>IpCreate</pre><a class="headerlink" href="#ipcreate" title="Permanent link">🔗</a></h5>
 <p><u>True builder</u></p>
 <p>Создаёт IP ядро.</p>
 <hr/>
-<h3 id="createips"><pre>CreateIps</pre></h3>
+<h5 id="createips"><pre>CreateIps</pre><a class="headerlink" href="#createips" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u> </p>
 <p>Создаёт IP ядра по списку скриптов, сгенерированны с помощью <code>IpCreateScripts</code>. Использует билдер <code>IpCreate</code>.</p>
 <p>Пример использования:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="n">IP_Cores</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateIps</span><span class="p">(</span><span class="n">IP_Create_Scripts</span><span class="p">)</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="ipsyn"><pre>IpSyn</pre></h3>
+<h5 id="ipsyn"><pre>IpSyn</pre><a class="headerlink" href="#ipsyn" title="Permanent link">🔗</a></h5>
 <p><u>True builder</u></p>
 <p>Синтезирует IP ядро в режиме out-of-context.</p>
 <hr/>
-<h3 id="synips"><pre>SynIps</pre></h3>
+<h5 id="synips"><pre>SynIps</pre><a class="headerlink" href="#synips" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u> </p>
 <p>Синтезирует IP ядра, используя в качестве зависимостей скрипты, созданные <code>IpSynScrips</code> и файлы самих IP ядер. Использует билдер <code>IpSyn</code>.</p>
 <p>Пример использования:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="n">IP_OOC_Syn</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">SynIps</span><span class="p">(</span><span class="n">IP_Syn_Scripts</span><span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="bdcreate"><pre>BdCreate</pre></h3>
+<h5 id="bdcreate"><pre>BdCreate</pre><a class="headerlink" href="#bdcreate" title="Permanent link">🔗</a></h5>
 <p><u>True builder</u></p>
 <p>Создаёт блочный дизайн на основе <strong>Tcl</strong> скрипта, описывающего используемые элементы (cells), их межсоединения и порты. Блочный дизайн создаётся в виде отдельно стоящего <strong>Vivado</strong> проекта (out-of-context). В дальнейшем блочный дизайн из такого проекта может быть подключен в рабочий проект. Методика подготовки <strong>Tcl</strong> скрипта описана <a href="../Advanced-Topics#bd-create-example">по ссылке</a>.</p>
 <hr/>
-<h3 id="createoocbd"><pre>CreateOocBd</pre></h3>
+<h5 id="createoocbd"><pre>CreateOocBd</pre><a class="headerlink" href="#createoocbd" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u> </p>
 <p>Создаёт проекты с блочными дизайнами на основе списка конфигурационных файлов. Использует <code>BdCreate</code> билдер.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="n">bd</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'bd.yml'</span><span class="p">)</span>
@@ -529,7 +529,7 @@
 </span><span id="__span-8-3"><a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="n">bd_ooc</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateOocBd</span><span class="p">(</span><span class="n">bd</span><span class="p">)</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="hlscsynthscript"><pre>HlsCSynthScript</pre></h3>
+<h5 id="hlscsynthscript"><pre>HlsCSynthScript<a class="headerlink" href="#hlscsynthscript" title="Permanent link">🔗</a></pre></h5>
 <p><u>True builder</u></p>
 <p>Создаёт <strong>Tcl</strong> скрипт для создания HLS проекта и его компиляции. Зависимостью является <code>yml</code> <a href="../Build-Variants#hls-config">файл параметров HLS</a>. В результате создаётся <strong>Tcl</strong> скрипт с командами создания HLS проекта и его компиляции до элемента IP репозитория. Пример целевого скрипта:</p>
 <div class="language-tcl highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="nv">--------------------------------------------------------------------------------</span>
@@ -573,24 +573,24 @@
 </span><span id="__span-9-39"><a href="#__codelineno-9-39" id="__codelineno-9-39" name="__codelineno-9-39"></a><span class="c">#--------------------------------------------------------------------------------</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="createhlscsynthscript"><pre>CreateHlsCSynthScript</pre></h3>
+<h5 id="createhlscsynthscript"><pre>CreateHlsCSynthScript</pre><a class="headerlink" href="#createhlscsynthscript" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u></p>
 <p>Псевдобилдер, получающий аргументом список конфигурационных HLS <code>yml</code> файлов и осуществляющий запуск для каждого из них билдера <code>HlsCSynthScript</code>. Пример использования:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="n">HlsCSynScripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateHlsCSynthScript</span><span class="p">(</span><span class="n">hls</span><span class="p">)</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="hlscsynth"><pre>HlsCSynth</pre></h3>
+<h5 id="hlscsynth"><pre>HlsCSynth</pre><a class="headerlink" href="#hlscsynth" title="Permanent link">🔗</a></h5>
 <p><u>True builder</u></p>
 <p>Билдер выполняет создание HLS проекта и его компиляцию, в результате которой создаётся элемент IP репозитория, пригодный для использования в качестве IP ядра в целевом проекте. Напрямую не используется, вызывается из псевдобилдера <code>LaunchHlsCSynth</code> (см. ниже)</p>
 <hr/>
-<h3 id="launchhlscsynth"><pre>LaunchHlsCSynth</pre></h3>
+<h5 id="launchhlscsynth"><pre>LaunchHlsCSynth</pre><a class="headerlink" href="#launchhlscsynth" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u></p>
 <p>Служит для запуска создания и компиляции HLS проектов. Пример использования:</p>
 <p><div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="n">HlsCsyn</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchHlsCSynth</span><span class="p">(</span><span class="n">HlsCSynScripts</span><span class="p">,</span> <span class="n">hls</span><span class="p">)</span>
 </span></code></pre></div>
 где, <code>HlsCSynScripts</code> — список скриптов, полученных в результате работы <code>CreateHlsCSynthScript</code>, <code>hls</code> — список конфигурационных <code>yml</code> файлов HLS.</p>
 <hr/>
-<h3 id="hlsipsynscripts"><pre>HlsIpSynScripts</pre></h3>
+<h5 id="hlsipsynscripts"><pre>HlsIpSynScripts</pre><a class="headerlink" href="#hlsipsynscripts" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u></p>
 <p>Псевдобилдер осуществляет генерирование скриптов создания IP ядер из HLS IP репозитория, созданного инструментами, описанными выше. Полученные скрипты далее используются точно так же, как и скрипты для синтеза IP ядер, получаемые из конфигурационных <code>yml</code> файлов IP ядер.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="n">HLS_IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">HlsIpSynScripts</span><span class="p">(</span><span class="n">HlsCsyn</span><span class="p">)</span>
@@ -609,7 +609,7 @@
 </span><span id="__span-13-11"><a href="#__codelineno-13-11" id="__codelineno-13-11" name="__codelineno-13-11"></a><span class="n">IP_OOC_Syn</span>         <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">SynIps</span><span class="p">(</span><span class="n">All_IP_Syn_Scripts</span><span class="p">,</span> <span class="n">All_IP</span><span class="p">)</span>  <span class="c1"># синтез всех IP ядер</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="cfgparamsheader"><pre>CfgParamsHeader</pre></h3>
+<h5 id="cfgparamsheader"><pre>CfgParamsHeader</pre><a class="headerlink" href="#cfgparamsheader" title="Permanent link">🔗</a></h5>
 <p><u>True builder</u></p>
 <p>Создаёт HDL заголовочный файл с параметрами, взятыми из указанных конфигурационных файлов. Если в конфигурационном файле, являющимся зависимостью, определён раздел <code>options</code>, в котором, в свою очередь, определены параметры <code>prefix</code>, <code>suffix</code>, то значения этих параметров конкатенируются с именами рабочих параметров, соответственно до и после:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="c1">#</span>
@@ -628,7 +628,7 @@
 </span><span id="__span-15-2"><a href="#__codelineno-15-2" id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="cp">`define PARAMS_WIDTH 8  </span>
 </span></code></pre></div>
 <hr/>
-<h3 id="createcfgparamsheader"><pre>CreateCfgParamsHeader</pre></h3>
+<h5 id="createcfgparamsheader"><pre>CreateCfgParamsHeader</pre><a class="headerlink" href="#createcfgparamsheader" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u> </p>
 <p>Может принимать в качестве зависимостей строку с именами файлов, разделёнными пробелом, или список. Создаёт полный (абсолютный) путь для каждого файла и вызывает билдер <code>CfgParamsHeader</code>.</p>
 <p>Пример использования:</p>
@@ -637,7 +637,7 @@
 </span><span id="__span-16-3"><a href="#__codelineno-16-3" id="__codelineno-16-3" name="__codelineno-16-3"></a><span class="n">CfgParamsHeader</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateCfgParamsHeader</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">envx</span><span class="p">[</span><span class="s1">'BUILD_SRC_PATH'</span><span class="p">],</span> <span class="s1">'cfg_params.svh'</span><span class="p">),</span> <span class="n">hdl_param_deps</span><span class="p">)</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="cfgparamstcl"><pre>CfgParamsTcl</pre></h3>
+<h5 id="cfgparamstcl"><pre>CfgParamsTcl</pre><a class="headerlink" href="#cfgparamstcl" title="Permanent link">🔗</a></h5>
 <p><u>True builder</u></p>
 <p>Создаёт <strong>Tcl</strong> файл с параметрами, взятыми из указанных конфигурационных файлов. Как и билдер по генерированию включаемых HDL файлов, данный билдер распознаёт раздел <code>options</code> с параметрами <code>prefix</code> и <code>suffix</code>, используя их сходным образом:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-17-1"><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="c1">#</span>
@@ -655,18 +655,18 @@
 </span><span id="__span-18-2"><a href="#__codelineno-18-2" id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="k">set</span><span class="w"> </span>SRC_SIM_DIR<span class="w"> </span><span class="k">{</span><span class="nv">src</span><span class="o">/</span>sim<span class="k">}</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="createcfgparamstcl"><pre>CreateCfgParamsTcl</pre></h3>
+<h5 id="createcfgparamstcl"><pre>CreateCfgParamsTcl</pre><a class="headerlink" href="#createcfgparamstcl" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u> </p>
 <p>Может принимать в качестве зависимостей строку с именами файлов, разделёнными пробелом, или список. Создаёт полный (абсолютный) путь для каждого файла и вызывает билдер <code>CfgParamsTcl</code>.</p>
 <p>Пример использования:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="n">CfgParamsTcl</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateCfgParamsTcl</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">envx</span><span class="p">[</span><span class="s1">'BUILD_SRC_PATH'</span><span class="p">],</span> <span class="s1">'cfg_params.tcl'</span><span class="p">),</span> <span class="s1">'params.yml'</span><span class="p">)</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="vivadoproject"><pre>VivadoProject</pre></h3>
+<h5 id="vivadoproject"><pre>VivadoProject</pre><a class="headerlink" href="#vivadoproject" title="Permanent link">🔗</a></h5>
 <p><u>True builder</u></p>
 <p>Создаёт проект САПР <strong>Vivado</strong>.</p>
 <hr/>
-<h3 id="createvivadoproject"><pre>CreateVivadoProject</pre></h3>
+<h5 id="createvivadoproject"><pre>CreateVivadoProject</pre><a class="headerlink" href="#createvivadoproject" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u> </p>
 <p>Принимает в качестве зависимостей исходные файлы HDL, файлы констрейнов и IP ядер. Генерирует имя целевого файла, обрабатывает список зависимостей, формируя полные (абсолютные) пути для каждого файла HDL и констрейнов, подготавливает результирующий список и вызывает билдер <code>VivadoProject</code>. Целевым файлом является <code>&lt;project name&gt;.prj</code>, который является копией <code>project name&gt;.xpr</code>. Такое решение используется по той причине, что САПР <strong>Vivado</strong> в процессе работы постоянно изменяет <code>xpr</code> файл, что делает его непригодным в качестве цели для системы сборки. С другой стороны, целевой файл должен быть релевантным к изменениям настроек проекта, т.к. система сборки проверяет актуальность файла по MD хэшу. Копия файла проекта достаточно хорошо отвечает вышеперечисленным требованиям.</p>
 <p>Пример использования:</p>
@@ -677,11 +677,11 @@
 </span><span id="__span-20-5"><a href="#__codelineno-20-5" id="__codelineno-20-5" name="__codelineno-20-5"></a><span class="n">VivadoProject</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateVivadoProject</span><span class="p">(</span><span class="n">xpr_deps</span> <span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="synthvivadoproject"><pre>SynthVivadoProject</pre></h3>
+<h5 id="synthvivadoproject"><pre>SynthVivadoProject</pre><a class="headerlink" href="#synthvivadoproject" title="Permanent link">🔗</a></h5>
 <p><u>True builder</u></p>
 <p>Выполняет синтез проекта. Целевым файлом является <code>&lt;top name&gt;</code>.dcp, расположенный в <code>&lt;project name&gt;.runs/synth_1</code>.</p>
 <hr/>
-<h3 id="launchsynthvivadoproject"><pre>LaunchSynthVivadoProject</pre></h3>
+<h5 id="launchsynthvivadoproject"><pre>LaunchSynthVivadoProject</pre><a class="headerlink" href="#launchsynthvivadoproject" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u> </p>
 <p>Осуществляет подготовку и запуск проекта на синтез. Принимает в качестве зависимостей целевой файл проекта и перечень исходных файлов, который может быть представлен в виде строки с именами файлов, разделёнными пробелом, либо в виде списка. Запускает билдер <code>SynthVivadoProject</code>.</p>
 <p>Пример использования:</p>
@@ -695,11 +695,11 @@
 </span><span id="__span-21-8"><a href="#__codelineno-21-8" id="__codelineno-21-8" name="__codelineno-21-8"></a><span class="n">SynthVivadoProject</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchSynthVivadoProject</span><span class="p">(</span><span class="n">VivadoProject</span><span class="p">,</span> <span class="n">syn_deps</span><span class="p">)</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="implvivadoproject"><pre>ImplVivadoProject</pre></h3>
+<h5 id="implvivadoproject"><pre>ImplVivadoProject</pre><a class="headerlink" href="#implvivadoproject" title="Permanent link">🔗</a></h5>
 <p><u>True builder</u></p>
 <p>Производит этапы размещения и разводки проекта (place and route). Целевым файлом является битстрим <code>&lt;project name&gt;.runs/impl_1/&lt;top level&gt;.bit</code></p>
 <hr/>
-<h3 id="launchimplvivadoproject"><pre>LaunchImplVivadoProject</pre></h3>
+<h5 id="launchimplvivadoproject"><pre>LaunchImplVivadoProject</pre><a class="headerlink" href="#launchimplvivadoproject" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u> </p>
 <p>Выполняет формирование целевого пути и запускает билдер <code>ImplVivadoProject</code>.</p>
 <p>Пример использования:</p>
@@ -707,11 +707,11 @@
 </span><span id="__span-22-2"><a href="#__codelineno-22-2" id="__codelineno-22-2" name="__codelineno-22-2"></a><span class="n">ImplVivadoProject</span>  <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchImplVivadoProject</span><span class="p">(</span><span class="n">SynthVivadoProject</span><span class="p">)</span>
 </span></code></pre></div>
 <hr/>
-<h3 id="openvivadoproject"><pre>OpenVivadoProject</pre></h3>
+<h5 id="openvivadoproject"><pre>OpenVivadoProject</pre><a class="headerlink" href="#openvivadoproject" title="Permanent link">🔗</a></h5>
 <p><u>True builder</u></p>
 <p>Запускает САПР <strong>Vivado</strong> в графическом режиме с переходом в директорию проекта и загрузкой проекта. При этом проверяются зависимости и при необходимости выполняется сборка по всей цепочке. Типовой сценарий построен так, что при запуске проекта в графическом режиме проверяется актуальность целевого файла проекта и целевых файлов синтезированных IP ядер. Смысл этого в том, чтобы когда проект запущен в графическом режиме, все "пререквизиты" (проект и IP ядра)  были в актуальном состоянии, и пользователь сразу мог приступить к синтезу проекта, не ожидая завершение посторонних заданий (которые в том числе "засоряют" лог сообщений), и, самое главное, чтобы всё требуемое было в актуальном состоянии, чтобы пользователю не нужно было следить за этим, поменяв тот или иной параметр <a href="../Build-Variants">сборочного варианта</a>.</p>
 <hr/>
-<h3 id="launchopenvivadoproject"><pre>LaunchOpenVivadoProject</pre></h3>
+<h5 id="launchopenvivadoproject"><pre>LaunchOpenVivadoProject</pre><a class="headerlink" href="#launchopenvivadoproject" title="Permanent link">🔗</a></h5>
 <p><u>Pseudo-builder</u> </p>
 <p>Запускает билдер <code>OpenVivadoProject</code> с фиктивной целью, что вынуждает билдер всегда включать цель в граф зависимостей как находящуюся в неактуальном состоянии.</p>
 <p>Пример использования:</p>

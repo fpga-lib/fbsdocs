@@ -64,9 +64,25 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal current" href="./">Simple</a>
 <ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="#features">Features</a>
+<li class="toctree-l2"><a class="reference internal" href="#_2">Общие сведения</a>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#usage-expamples">Usage expamples</a>
+<li class="toctree-l2"><a class="reference internal" href="#_3">Использование</a>
+<ul>
+<li class="toctree-l3"><a class="reference internal" href="#_4">Примеры команд</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#_5">Показать справку по целям</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#vivado">Создать проект Vivado</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#7a50t">Синтезировать проект для варианта 7A50T</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#7a35t">Открыть проект для варианта 7A35T</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#_6">Компилировать рабочую библиотеку симулятора (цель по умолчанию)</a>
+</li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 </li>
@@ -94,52 +110,42 @@
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
-<h3 id="vivado-boilerplate">vivado-boilerplate<a class="headerlink" href="#vivado-boilerplate" title="Permanent link">🔗</a></h3>
-<p>This is an <a href="https://github.com/fpga-lib/vivado-boilerplate">example project</a> to demonstrate features of SCons-based build system for FPGA. <strong>Xilinx Vivado</strong> and <strong>Mentor Questa</strong> are supported for now.</p>
-<h4 id="features">Features<a class="headerlink" href="#features" title="Permanent link">🔗</a></h4>
+<h1 id="_1">Простой пример<a class="headerlink" href="#_1" title="Permanent link">🔗</a></h1>
+<h2 id="_2">Общие сведения<a class="headerlink" href="#_2" title="Permanent link">🔗</a></h2>
+<p>Пример содержит три сборочных варианта (СО) для трёх аппаратных платформ, являющихся отладочными платами <strong>Xilinx</strong>:</p>
 <ul>
-<li>Unified configuration subsystem based on <a href="https://en.wikipedia.org/wiki/YAML">YAML format</a>.</li>
-<li>Arbitrary count of build variants (this example project offers three build variants for AC701,
-  7A35T and 7A50T evaluation boards).</li>
-<li>Fully customizable project layout and build scenarios with construction environment variables and
-  reach set of builders.</li>
-<li>Many different targets such as:<ul>
-<li>IP Create Scripts.</li>
-<li>IP Synthesize Scripts.</li>
-<li>Create IPs.                                                  </li>
-<li>Out-of-context synthesis of IPs.</li>
-<li>Create IP simulation library scripts.</li>
-<li>Compile IP simulation library.</li>
-<li>Generate HDL headers files with specified parameters.</li>
-<li>Generate Tcl scripts with specified parameters.</li>
-<li>Compile work library.</li>
-<li>Launch <strong>Questa</strong> GUI in destination dir with tool script loaded.</li>
-<li>Launch simulation run in non-GUI mode (console run).</li>
-<li>Create <strong>Vivado</strong> Project accoring to specified parameters.</li>
-<li>Synthesize <strong>Vivado</strong> Project in non-GUI (console) mode.</li>
-<li>Implement <strong>Vivado</strong> Project in non-GUI (console) mode.</li>
-<li>Open <strong>Vivado</strong> Project in GUI mode.</li>
+<li>7A35T.</li>
+<li>7A50T.</li>
+<li>AC701.</li>
 </ul>
-</li>
-<li>All targets are built by dependencies.</li>
-<li>Convenient help info (command line option <code>-h</code>)</li>
-<li>Comprehensive debug features (options --debug=exlplain, --tree=all, etc).</li>
-</ul>
-<h4 id="usage-expamples">Usage expamples<a class="headerlink" href="#usage-expamples" title="Permanent link">🔗</a></h4>
-<p>Commands can be invoked from any directory within project directory tree.</p>
-<p>Display available targets:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>scons -s -D -h
+<p>Все три СО одинаковы за исключением настроек, касающихся целевых плат – констрейны размещения, параметры тактирования – значение опорной тактовой частоты, дифференциальное подключение тактового генератора или нет, и т.д.</p>
+<p>Исходный код примера доступен по <a href="https://github.com/fpga-lib/vivado-boilerplate">по ссылке</a>.</p>
+<p><br/></p>
+<div class="admonition tip">
+<p class="admonition-title">СОВЕТ</p>
+<p>Данный пример демонстрирует возможности системы сборки непосредственным образом и может использоваться как шаблон для начала работы с рабочими проектами. Однако существует более <a href="../Advanced-Example">развитый подход к организации сборочного процесса</a>, и именно он рекомендуется как отправная точка. </p>
+</div>
+<h2 id="_3">Использование<a class="headerlink" href="#_3" title="Permanent link">🔗</a></h2>
+<p>Запуск на сборку осуществляется с помощью команды <code>scons [options] variant=&lt;variant-name&gt; [target]</code> из корневой директории проекта (там, где расположен файл <code>SConstruct</code>) или из любого места дерева проекта при указанной опции <code>-D</code>.</p>
+<h3 id="_4">Примеры команд<a class="headerlink" href="#_4" title="Permanent link">🔗</a></h3>
+<h5 id="_5">Показать справку по целям<a class="headerlink" href="#_5" title="Permanent link">🔗</a></h5>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>scons -s -D variant=ac701 -h
 </span></code></pre></div>
-<p>Create Vivado project:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>scons -s -D prj
+<h5 id="vivado">Создать проект Vivado<a class="headerlink" href="#vivado" title="Permanent link">🔗</a></h5>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>scons -s -D variant=ac701 prj
 </span></code></pre></div>
-<p>Synthesize <strong>Vivado</strong> project for variant 7A50T:</p>
+<p>Будет создан проект <strong>Vivado</strong>, предварительно сгенерированы IP ядра с последующим добавлением в проект.</p>
+<h5 id="7a50t">Синтезировать проект для варианта 7A50T<a class="headerlink" href="#7a50t" title="Permanent link">🔗</a></h5>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>scons -s -D variant=7a50t prjsyn
 </span></code></pre></div>
-<p>Compile simulator work library (this is a default target):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>scons -s -D
+<h5 id="7a35t">Открыть проект для варианта 7A35T<a class="headerlink" href="#7a35t" title="Permanent link">🔗</a></h5>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>scons -s -D bv=7a35t prjopen
 </span></code></pre></div>
-<p>Changing any parameter file that is a dependency for some target[s] raises rebuild for all targes in dependency chain.</p>
+<p>Здесь попутно будут синтезированы IP ядра, т.к. после открытия проекта в <strong>Vivad</strong> можно сразу приступать к синтезу непосредственно проекта. Для выбора варианта тут используется аргумент <code>bv</code> вместо <code>variant</code>, они являются синонимами.</p>
+<h5 id="_6">Компилировать рабочую библиотеку симулятора (цель по умолчанию)<a class="headerlink" href="#_6" title="Permanent link">🔗</a></h5>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>scons -s -D bv=7a35t
+</span></code></pre></div>
+<p>Цель по умолчанию <code>wlib</code>, её указание можно опустить. По умолчанию выбрана эта цель, т.к. её запуск является самым частым – это быстрый и удобный способ проверить исходный HDL код на синтаксическую правильность, а так же компиляция рабочей библиотеки требуется при отладке в симуляторе.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">

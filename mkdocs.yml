@@ -34,7 +34,7 @@ extra_javascript:
 markdown_extensions:
     - toc:
         permalink: "🔗"
-        baselevel: 3
+        baselevel: 1
     - admonition
     - mdx_math
     - pymdownx.highlight:

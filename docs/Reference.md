@@ -8,8 +8,8 @@
 
 ## Contents
 
-### [Tool 'vivado'](../Tool-Vivado)
-### [Tool 'questa'](../Tool-Questa)
+### [Tool vivado](../Tool-Vivado)
+### [Tool questa](../Tool-Questa)
 ### [Service API](../Service-API)
 
 

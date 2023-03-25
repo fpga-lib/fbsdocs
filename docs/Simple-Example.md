@@ -1,59 +1,60 @@
-# vivado-boilerplate
+# Простой пример
 
-This is an [example project](https://github.com/fpga-lib/vivado-boilerplate) to demonstrate features of SCons-based build system for FPGA. **Xilinx Vivado** and **Mentor Questa** are supported for now.
+## Общие сведения
 
-## Features
-* Unified configuration subsystem based on [YAML format](https://en.wikipedia.org/wiki/YAML).
-* Arbitrary count of build variants (this example project offers three build variants for AC701,
-  7A35T and 7A50T evaluation boards).
-* Fully customizable project layout and build scenarios with construction environment variables and
-  reach set of builders.
-* Many different targets such as:
-    * IP Create Scripts.
-    * IP Synthesize Scripts.
-    * Create IPs.                                                  
-    * Out-of-context synthesis of IPs.
-    * Create IP simulation library scripts.
-    * Compile IP simulation library.
-    * Generate HDL headers files with specified parameters.
-    * Generate Tcl scripts with specified parameters.
-    * Compile work library.
-    * Launch **Questa** GUI in destination dir with tool script loaded.
-    * Launch simulation run in non-GUI mode (console run).
-    * Create **Vivado** Project accoring to specified parameters.
-    * Synthesize **Vivado** Project in non-GUI (console) mode.
-    * Implement **Vivado** Project in non-GUI (console) mode.
-    * Open **Vivado** Project in GUI mode.
-* All targets are built by dependencies.
-* Convenient help info (command line option `-h`)
-* Comprehensive debug features (options --debug=exlplain, --tree=all, etc).
+Пример содержит три сборочных варианта (СО) для трёх аппаратных платформ, являющихся отладочными платами **Xilinx**:
 
-## Usage expamples
+* 7A35T.
+* 7A50T.
+* AC701.
 
-Commands can be invoked from any directory within project directory tree.
+Все три СО одинаковы за исключением настроек, касающихся целевых плат&nbsp;– констрейны размещения, параметры тактирования&nbsp;– значение опорной тактовой частоты, дифференциальное подключение тактового генератора или нет, и т.д.
 
-Display available targets:
+Исходный код примера доступен по [по ссылке](https://github.com/fpga-lib/vivado-boilerplate).
+
+<br>
+!!! tip "СОВЕТ"
+
+    Данный пример демонстрирует возможности системы сборки непосредственным образом и может использоваться как шаблон для начала работы с рабочими проектами. Однако существует более [развитый подход к организации сборочного процесса](../Advanced-Example), и именно он рекомендуется как отправная точка. 
+
+## Использование
+
+Запуск на сборку осуществляется с помощью команды `scons [options] variant=<variant-name> [target]` из корневой директории проекта (там, где расположен файл `SConstruct`) или из любого места дерева проекта при указанной опции `-D`.
+
+### Примеры команд
+
+##### Показать справку по целям
 
 ```
-scons -s -D -h
+scons -s -D variant=ac701 -h
 ```
 
-Create Vivado project:
+##### Создать проект Vivado
 
 ```
-scons -s -D prj
+scons -s -D variant=ac701 prj
 ```
 
-Synthesize **Vivado** project for variant 7A50T:
+Будет создан проект **Vivado**, предварительно сгенерированы IP ядра с последующим добавлением в проект.
+
+##### Синтезировать проект для варианта 7A50T
 
 ```
 scons -s -D variant=7a50t prjsyn
 ```
 
-Compile simulator work library (this is a default target):
+##### Открыть проект для варианта 7A35T
 
 ```
-scons -s -D
+scons -s -D bv=7a35t prjopen
 ```
 
-Changing any parameter file that is a dependency for some target[s] raises rebuild for all targes in dependency chain.
+Здесь попутно будут синтезированы IP ядра, т.к. после открытия проекта в **Vivad** можно сразу приступать к синтезу непосредственно проекта. Для выбора варианта тут используется аргумент `bv` вместо `variant`, они являются синонимами.
+
+#####  Компилировать рабочую библиотеку симулятора (цель по умолчанию)
+
+```
+scons -s -D bv=7a35t
+```
+
+Цель по умолчанию `wlib`, её указание можно опустить. По умолчанию выбрана эта цель, т.к. её запуск является самым частым&nbsp;– это быстрый и удобный способ проверить исходный HDL код на синтаксическую правильность, а так же компиляция рабочей библиотеки требуется при отладке в симуляторе.

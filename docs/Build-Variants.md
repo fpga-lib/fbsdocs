@@ -87,8 +87,8 @@ package cfg_params_pkg;
     ...
     localparam int    REF_CLK               = 100;
     localparam int    MAIN_CLK              = 125;
-    localparam string REF_CLK_PERIOD        = "10.0";
-    localparam string REF_CLK_HALF_PERIOD   = "5.0";
+    localparam string REF_CLK_PERIOD        = "10.0ns";
+    localparam string REF_CLK_HALF_PERIOD   = "5.0ns";
     ...
 
 endpackage : cfg_params_pkg_pkg

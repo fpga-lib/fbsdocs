@@ -45,13 +45,13 @@
 
 Для облегчения старта предлагается простой [проект-шаблон](Simple-Example), содержащий примеры использования системы сборки в виде трёх сборочных вариантов (по названиям отладочных плат). Для установки на локальный компьютер можно поступить следующим образом:
 
-```
+```shell
 git clone --recursive https://github.com/fpga-lib/vivado-boilerplate.git
 ```
 
 либо
 
-```
+```shell
 git clone --branch=<branch-name> https://github.com/fpga-lib/vivado-boilerplate.git
 git submodule update --init --recursive
 ```

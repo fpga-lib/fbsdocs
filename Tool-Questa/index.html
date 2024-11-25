@@ -288,7 +288,7 @@
 <tr>
 <td><code>BUILD_SIM_PATH</code></td>
 <td>Путь, по которому формируется<br/> исполнительное окружение для<br/> выполнения задач моделирова-<br/>ния</td>
-<td><code>os.path.join(root_dir, 'build', os.path.basename(cfg_name), 'sim')</code></td>
+<td><code>os.path.join(env['BUILD_PATH'], 'sim')</code></td>
 </tr>
 </tbody>
 </table>

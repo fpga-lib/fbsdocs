@@ -20,15 +20,20 @@ envx['XILINX_HLS']                = env.XILINX_HLS
 envx['QUESTABIN']                 = env.QUESTABIN
 envx['QUESTASIM']                 = env.QUESTASIM
 envx['VENDOR_LIB_PATH']           = env.VENDOR_LIB_PATH
+
+envx['ROOT_PATH']                 = dirs.ROOT
+envx['BUILD_PATH']                = dirs.BUILD
+
 ```
 
-где `env` — объект с параметрами, получаемый:
+где `env` и `dirs` — объекты с параметрами, получаемые:
 
 ```python
-env = import_config('env.yml')
+env  = import_config('env.yml')
+dirs = import_config('dirpath.yml')
 ```
 
-а конфигурационный файл `env.yml` представляет собой нечто подобное:
+а конфигурационные файлы `env.yml` и `dirpath` представляют собой нечто подобное:
 
 ```yaml
 #
@@ -53,7 +58,32 @@ parameters:
     VENDOR_LIB_PATH     : = os.path.join(MENTOR, 'vendor', VENDOR_LIB_NAME, 'func')
 ```
 
-Из описанных переменных окружения далее строятся все пути к исполняемым файлам внешних инструментов.
+```yaml
+#
+#   dirpath.yml
+#
+import : main
+
+options:
+    suffix    : _DIR
+
+parameters:
+    ROOT           : = os.path.abspath(str(Dir('#')))
+    LIB            : = os.path.join(ROOT,   'lib')
+    SRC            : = os.path.join(ROOT,   'src')
+    COMMON         : = os.path.join(SRC,    'cfg', 'common')
+    CFG            : = os.path.join(SRC,    'cfg', main.VARIANT_NAME)
+    SCRIPT         : = os.path.join(CFG,    'script')
+    SRC_SYN        : = os.path.join(SRC,    'pl', 'syn')
+    SRC_SIM        : = os.path.join(SRC,    'pl', 'sim')
+    CFG_LOCAL      : = os.path.join(CFG,    'env')
+    CFG_COMMON     : = os.path.join(COMMON, 'env')
+    SCRIPT_COMMON  : = os.path.join(COMMON, 'script')
+    BUILD          : = os.path.join(ROOT,   'build', main.VARIANT_NAME)
+
+```
+
+Из описанных переменных окружения далее формируются пути к исполняемым файлам внешних инструментов и строится структура файлов и директорий для синтезатора и симулятора.
 
 ```python
 #-------------------------------------------------------------------------------
@@ -64,10 +94,35 @@ parameters:
 VIVADO = os.path.join(env['XILINX_VIVADO'], 'bin', 'vivado')
 HLS    = os.path.join(env['XILINX_HLS'], 'bin', 'vitis_hls')
 ...
+env['BUILD_SYN_PATH'] = os.path.join(env['BUILD_PATH'], 'syn')
+...
+```
+```python
+#-------------------------------------------------------------------------------
+#
+#    Tool 'questa'
+#
+...
+env['VLOGCOM']        = os.path.join(env['QUESTABIN'], 'vlog')
+env['VCOMCOM']        = os.path.join(env['QUESTABIN'], 'vcom')
+env['VLIBCOM']        = os.path.join(env['QUESTABIN'], 'vlib')
+env['VMAPCOM']        = os.path.join(env['QUESTABIN'], 'vmap')
+env['VSIMCOM']        = os.path.join(env['QUESTABIN'], 'vsim')
+...
+env['BUILD_SIM_PATH'] = os.path.join(env['BUILD_PATH'], 'sim')
+env['SIM_CMD_SCRIPT'] = os.path.join(env['ROOT_PATH'], 'site_scons', 'site_tools', 'questa.tcl' )
+...
 ```
 
+!!! info "**ЗАМЕЧАНИЕ**"
 
+    Переменная `envx['BUILD_PATH']` задаёт базовый путь для текущей сборки&nbsp;– место, где создаются все продукты генерации, начиная от генерируемых исходных и заголовочных файлов и заканчивая проектом синтезатора, скриптами симулятора и т.п. 
 
+    Как правило, значение этой переменной связано с именем сборочного варианта&nbsp;– так проще избежать путаницы: все продукты генерации, компиляции, симуляции, синтеза и т.д. воздаются в директории с тем же именем, что и имя сборочного варианта, включая относительный путь. 
+
+    Однако, существует возможность указать любой произвольный путь для целевой сборки, определив переменную сборочного окружения `envx['BUILD_PATH']` соответствующим образом. Это позволяет, в частности, генерировать разные целевые сборки из одного и того же сборочного варианта, указав, например, разные параметры сборки (через аргументы командной строки), и, что крайне важно, такой подход **позволяет запускать эти сборки параллельно**. 
+
+    Возможность запускать сборки параллельно актуальна при прогоне тестов на симуляторе: можно запустить несколько длительных тестов из одного и того же сборочного варианта, указав параметром разные пути к исходным файлам тестов. За счёт многоядерности современных процессоров достигается существенная экономия времени тестирования.
 
 ### Переменные общего назначения
 
@@ -92,13 +147,12 @@ HLS    = os.path.join(env['XILINX_HLS'], 'bin', 'vitis_hls')
 
 Name            | Description                            | Default Value
 ----------------|----------------------------------------|-----
-`ROOT_PATH` | Корневая директория проекта | `os.path.abspath(str(Dir('#')))`
 `CFG_PATH` | Директория текущего сборочного<br> варианта | `os.path.abspath(os.curdir)`
 `CONFIG_SEARCH_PATH` | Список путей, по которым<br> осуществляется поиск конфи-<br>гурационных файлов во время <br>работы сканера (обработка <br>секции `import` в конфигу-<br>рационных файлах) |`env['CFG_PATH']`
-`BUILD_SRC_PATH` | Директория, куда помещаются <br>сгенерированные исходные файлы <br>(\*.svh, \*.tcl) | `os.path.join(root_dir, 'build', os.path.basename(cfg_name), 'src')`
-`BUILD_SYN_PATH` | Директория, в которой создаётся<br> исполнительное окружение <br>для синтеза (проект, IP ядра и т.п.) | `os.path.join(root_dir, 'build', os.path.basename(cfg_name), 'syn')`
+`BUILD_SRC_PATH` | Директория, куда помещаются <br>сгенерированные исходные файлы <br>(\*.svh, \*.tcl) | `os.path.join(env['BUILD_PATH'], 'src')`
+`BUILD_SYN_PATH` | Директория, в которой создаётся<br> исполнительное окружение <br>для синтеза (проект, IP ядра и т.п.) | `os.path.join(env['BUILD_PATH'], 'syn')`
 `IP_OOC_PATH` | Директория для IP ядер, скриптов, <br>библиотеки симуляционных <br>моделей | `os.path.join(env['BUILD_SYN_PATH'], 'ip_ooc')`
-`BD_OOC_PATH` | Директория для блочных дизайнов, <br>создаваемых out-of-context | `os.path.join(root_dir, 'build', build_variant, 'bd')`
+`BD_OOC_PATH` | Директория для блочных дизайнов, <br>создаваемых out-of-context | `os.path.join(env['BUILD_PATH'], 'bd')`
 `BUILD_HLS_PATH` | Директория для создания проектов<br> HLS, скриптов их создания и компи-<br>ляции и репозитория целевых IP <br>ядер | `os.path.join(env['BUILD_SYN_PATH'], 'hls')`
 `INC_PATH` | Список путей, в которых произво-<br>дится поиск включаемых файлов. <br>Поиск автоматически выполняется<br> в директориях, где расположены<br> исходные файлы, и `INC_PATH` <br>дополняет этот список элементами,<br> в которых исходных файлов нет,<br> но есть включаемые —<br> например, `BUILD_SRC_PATH` | `''`
 `IP_SCRIPT_DIRNAME`     | Имя директории, в которую поме-<br>щаются скрипты для обслужива-<br>ния IP ядер. Сама директория <br>располагается в `IP_OOC_PATH`  | `'_script'`

@@ -126,7 +126,7 @@ Name                 | Description                            | Default value
 `SIMLIB_PATH`          | Путь до директории для библи-<br>отек симуляционных моделей IP <br>ядер, блочных дизайнов и т.п.| `os.path.join(env['BUILD_SYN_PATH'], env['SIMLIB_NAME'])`
 `SIM_WORKLIB_NAME`     | Имя рабочей библиотеки | `'wlib'`
 `SIM_INC_PATH`         | Список путей поиска заголовоч-<br>ных файлов при запуске симуля-<br>тора | `''`
-`BUILD_SIM_PATH`       | Путь, по которому формируется<br> исполнительное окружение для<br> выполнения задач моделирова-<br>ния | `os.path.join(root_dir, 'build', os.path.basename(cfg_name), 'sim')`
+`BUILD_SIM_PATH`       | Путь, по которому формируется<br> исполнительное окружение для<br> выполнения задач моделирова-<br>ния | `os.path.join(env['BUILD_PATH'], 'sim')`
 
 
 ### Внешние инструменты

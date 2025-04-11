@@ -1,267 +1,273 @@
 <!DOCTYPE html>
-
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" >
 <head>
-<meta charset="utf-8"/>
-<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<link href="../img/favicon.ico" rel="shortcut icon"/>
-<title>Tool Vivado - FPGA Build System</title>
-<link href="../css/theme.css" rel="stylesheet"/>
-<link href="../css/theme_extra.css" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" rel="stylesheet"/>
-<link href="../extra.css" rel="stylesheet"/>
-<script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Tool Vivado - FPGA Build System</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+    
+      <script>
         // Current page data
         var mkdocs_page_name = "Tool Vivado";
         var mkdocs_page_input_path = "Tool-Vivado.md";
         var mkdocs_page_url = null;
       </script>
-<!--[if lt IE 9]>
+    
+    <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
     <![endif]-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
-<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-            html.glightbox-open { overflow: initial; height: 100%; }
-            .gslide-title { margin-top: 0px; user-select: text; }
-            .gslide-desc { color: #666; user-select: text; }
-            .gslide-image img { background: white; }
-            </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+ <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+
 <body class="wy-body-for-nav" role="document">
-<div class="wy-grid-for-nav">
-<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
-<div class="wy-side-scroll">
-<div class="wy-side-nav-search">
-<a class="icon icon-home" href=".."> FPGA Build System
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> FPGA Build System
         </a><div role="search">
-<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input aria-label="Search docs" name="q" placeholder="Search docs" title="Type search term here" type="text"/>
-</form>
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
 </div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Build System</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="..">General</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Build-Variants/">Build Variants</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Build-Scripts/">Build Scripts</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Advanced-Topics/">Advanced Topics</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../Reference/">Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Service-API/">Service API</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Tool Vivado</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#environment-variables">Environment variables</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_1">Переменные общего назначения</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">Директории и пути</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">Расширения файлов</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#builders">Builders</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#ipcreatescript">IpCreateScript</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ipcreatescripts">IpCreateScripts</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ipsynscript">IpSynScript</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ipsynscripts">IpSynScripts</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ipcreate">IpCreate</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#createips">CreateIps</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ipsyn">IpSyn</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#synips">SynIps</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#bdcreate">BdCreate</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#createoocbd">CreateOocBd</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hlscsynthscript">HlsCSynthScript</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#createhlscsynthscript">CreateHlsCSynthScript</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hlscsynth">HlsCSynth</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#launchhlscsynth">LaunchHlsCSynth</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hlsipsynscripts">HlsIpSynScripts</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cfgparamsheader">CfgParamsHeader</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#createcfgparamsheader">CreateCfgParamsHeader</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cfgparamstcl">CfgParamsTcl</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#createcfgparamstcl">CreateCfgParamsTcl</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#vivadoproject">VivadoProject</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#createvivadoproject">CreateVivadoProject</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#synthvivadoproject">SynthVivadoProject</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#launchsynthvivadoproject">LaunchSynthVivadoProject</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#implvivadoproject">ImplVivadoProject</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#launchimplvivadoproject">LaunchImplVivadoProject</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#openvivadoproject">OpenVivadoProject</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#launchopenvivadoproject">LaunchOpenVivadoProject</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Tool-Questa/">Tool Questa</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Examples</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Simple-Example/">Simple</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Advanced-Example/">Advandced</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">FPGA Build System</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+      <li class="breadcrumb-item active">Tool Vivado</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
 </div>
-<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<p class="caption"><span class="caption-text">Build System</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="..">General</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../Build-Variants/">Build Variants</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../Build-Scripts/">Build Scripts</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../Advanced-Topics/">Advanced Topics</a>
-</li>
-</ul>
-<p class="caption"><span class="caption-text">Reference</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../Reference/">Reference</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../Service-API/">Service API</a>
-</li>
-<li class="toctree-l1 current"><a class="reference internal current" href="#">Tool Vivado</a>
-<ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="#environment-variables">Environment variables</a>
-<ul>
-<li class="toctree-l3"><a class="reference internal" href="#_1">Переменные общего назначения</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#_2">Директории и пути</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#_3">Расширения файлов</a>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#builders">Builders</a>
-<ul>
-<li class="toctree-l3"><a class="reference internal" href="#ipcreatescript">IpCreateScript</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#ipcreatescripts">IpCreateScripts</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#ipsynscript">IpSynScript</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#ipsynscripts">IpSynScripts</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#ipcreate">IpCreate</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#createips">CreateIps</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#ipsyn">IpSyn</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#synips">SynIps</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#bdcreate">BdCreate</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#createoocbd">CreateOocBd</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#hlscsynthscript">HlsCSynthScript</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#createhlscsynthscript">CreateHlsCSynthScript</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#hlscsynth">HlsCSynth</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#launchhlscsynth">LaunchHlsCSynth</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#hlsipsynscripts">HlsIpSynScripts</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#cfgparamsheader">CfgParamsHeader</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#createcfgparamsheader">CreateCfgParamsHeader</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#cfgparamstcl">CfgParamsTcl</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#createcfgparamstcl">CreateCfgParamsTcl</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#vivadoproject">VivadoProject</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#createvivadoproject">CreateVivadoProject</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#synthvivadoproject">SynthVivadoProject</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#launchsynthvivadoproject">LaunchSynthVivadoProject</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#implvivadoproject">ImplVivadoProject</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#launchimplvivadoproject">LaunchImplVivadoProject</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#openvivadoproject">OpenVivadoProject</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#launchopenvivadoproject">LaunchOpenVivadoProject</a>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../Tool-Questa/">Tool Questa</a>
-</li>
-</ul>
-<p class="caption"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../Simple-Example/">Simple</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../Advanced-Example/">Advandced</a>
-</li>
-</ul>
-</div>
-</div>
-</nav>
-<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
-<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
-<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
-<a href="..">FPGA Build System</a>
-</nav>
-<div class="wy-nav-content">
-<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
-<ul class="wy-breadcrumbs">
-<li><a aria-label="Docs" class="icon icon-home" href=".."></a></li>
-<li class="breadcrumb-item">Reference</li>
-<li class="breadcrumb-item active">Tool Vivado</li>
-<li class="wy-breadcrumbs-aside">
-</li>
-</ul>
-<hr/>
-</div>
-<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
-<div class="section" itemprop="articleBody">
-<h1 id="tool-vivado">Tool vivado<a class="headerlink" href="#tool-vivado" title="Permanent link">🔗</a></h1>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="tool-vivado">Tool vivado<a class="headerlink" href="#tool-vivado" title="Permanent link">🔗</a></h1>
 <h2 id="environment-variables">Environment variables<a class="headerlink" href="#environment-variables" title="Permanent link">🔗</a></h2>
 <p>Переменные сборочного и исполнительного окружения удобно задать в сборочном скрипте:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1">#-------------------------------------------------------------------------------</span>
-</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="c1">#</span>
-</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="c1">#    Environment</span>
-</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1">#</span>
-</span><span id="__span-0-5"><a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'DISPLAY'</span><span class="p">]</span>            <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'DISPLAY'</span><span class="p">]</span>
-</span><span id="__span-0-6"><a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'HOME'</span><span class="p">]</span>               <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'HOME'</span><span class="p">]</span>
-</span><span id="__span-0-7"><a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'XILINX'</span><span class="p">]</span>             <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX</span>
-</span><span id="__span-0-8"><a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'MENTOR'</span><span class="p">]</span>             <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">MENTOR</span>
-</span><span id="__span-0-9"><a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'MGLS_LICENSE_FILE'</span><span class="p">]</span>  <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">MGLS_LICENSE_FILE</span>
-</span><span id="__span-0-10"><a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ENV'</span><span class="p">][</span><span class="s1">'XILINX_VIVADO'</span><span class="p">]</span>      <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX_VIVADO</span>
-</span><span id="__span-0-11"><a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'XILINX_VIVADO'</span><span class="p">]</span>             <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX_VIVADO</span>
-</span><span id="__span-0-12"><a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'XILINX_HLS'</span><span class="p">]</span>                <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX_HLS</span>
-</span><span id="__span-0-13"><a href="#__codelineno-0-13" id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'QUESTABIN'</span><span class="p">]</span>                 <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">QUESTABIN</span>
-</span><span id="__span-0-14"><a href="#__codelineno-0-14" id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'QUESTASIM'</span><span class="p">]</span>                 <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">QUESTASIM</span>
-</span><span id="__span-0-15"><a href="#__codelineno-0-15" id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'VENDOR_LIB_PATH'</span><span class="p">]</span>           <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">VENDOR_LIB_PATH</span>
-</span><span id="__span-0-16"><a href="#__codelineno-0-16" id="__codelineno-0-16" name="__codelineno-0-16"></a>
-</span><span id="__span-0-17"><a href="#__codelineno-0-17" id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'ROOT_PATH'</span><span class="p">]</span>                 <span class="o">=</span> <span class="n">dirs</span><span class="o">.</span><span class="n">ROOT</span>
-</span><span id="__span-0-18"><a href="#__codelineno-0-18" id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="n">envx</span><span class="p">[</span><span class="s1">'BUILD_PATH'</span><span class="p">]</span>                <span class="o">=</span> <span class="n">dirs</span><span class="o">.</span><span class="n">BUILD</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">#-------------------------------------------------------------------------------</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">#</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">#    Environment</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">#</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;ENV&#39;</span><span class="p">][</span><span class="s1">&#39;DISPLAY&#39;</span><span class="p">]</span>            <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;DISPLAY&#39;</span><span class="p">]</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;ENV&#39;</span><span class="p">][</span><span class="s1">&#39;HOME&#39;</span><span class="p">]</span>               <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">]</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;ENV&#39;</span><span class="p">][</span><span class="s1">&#39;XILINX&#39;</span><span class="p">]</span>             <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;ENV&#39;</span><span class="p">][</span><span class="s1">&#39;MENTOR&#39;</span><span class="p">]</span>             <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">MENTOR</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;ENV&#39;</span><span class="p">][</span><span class="s1">&#39;MGLS_LICENSE_FILE&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">MGLS_LICENSE_FILE</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;ENV&#39;</span><span class="p">][</span><span class="s1">&#39;XILINX_VIVADO&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX_VIVADO</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;XILINX_VIVADO&#39;</span><span class="p">]</span>             <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX_VIVADO</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;XILINX_HLS&#39;</span><span class="p">]</span>                <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">XILINX_HLS</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;QUESTABIN&#39;</span><span class="p">]</span>                 <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">QUESTABIN</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;QUESTASIM&#39;</span><span class="p">]</span>                 <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">QUESTASIM</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;VENDOR_LIB_PATH&#39;</span><span class="p">]</span>           <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">VENDOR_LIB_PATH</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;ROOT_PATH&#39;</span><span class="p">]</span>                 <span class="o">=</span> <span class="n">dirs</span><span class="o">.</span><span class="n">ROOT</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;BUILD_PATH&#39;</span><span class="p">]</span>                <span class="o">=</span> <span class="n">dirs</span><span class="o">.</span><span class="n">BUILD</span>
 </span></code></pre></div>
 <p>где <code>env</code> и <code>dirs</code> — объекты с параметрами, получаемые:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="n">env</span>  <span class="o">=</span> <span class="n">import_config</span><span class="p">(</span><span class="s1">'env.yml'</span><span class="p">)</span>
-</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="n">dirs</span> <span class="o">=</span> <span class="n">import_config</span><span class="p">(</span><span class="s1">'dirpath.yml'</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">env</span>  <span class="o">=</span> <span class="n">import_config</span><span class="p">(</span><span class="s1">&#39;env.yml&#39;</span><span class="p">)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">dirs</span> <span class="o">=</span> <span class="n">import_config</span><span class="p">(</span><span class="s1">&#39;dirpath.yml&#39;</span><span class="p">)</span>
 </span></code></pre></div>
 <p>а конфигурационные файлы <code>env.yml</code> и <code>dirpath</code> представляют собой нечто подобное:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1">#</span>
-</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c1">#   env.yml</span>
-</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1">#</span>
-</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="nt">parameters</span><span class="p">:</span>
-</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">    </span><span class="nt">XILINX              </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.environ['XILINX']</span>
-</span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">    </span><span class="nt">MENTOR              </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.environ['MENTOR']</span>
-</span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a>
-</span><span id="__span-2-8"><a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">    </span><span class="nt">XILINX_TOOL_VERSION </span><span class="p">:</span><span class="w"> </span><span class="s">'2021.2'</span>
-</span><span id="__span-2-9"><a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">    </span><span class="nt">QUESTA_TOOL_VERSION </span><span class="p">:</span><span class="w"> </span><span class="s">'2021.1'</span>
-</span><span id="__span-2-10"><a href="#__codelineno-2-10" id="__codelineno-2-10" name="__codelineno-2-10"></a>
-</span><span id="__span-2-11"><a href="#__codelineno-2-11" id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">    </span><span class="nt">XILINX_VIVADO       </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(XILINX, 'Vivado', XILINX_TOOL_VERSION)</span>
-</span><span id="__span-2-12"><a href="#__codelineno-2-12" id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="w">    </span><span class="nt">XILINX_HLS          </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(XILINX, 'Vitis_HLS', XILINX_TOOL_VERSION)</span>
-</span><span id="__span-2-13"><a href="#__codelineno-2-13" id="__codelineno-2-13" name="__codelineno-2-13"></a>
-</span><span id="__span-2-14"><a href="#__codelineno-2-14" id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">    </span><span class="nt">MGLS_LICENSE_FILE   </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(MENTOR, 'license.dat')</span>
-</span><span id="__span-2-15"><a href="#__codelineno-2-15" id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">    </span><span class="nt">QUESTABASE          </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(MENTOR, QUESTA_TOOL_VERSION, 'questasim')</span>
-</span><span id="__span-2-16"><a href="#__codelineno-2-16" id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="w">    </span><span class="nt">QUESTABIN           </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(QUESTABASE, 'bin')</span>
-</span><span id="__span-2-17"><a href="#__codelineno-2-17" id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="w">    </span><span class="nt">QUESTASIM           </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(QUESTABASE, 'linux_x86_64', 'vsim')</span>
-</span><span id="__span-2-18"><a href="#__codelineno-2-18" id="__codelineno-2-18" name="__codelineno-2-18"></a>
-</span><span id="__span-2-19"><a href="#__codelineno-2-19" id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="w">    </span><span class="nt">VENDOR_LIB_NAME     </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= 'xlib-vv' + XILINX_TOOL_VERSION + '-qs' + QUESTA_TOOL_VERSION</span>
-</span><span id="__span-2-20"><a href="#__codelineno-2-20" id="__codelineno-2-20" name="__codelineno-2-20"></a><span class="w">    </span><span class="nt">VENDOR_LIB_PATH     </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(MENTOR, 'vendor', VENDOR_LIB_NAME, 'func')</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">#</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">#   env.yml</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">#</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">XILINX              </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.environ[&#39;XILINX&#39;]</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nt">MENTOR              </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.environ[&#39;MENTOR&#39;]</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nt">XILINX_TOOL_VERSION </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;2021.2&#39;</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="nt">QUESTA_TOOL_VERSION </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;2021.1&#39;</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="nt">XILINX_VIVADO       </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(XILINX, &#39;Vivado&#39;, XILINX_TOOL_VERSION)</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="nt">XILINX_HLS          </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(XILINX, &#39;Vitis_HLS&#39;, XILINX_TOOL_VERSION)</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="nt">MGLS_LICENSE_FILE   </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(MENTOR, &#39;license.dat&#39;)</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="nt">QUESTABASE          </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(MENTOR, QUESTA_TOOL_VERSION, &#39;questasim&#39;)</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="nt">QUESTABIN           </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(QUESTABASE, &#39;bin&#39;)</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="nt">QUESTASIM           </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(QUESTABASE, &#39;linux_x86_64&#39;, &#39;vsim&#39;)</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">    </span><span class="nt">VENDOR_LIB_NAME     </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= &#39;xlib-vv&#39; + XILINX_TOOL_VERSION + &#39;-qs&#39; + QUESTA_TOOL_VERSION</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="nt">VENDOR_LIB_PATH     </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(MENTOR, &#39;vendor&#39;, VENDOR_LIB_NAME, &#39;func&#39;)</span>
 </span></code></pre></div>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1">#</span>
-</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="c1">#   dirpath.yml</span>
-</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="c1">#</span>
-</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="nt">import </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
-</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a>
-</span><span id="__span-3-6"><a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="nt">options</span><span class="p">:</span>
-</span><span id="__span-3-7"><a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">    </span><span class="nt">suffix    </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">_DIR</span>
-</span><span id="__span-3-8"><a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a>
-</span><span id="__span-3-9"><a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="nt">parameters</span><span class="p">:</span>
-</span><span id="__span-3-10"><a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">    </span><span class="nt">ROOT           </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.abspath(str(Dir('#')))</span>
-</span><span id="__span-3-11"><a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="w">    </span><span class="nt">LIB            </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(ROOT,   'lib')</span>
-</span><span id="__span-3-12"><a href="#__codelineno-3-12" id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="w">    </span><span class="nt">SRC            </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(ROOT,   'src')</span>
-</span><span id="__span-3-13"><a href="#__codelineno-3-13" id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="w">    </span><span class="nt">COMMON         </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(SRC,    'cfg', 'common')</span>
-</span><span id="__span-3-14"><a href="#__codelineno-3-14" id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="w">    </span><span class="nt">CFG            </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(SRC,    'cfg', main.VARIANT_NAME)</span>
-</span><span id="__span-3-15"><a href="#__codelineno-3-15" id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="w">    </span><span class="nt">SCRIPT         </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(CFG,    'script')</span>
-</span><span id="__span-3-16"><a href="#__codelineno-3-16" id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="w">    </span><span class="nt">SRC_SYN        </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(SRC,    'pl', 'syn')</span>
-</span><span id="__span-3-17"><a href="#__codelineno-3-17" id="__codelineno-3-17" name="__codelineno-3-17"></a><span class="w">    </span><span class="nt">SRC_SIM        </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(SRC,    'pl', 'sim')</span>
-</span><span id="__span-3-18"><a href="#__codelineno-3-18" id="__codelineno-3-18" name="__codelineno-3-18"></a><span class="w">    </span><span class="nt">CFG_LOCAL      </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(CFG,    'env')</span>
-</span><span id="__span-3-19"><a href="#__codelineno-3-19" id="__codelineno-3-19" name="__codelineno-3-19"></a><span class="w">    </span><span class="nt">CFG_COMMON     </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(COMMON, 'env')</span>
-</span><span id="__span-3-20"><a href="#__codelineno-3-20" id="__codelineno-3-20" name="__codelineno-3-20"></a><span class="w">    </span><span class="nt">SCRIPT_COMMON  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(COMMON, 'script')</span>
-</span><span id="__span-3-21"><a href="#__codelineno-3-21" id="__codelineno-3-21" name="__codelineno-3-21"></a><span class="w">    </span><span class="nt">BUILD          </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(ROOT,   'build', main.VARIANT_NAME)</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">#</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">#   dirpath.yml</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">#</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nt">import </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nt">options</span><span class="p">:</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="nt">suffix    </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">_DIR</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="nt">ROOT           </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.abspath(str(Dir(&#39;#&#39;)))</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="nt">LIB            </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(ROOT,   &#39;lib&#39;)</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="nt">SRC            </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(ROOT,   &#39;src&#39;)</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="nt">COMMON         </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(SRC,    &#39;cfg&#39;, &#39;common&#39;)</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="nt">CFG            </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(SRC,    &#39;cfg&#39;, main.VARIANT_NAME)</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">    </span><span class="nt">SCRIPT         </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(CFG,    &#39;script&#39;)</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="nt">SRC_SYN        </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(SRC,    &#39;pl&#39;, &#39;syn&#39;)</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">    </span><span class="nt">SRC_SIM        </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(SRC,    &#39;pl&#39;, &#39;sim&#39;)</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">    </span><span class="nt">CFG_LOCAL      </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(CFG,    &#39;env&#39;)</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">    </span><span class="nt">CFG_COMMON     </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(COMMON, &#39;env&#39;)</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="nt">SCRIPT_COMMON  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(COMMON, &#39;script&#39;)</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">    </span><span class="nt">BUILD          </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= os.path.join(ROOT,   &#39;build&#39;, main.VARIANT_NAME)</span>
 </span></code></pre></div>
 <p>Из описанных переменных окружения далее формируются пути к исполняемым файлам внешних инструментов и строится структура файлов и директорий для синтезатора и симулятора.</p>
-<p><div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1">#-------------------------------------------------------------------------------</span>
-</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="c1">#</span>
-</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="c1">#    Tool 'vivado'</span>
-</span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="c1">#</span>
-</span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="o">...</span>
-</span><span id="__span-4-6"><a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="n">VIVADO</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">'XILINX_VIVADO'</span><span class="p">],</span> <span class="s1">'bin'</span><span class="p">,</span> <span class="s1">'vivado'</span><span class="p">)</span>
-</span><span id="__span-4-7"><a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="n">HLS</span>    <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">'XILINX_HLS'</span><span class="p">],</span> <span class="s1">'bin'</span><span class="p">,</span> <span class="s1">'vitis_hls'</span><span class="p">)</span>
-</span><span id="__span-4-8"><a href="#__codelineno-4-8" id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="o">...</span>
-</span><span id="__span-4-9"><a href="#__codelineno-4-9" id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="n">env</span><span class="p">[</span><span class="s1">'BUILD_SYN_PATH'</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">'BUILD_PATH'</span><span class="p">],</span> <span class="s1">'syn'</span><span class="p">)</span>
-</span><span id="__span-4-10"><a href="#__codelineno-4-10" id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="o">...</span>
+<p><div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">#-------------------------------------------------------------------------------</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1">#</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1">#    Tool &#39;vivado&#39;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">#</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="o">...</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">VIVADO</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;XILINX_VIVADO&#39;</span><span class="p">],</span> <span class="s1">&#39;bin&#39;</span><span class="p">,</span> <span class="s1">&#39;vivado&#39;</span><span class="p">)</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">HLS</span>    <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;XILINX_HLS&#39;</span><span class="p">],</span> <span class="s1">&#39;bin&#39;</span><span class="p">,</span> <span class="s1">&#39;vitis_hls&#39;</span><span class="p">)</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="o">...</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">env</span><span class="p">[</span><span class="s1">&#39;BUILD_SYN_PATH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;BUILD_PATH&#39;</span><span class="p">],</span> <span class="s1">&#39;syn&#39;</span><span class="p">)</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="o">...</span>
 </span></code></pre></div>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1">#-------------------------------------------------------------------------------</span>
-</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="c1">#</span>
-</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="c1">#    Tool 'questa'</span>
-</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="c1">#</span>
-</span><span id="__span-5-5"><a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="o">...</span>
-</span><span id="__span-5-6"><a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="n">env</span><span class="p">[</span><span class="s1">'VLOGCOM'</span><span class="p">]</span>        <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">'QUESTABIN'</span><span class="p">],</span> <span class="s1">'vlog'</span><span class="p">)</span>
-</span><span id="__span-5-7"><a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="n">env</span><span class="p">[</span><span class="s1">'VCOMCOM'</span><span class="p">]</span>        <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">'QUESTABIN'</span><span class="p">],</span> <span class="s1">'vcom'</span><span class="p">)</span>
-</span><span id="__span-5-8"><a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="n">env</span><span class="p">[</span><span class="s1">'VLIBCOM'</span><span class="p">]</span>        <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">'QUESTABIN'</span><span class="p">],</span> <span class="s1">'vlib'</span><span class="p">)</span>
-</span><span id="__span-5-9"><a href="#__codelineno-5-9" id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="n">env</span><span class="p">[</span><span class="s1">'VMAPCOM'</span><span class="p">]</span>        <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">'QUESTABIN'</span><span class="p">],</span> <span class="s1">'vmap'</span><span class="p">)</span>
-</span><span id="__span-5-10"><a href="#__codelineno-5-10" id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="n">env</span><span class="p">[</span><span class="s1">'VSIMCOM'</span><span class="p">]</span>        <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">'QUESTABIN'</span><span class="p">],</span> <span class="s1">'vsim'</span><span class="p">)</span>
-</span><span id="__span-5-11"><a href="#__codelineno-5-11" id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="o">...</span>
-</span><span id="__span-5-12"><a href="#__codelineno-5-12" id="__codelineno-5-12" name="__codelineno-5-12"></a><span class="n">env</span><span class="p">[</span><span class="s1">'BUILD_SIM_PATH'</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">'BUILD_PATH'</span><span class="p">],</span> <span class="s1">'sim'</span><span class="p">)</span>
-</span><span id="__span-5-13"><a href="#__codelineno-5-13" id="__codelineno-5-13" name="__codelineno-5-13"></a><span class="n">env</span><span class="p">[</span><span class="s1">'SIM_CMD_SCRIPT'</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">'ROOT_PATH'</span><span class="p">],</span> <span class="s1">'site_scons'</span><span class="p">,</span> <span class="s1">'site_tools'</span><span class="p">,</span> <span class="s1">'questa.tcl'</span> <span class="p">)</span>
-</span><span id="__span-5-14"><a href="#__codelineno-5-14" id="__codelineno-5-14" name="__codelineno-5-14"></a><span class="o">...</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">#-------------------------------------------------------------------------------</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1">#</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1">#    Tool &#39;questa&#39;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1">#</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="o">...</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">env</span><span class="p">[</span><span class="s1">&#39;VLOGCOM&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;QUESTABIN&#39;</span><span class="p">],</span> <span class="s1">&#39;vlog&#39;</span><span class="p">)</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">env</span><span class="p">[</span><span class="s1">&#39;VCOMCOM&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;QUESTABIN&#39;</span><span class="p">],</span> <span class="s1">&#39;vcom&#39;</span><span class="p">)</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">env</span><span class="p">[</span><span class="s1">&#39;VLIBCOM&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;QUESTABIN&#39;</span><span class="p">],</span> <span class="s1">&#39;vlib&#39;</span><span class="p">)</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">env</span><span class="p">[</span><span class="s1">&#39;VMAPCOM&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;QUESTABIN&#39;</span><span class="p">],</span> <span class="s1">&#39;vmap&#39;</span><span class="p">)</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">env</span><span class="p">[</span><span class="s1">&#39;VSIMCOM&#39;</span><span class="p">]</span>        <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;QUESTABIN&#39;</span><span class="p">],</span> <span class="s1">&#39;vsim&#39;</span><span class="p">)</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="o">...</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="n">env</span><span class="p">[</span><span class="s1">&#39;BUILD_SIM_PATH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;BUILD_PATH&#39;</span><span class="p">],</span> <span class="s1">&#39;sim&#39;</span><span class="p">)</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="n">env</span><span class="p">[</span><span class="s1">&#39;SIM_CMD_SCRIPT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;ROOT_PATH&#39;</span><span class="p">],</span> <span class="s1">&#39;site_scons&#39;</span><span class="p">,</span> <span class="s1">&#39;site_tools&#39;</span><span class="p">,</span> <span class="s1">&#39;questa.tcl&#39;</span> <span class="p">)</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="o">...</span>
 </span></code></pre></div></p>
 <div class="admonition info">
 <p class="admonition-title"><strong>ЗАМЕЧАНИЕ</strong></p>
-<p>Переменная <code>envx['BUILD_PATH']</code> задаёт базовый путь для текущей сборки – место, где создаются все продукты генерации, начиная от генерируемых исходных и заголовочных файлов и заканчивая проектом синтезатора, скриптами симулятора и т.п. </p>
-<p>Как правило, значение этой переменной связано с именем сборочного варианта – так проще избежать путаницы: все продукты генерации, компиляции, симуляции, синтеза и т.д. воздаются в директории с тем же именем, что и имя сборочного варианта, включая относительный путь. </p>
+<p>Переменная <code>envx['BUILD_PATH']</code> задаёт базовый путь для текущей сборки&nbsp;– место, где создаются все продукты генерации, начиная от генерируемых исходных и заголовочных файлов и заканчивая проектом синтезатора, скриптами симулятора и т.п. </p>
+<p>Как правило, значение этой переменной связано с именем сборочного варианта&nbsp;– так проще избежать путаницы: все продукты генерации, компиляции, симуляции, синтеза и т.д. воздаются в директории с тем же именем, что и имя сборочного варианта, включая относительный путь. </p>
 <p>Однако, существует возможность указать любой произвольный путь для целевой сборки, определив переменную сборочного окружения <code>envx['BUILD_PATH']</code> соответствующим образом. Это позволяет, в частности, генерировать разные целевые сборки из одного и того же сборочного варианта, указав, например, разные параметры сборки (через аргументы командной строки), и, что крайне важно, такой подход <strong>позволяет запускать эти сборки параллельно</strong>. </p>
 <p>Возможность запускать сборки параллельно актуальна при прогоне тестов на симуляторе: можно запустить несколько длительных тестов из одного и того же сборочного варианта, указав параметром разные пути к исходным файлам тестов. За счёт многоядерности современных процессоров достигается существенная экономия времени тестирования.</p>
 </div>
@@ -277,8 +283,8 @@
 <tbody>
 <tr>
 <td><code>VIVADO_VERNUM</code></td>
-<td>Номер используемой<br/> версии САПР <strong>Vivado</strong></td>
-<td>Извлекается из <br/><code>env['XILINX_VIVADO']</code></td>
+<td>Номер используемой<br> версии САПР <strong>Vivado</strong></td>
+<td>Извлекается из <br><code>env['XILINX_VIVADO']</code></td>
 </tr>
 <tr>
 <td><code>VIVADO_PROJECT_NAME</code></td>
@@ -297,22 +303,22 @@
 </tr>
 <tr>
 <td><code>VIVADO_PROJECT_MODE</code></td>
-<td>Режим работы с САПР.<br/> В настоящее время поддерживается <br/>только Project Mode</td>
+<td>Режим работы с САПР.<br> В настоящее время поддерживается <br>только Project Mode</td>
 <td><code>True</code></td>
 </tr>
 <tr>
 <td><code>SYNCOM</code></td>
-<td>Команда запуска САПР в пакетном<br/> режиме</td>
+<td>Команда запуска САПР в пакетном<br> режиме</td>
 <td><code>VIVADO + ' -mode batch'</code></td>
 </tr>
 <tr>
 <td><code>SYNSHELL</code></td>
-<td>Команда запуска САПР в <br/>интерактивном режиме</td>
+<td>Команда запуска САПР в <br>интерактивном режиме</td>
 <td><code>VIVADO + ' -mode tcl'</code></td>
 </tr>
 <tr>
 <td><code>SYNGUI</code></td>
-<td>Команда запуска САПР в <br/>графическом режиме</td>
+<td>Команда запуска САПР в <br>графическом режиме</td>
 <td><code>VIVADO + ' -mode gui'</code></td>
 </tr>
 <tr>
@@ -322,7 +328,7 @@
 </tr>
 <tr>
 <td><code>SYN_TRACE</code></td>
-<td>Опция управления трассировкой<br/> команд</td>
+<td>Опция управления трассировкой<br> команд</td>
 <td><code>' -notrace'</code></td>
 </tr>
 <tr>
@@ -332,7 +338,7 @@
 </tr>
 <tr>
 <td><code>PROJECT_CREATE_FLAGS</code></td>
-<td>Опции, передаваемые Tcl <br/>команде <code>create_project</code>. <br/>Типовое значение <code>-f</code> (force),<br/> что вынуждает САПР FPGA <br/>создавать проект даже если он<br/> открыт</td>
+<td>Опции, передаваемые Tcl <br>команде <code>create_project</code>. <br>Типовое значение <code>-f</code> (force),<br> что вынуждает САПР FPGA <br>создавать проект даже если он<br> открыт</td>
 <td><code>''</code></td>
 </tr>
 <tr>
@@ -342,7 +348,7 @@
 </tr>
 <tr>
 <td><code>VERBOSE</code></td>
-<td>Управляет печатью полной<br/> командной строки выполняемого<br/> действия</td>
+<td>Управляет печатью полной<br> командной строки выполняемого<br> действия</td>
 <td><code>True</code></td>
 </tr>
 </tbody>
@@ -359,67 +365,67 @@
 <tbody>
 <tr>
 <td><code>CFG_PATH</code></td>
-<td>Директория текущего сборочного<br/> варианта</td>
+<td>Директория текущего сборочного<br> варианта</td>
 <td><code>os.path.abspath(os.curdir)</code></td>
 </tr>
 <tr>
 <td><code>CONFIG_SEARCH_PATH</code></td>
-<td>Список путей, по которым<br/> осуществляется поиск конфи-<br/>гурационных файлов во время <br/>работы сканера (обработка <br/>секции <code>import</code> в конфигу-<br/>рационных файлах)</td>
+<td>Список путей, по которым<br> осуществляется поиск конфи-<br>гурационных файлов во время <br>работы сканера (обработка <br>секции <code>import</code> в конфигу-<br>рационных файлах)</td>
 <td><code>env['CFG_PATH']</code></td>
 </tr>
 <tr>
 <td><code>BUILD_SRC_PATH</code></td>
-<td>Директория, куда помещаются <br/>сгенерированные исходные файлы <br/>(*.svh, *.tcl)</td>
+<td>Директория, куда помещаются <br>сгенерированные исходные файлы <br>(*.svh, *.tcl)</td>
 <td><code>os.path.join(env['BUILD_PATH'], 'src')</code></td>
 </tr>
 <tr>
 <td><code>BUILD_SYN_PATH</code></td>
-<td>Директория, в которой создаётся<br/> исполнительное окружение <br/>для синтеза (проект, IP ядра и т.п.)</td>
+<td>Директория, в которой создаётся<br> исполнительное окружение <br>для синтеза (проект, IP ядра и т.п.)</td>
 <td><code>os.path.join(env['BUILD_PATH'], 'syn')</code></td>
 </tr>
 <tr>
 <td><code>IP_OOC_PATH</code></td>
-<td>Директория для IP ядер, скриптов, <br/>библиотеки симуляционных <br/>моделей</td>
+<td>Директория для IP ядер, скриптов, <br>библиотеки симуляционных <br>моделей</td>
 <td><code>os.path.join(env['BUILD_SYN_PATH'], 'ip_ooc')</code></td>
 </tr>
 <tr>
 <td><code>BD_OOC_PATH</code></td>
-<td>Директория для блочных дизайнов, <br/>создаваемых out-of-context</td>
+<td>Директория для блочных дизайнов, <br>создаваемых out-of-context</td>
 <td><code>os.path.join(env['BUILD_PATH'], 'bd')</code></td>
 </tr>
 <tr>
 <td><code>BUILD_HLS_PATH</code></td>
-<td>Директория для создания проектов<br/> HLS, скриптов их создания и компи-<br/>ляции и репозитория целевых IP <br/>ядер</td>
+<td>Директория для создания проектов<br> HLS, скриптов их создания и компи-<br>ляции и репозитория целевых IP <br>ядер</td>
 <td><code>os.path.join(env['BUILD_SYN_PATH'], 'hls')</code></td>
 </tr>
 <tr>
 <td><code>INC_PATH</code></td>
-<td>Список путей, в которых произво-<br/>дится поиск включаемых файлов. <br/>Поиск автоматически выполняется<br/> в директориях, где расположены<br/> исходные файлы, и <code>INC_PATH</code> <br/>дополняет этот список элементами,<br/> в которых исходных файлов нет,<br/> но есть включаемые —<br/> например, <code>BUILD_SRC_PATH</code></td>
+<td>Список путей, в которых произво-<br>дится поиск включаемых файлов. <br>Поиск автоматически выполняется<br> в директориях, где расположены<br> исходные файлы, и <code>INC_PATH</code> <br>дополняет этот список элементами,<br> в которых исходных файлов нет,<br> но есть включаемые —<br> например, <code>BUILD_SRC_PATH</code></td>
 <td><code>''</code></td>
 </tr>
 <tr>
 <td><code>IP_SCRIPT_DIRNAME</code></td>
-<td>Имя директории, в которую поме-<br/>щаются скрипты для обслужива-<br/>ния IP ядер. Сама директория <br/>располагается в <code>IP_OOC_PATH</code></td>
+<td>Имя директории, в которую поме-<br>щаются скрипты для обслужива-<br>ния IP ядер. Сама директория <br>располагается в <code>IP_OOC_PATH</code></td>
 <td><code>'_script'</code></td>
 </tr>
 <tr>
 <td><code>BD_SCRIPT_DIRNAME</code></td>
-<td>Имя директории, в которую <br/>помещаются <strong>Tcl</strong> скрипты <br/>создания OOC блочных<br/> дизайнов. Сама директория<br/> располагается в <code>BD_OOC_PATH</code></td>
+<td>Имя директории, в которую <br>помещаются <strong>Tcl</strong> скрипты <br>создания OOC блочных<br> дизайнов. Сама директория<br> располагается в <code>BD_OOC_PATH</code></td>
 <td><code>'_script'</code></td>
 </tr>
 <tr>
 <td><code>SIM_SCRIPT_DIRNAME</code></td>
-<td>Имя директории, где поме-<br/>щаются скрипты для создания <br/>симуляционных библиотек IP ядер,<br/> блочных дизайнов, HLS IP ядер и т.п.</td>
+<td>Имя директории, где поме-<br>щаются скрипты для создания <br>симуляционных библиотек IP ядер,<br> блочных дизайнов, HLS IP ядер и т.п.</td>
 <td><code>'sim_script'</code></td>
 </tr>
 <tr>
 <td><code>SIM_SCRIPT_PATH</code></td>
-<td>Директория, содержащая скрипты<br/> для создания симуляционных <br/>библиотек IP ядер, блочных<br/> дизайнов, HLS IP ядер и т.п.</td>
+<td>Директория, содержащая скрипты<br> для создания симуляционных <br>библиотек IP ядер, блочных<br> дизайнов, HLS IP ядер и т.п.</td>
 <td><code>os.path.join(env['BUILD_SYN_PATH'], env['SIM_SCRIPT_DIRNAME'])</code></td>
 </tr>
 <tr>
 <td><code>HLS_SCRIPT_DIRNAME</code></td>
-<td>Имя директории, в которую<br/> помещаются скрипты для создания<br/> и компиляции HLS IP</td>
+<td>Имя директории, в которую<br> помещаются скрипты для создания<br> и компиляции HLS IP</td>
 <td><code>'_script'</code></td>
 </tr>
 <tr>
@@ -461,7 +467,7 @@
 </tr>
 <tr>
 <td><code>DCP_SUFFIX</code></td>
-<td>Design Checkpoint. Архив, содержащий<br/> результат работы САПР: синтезированный <br/>проект, разведённый, синтезированное <br/>IP ядро и т.п.</td>
+<td>Design Checkpoint. Архив, содержащий<br> результат работы САПР: синтезированный <br>проект, разведённый, синтезированное <br>IP ядро и т.п.</td>
 <td><code>'dcp'</code></td>
 </tr>
 <tr>
@@ -506,157 +512,157 @@
 </tr>
 <tr>
 <td><code>USER_DEFINED_PARAMS</code></td>
-<td>Пользовательские параметры, передаваемые<br/> на этап создания проекта САПР путём создания <br/>соответствующих переменных в скрипте, <br/>который создаёт проект <strong>Vivado</strong></td>
+<td>Пользовательские параметры, передаваемые<br> на этап создания проекта САПР путём создания <br>соответствующих переменных в скрипте, <br>который создаёт проект <strong>Vivado</strong></td>
 <td><code>{}</code></td>
 </tr>
 </tbody>
 </table>
 <h2 id="builders">Builders<a class="headerlink" href="#builders" title="Permanent link">🔗</a></h2>
-<p>Перечислены <a href="../Build-Scripts#builders">билдеры</a> и <a href="../Build-Scripts#pseudo-builders">псевдобилдеры</a>. Билдеры как правило не используются напрямую, т.к. они имеют
+<p>Перечислены <a href="../Build-Scripts/#builders">билдеры</a> и <a href="../Build-Scripts/#pseudo-builders">псевдобилдеры</a>. Билдеры как правило не используются напрямую, т.к. они имеют
 вполне определённый интерфейс запуска, который далеко не всегда удобен, поэтому в скрипте сборочных
 сценариев обычно используются псевдобилдеры, которые по сути являются "обёртками" вокруг самих
 билдеров.</p>
-<hr/>
+<hr />
 <h3 id="ipcreatescript">IpCreateScript<a class="headerlink" href="#ipcreatescript" title="Permanent link">🔗</a></h3>
 <p><u>True builder</u></p>
 <p>Генерирует <strong>Tcl</strong> скрипт, с помощью которого создаётся IP ядро. </p>
-<hr/>
+<hr />
 <h3 id="ipcreatescripts">IpCreateScripts<a class="headerlink" href="#ipcreatescripts" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u></p>
 <p>Генерирует <strong>Tcl</strong> скрипты для создания IP ядер из списка конфигурационных файлов. Создаёт скрипты по схеме <code>&lt;name&gt;-create.tcl</code>. Использует билдер <code>IpCreateScript</code>.</p>
 <p>Пример использования:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="n">ip</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'ip.yml'</span><span class="p">)</span>
-</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="o">...</span>
-</span><span id="__span-6-3"><a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="n">IP_Create_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpCreateScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">ip</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">&#39;ip.yml&#39;</span><span class="p">)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="o">...</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">IP_Create_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpCreateScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="ipsynscript">IpSynScript<a class="headerlink" href="#ipsynscript" title="Permanent link">🔗</a></h3>
 <p><u>True builder</u></p>
 <p>Генерирует скрипт для out-of-context синтеза IP ядра.</p>
-<hr/>
+<hr />
 <h3 id="ipsynscripts">IpSynScripts<a class="headerlink" href="#ipsynscripts" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u> </p>
 <p>Генерирует <strong>Tcl</strong> скрипты для синтеза IP ядер из списка конфигурационных файлов. Создаёт скрипты по схеме <code>&lt;name&gt;-syn.tcl</code>. Использует билдер <code>IpSynScript</code>.</p>
 <p>Пример использования:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="n">ip</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'ip.yml'</span><span class="p">)</span>
-</span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="o">...</span>
-</span><span id="__span-7-3"><a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="n">IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpSynScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">ip</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">&#39;ip.yml&#39;</span><span class="p">)</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="o">...</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpSynScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="ipcreate">IpCreate<a class="headerlink" href="#ipcreate" title="Permanent link">🔗</a></h3>
 <p><u>True builder</u></p>
 <p>Создаёт IP ядро.</p>
-<hr/>
+<hr />
 <h3 id="createips">CreateIps<a class="headerlink" href="#createips" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u> </p>
 <p>Создаёт IP ядра по списку скриптов, сгенерированы с помощью <code>IpCreateScripts</code>. Использует билдер <code>IpCreate</code>.</p>
 <p>Пример использования:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="n">IP_Cores</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateIps</span><span class="p">(</span><span class="n">IP_Create_Scripts</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">IP_Cores</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateIps</span><span class="p">(</span><span class="n">IP_Create_Scripts</span><span class="p">)</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="ipsyn">IpSyn<a class="headerlink" href="#ipsyn" title="Permanent link">🔗</a></h3>
 <p><u>True builder</u></p>
 <p>Синтезирует IP ядро в режиме out-of-context.</p>
-<hr/>
+<hr />
 <h3 id="synips">SynIps<a class="headerlink" href="#synips" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u> </p>
 <p>Синтезирует IP ядра, используя в качестве зависимостей скрипты, созданные <code>IpSynScrips</code> и файлы самих IP ядер. Использует билдер <code>IpSyn</code>.</p>
 <p>Пример использования:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="n">IP_OOC_Syn</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">SynIps</span><span class="p">(</span><span class="n">IP_Syn_Scripts</span><span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">IP_OOC_Syn</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">SynIps</span><span class="p">(</span><span class="n">IP_Syn_Scripts</span><span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="bdcreate">BdCreate<a class="headerlink" href="#bdcreate" title="Permanent link">🔗</a></h3>
 <p><u>True builder</u></p>
-<p>Создаёт блочный дизайн на основе <strong>Tcl</strong> скрипта, описывающего используемые элементы (cells), их межсоединения и порты. Блочный дизайн создаётся в виде отдельно стоящего <strong>Vivado</strong> проекта (out-of-context). В дальнейшем блочный дизайн из такого проекта может быть подключен в рабочий проект. Методика подготовки <strong>Tcl</strong> скрипта описана <a href="../Advanced-Topics#bd-create-example">по ссылке</a>.</p>
-<hr/>
+<p>Создаёт блочный дизайн на основе <strong>Tcl</strong> скрипта, описывающего используемые элементы (cells), их межсоединения и порты. Блочный дизайн создаётся в виде отдельно стоящего <strong>Vivado</strong> проекта (out-of-context). В дальнейшем блочный дизайн из такого проекта может быть подключен в рабочий проект. Методика подготовки <strong>Tcl</strong> скрипта описана <a href="../Advanced-Topics/#bd-create-example">по ссылке</a>.</p>
+<hr />
 <h3 id="createoocbd">CreateOocBd<a class="headerlink" href="#createoocbd" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u> </p>
 <p>Создаёт проекты с блочными дизайнами на основе списка конфигурационных файлов. Использует <code>BdCreate</code> билдер.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="n">bd</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'bd.yml'</span><span class="p">)</span>
-</span><span id="__span-10-2"><a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="o">...</span>
-</span><span id="__span-10-3"><a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="n">bd_ooc</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateOocBd</span><span class="p">(</span><span class="n">bd</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">bd</span> <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">&#39;bd.yml&#39;</span><span class="p">)</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="o">...</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">bd_ooc</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateOocBd</span><span class="p">(</span><span class="n">bd</span><span class="p">)</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="hlscsynthscript">HlsCSynthScript<a class="headerlink" href="#hlscsynthscript" title="Permanent link">🔗</a></h3>
 <p><u>True builder</u></p>
-<p>Создаёт <strong>Tcl</strong> скрипт для создания HLS проекта и его компиляции. Зависимостью является <code>yml</code> <a href="../Build-Variants#hls-config">файл параметров HLS</a>. В результате создаётся <strong>Tcl</strong> скрипт с командами создания HLS проекта и его компиляции до элемента IP репозитория. Пример целевого скрипта:</p>
-<div class="language-tcl highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="nv">--------------------------------------------------------------------------------</span>
-</span><span id="__span-11-2"><a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="c">#</span>
-</span><span id="__span-11-3"><a href="#__codelineno-11-3" id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="c">#   This file is automatically generated. Do not edit the file!</span>
-</span><span id="__span-11-4"><a href="#__codelineno-11-4" id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="c">#</span>
-</span><span id="__span-11-5"><a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="c">#--------------------------------------------------------------------------------</span>
-</span><span id="__span-11-6"><a href="#__codelineno-11-6" id="__codelineno-11-6" name="__codelineno-11-6"></a>
-</span><span id="__span-11-7"><a href="#__codelineno-11-7" id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="k">set</span><span class="w"> </span>PROJECT_NAME<span class="w">  </span>adder
-</span><span id="__span-11-8"><a href="#__codelineno-11-8" id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="k">set</span><span class="w"> </span>TOP_NAME<span class="w">      </span>adder
-</span><span id="__span-11-9"><a href="#__codelineno-11-9" id="__codelineno-11-9" name="__codelineno-11-9"></a><span class="k">set</span><span class="w"> </span>DEVICE<span class="w">        </span>xc7a50tftg256-1
-</span><span id="__span-11-10"><a href="#__codelineno-11-10" id="__codelineno-11-10" name="__codelineno-11-10"></a><span class="k">set</span><span class="w"> </span>SOLUTION_NAME<span class="w"> </span>sol_1
-</span><span id="__span-11-11"><a href="#__codelineno-11-11" id="__codelineno-11-11" name="__codelineno-11-11"></a>
-</span><span id="__span-11-12"><a href="#__codelineno-11-12" id="__codelineno-11-12" name="__codelineno-11-12"></a><span class="c"># Project structure</span>
-</span><span id="__span-11-13"><a href="#__codelineno-11-13" id="__codelineno-11-13" name="__codelineno-11-13"></a><span class="nv">open_project</span><span class="w"> </span><span class="o">-</span>reset<span class="w"> </span><span class="nv">${PROJECT_NAME}</span>
-</span><span id="__span-11-14"><a href="#__codelineno-11-14" id="__codelineno-11-14" name="__codelineno-11-14"></a>
-</span><span id="__span-11-15"><a href="#__codelineno-11-15" id="__codelineno-11-15" name="__codelineno-11-15"></a><span class="c"># Add syn sources</span>
-</span><span id="__span-11-16"><a href="#__codelineno-11-16" id="__codelineno-11-16" name="__codelineno-11-16"></a><span class="nv">add_files</span><span class="w"> </span><span class="o">-</span>cflags<span class="w"> </span><span class="s2">"-g -DDATA_WIDTH=4"</span><span class="w"> </span><span class="o">/</span>opt<span class="o">/</span>slon<span class="o">/</span>xilinx<span class="o">/</span>build-system-examples<span class="o">/</span>src<span class="o">/</span>hls<span class="o">/</span>adder<span class="o">/</span>src<span class="o">/</span>adder.cpp
-</span><span id="__span-11-17"><a href="#__codelineno-11-17" id="__codelineno-11-17" name="__codelineno-11-17"></a>
-</span><span id="__span-11-18"><a href="#__codelineno-11-18" id="__codelineno-11-18" name="__codelineno-11-18"></a>
-</span><span id="__span-11-19"><a href="#__codelineno-11-19" id="__codelineno-11-19" name="__codelineno-11-19"></a><span class="c"># Add sim sources</span>
-</span><span id="__span-11-20"><a href="#__codelineno-11-20" id="__codelineno-11-20" name="__codelineno-11-20"></a><span class="nv">add_files</span><span class="w"> </span><span class="o">-</span>tb<span class="w"> </span><span class="o">-</span>csimflags<span class="w"> </span><span class="s2">"-g -I/opt/cad/mentor/2021.1/questasim/include -I/opt/cad/xilinx/Vitis_HLS/2021.2/include"</span><span class="w"> </span><span class="o">/</span>opt<span class="o">/</span>slon<span class="o">/</span>xilinx<span class="o">/</span>build-system-examples<span class="o">/</span>src<span class="o">/</span>hls<span class="o">/</span>adder<span class="o">/</span>tb<span class="o">/</span>main.cpp
-</span><span id="__span-11-21"><a href="#__codelineno-11-21" id="__codelineno-11-21" name="__codelineno-11-21"></a>
-</span><span id="__span-11-22"><a href="#__codelineno-11-22" id="__codelineno-11-22" name="__codelineno-11-22"></a>
-</span><span id="__span-11-23"><a href="#__codelineno-11-23" id="__codelineno-11-23" name="__codelineno-11-23"></a><span class="nv">set_top</span><span class="w"> </span><span class="nv">${TOP_NAME}</span>
-</span><span id="__span-11-24"><a href="#__codelineno-11-24" id="__codelineno-11-24" name="__codelineno-11-24"></a><span class="c"># Add solution</span>
-</span><span id="__span-11-25"><a href="#__codelineno-11-25" id="__codelineno-11-25" name="__codelineno-11-25"></a><span class="nv">open_solution</span><span class="w"> </span><span class="o">-</span>reset<span class="w"> </span><span class="o">-</span>flow_target<span class="w"> </span>vivado<span class="w"> </span><span class="nv">${SOLUTION_NAME}</span>
-</span><span id="__span-11-26"><a href="#__codelineno-11-26" id="__codelineno-11-26" name="__codelineno-11-26"></a><span class="nv">set_part</span><span class="w"> </span><span class="nv">${DEVICE}</span>
-</span><span id="__span-11-27"><a href="#__codelineno-11-27" id="__codelineno-11-27" name="__codelineno-11-27"></a><span class="nv">create_clock</span><span class="w"> </span><span class="o">-</span>period<span class="w"> </span><span class="mf">8.0</span>ns<span class="w"> </span><span class="o">-</span>name<span class="w"> </span>adder_clk
-</span><span id="__span-11-28"><a href="#__codelineno-11-28" id="__codelineno-11-28" name="__codelineno-11-28"></a><span class="nv">set_clock_uncertainty</span><span class="w"> </span><span class="mi">25</span><span class="o">%</span>
-</span><span id="__span-11-29"><a href="#__codelineno-11-29" id="__codelineno-11-29" name="__codelineno-11-29"></a>
-</span><span id="__span-11-30"><a href="#__codelineno-11-30" id="__codelineno-11-30" name="__codelineno-11-30"></a><span class="c"># Add hooks</span>
-</span><span id="__span-11-31"><a href="#__codelineno-11-31" id="__codelineno-11-31" name="__codelineno-11-31"></a><span class="nb">source</span><span class="w"> </span><span class="o">/</span>opt<span class="o">/</span>slon<span class="o">/</span>xilinx<span class="o">/</span>build-system-examples<span class="o">/</span>src<span class="o">/</span>cfg<span class="o">/</span><span class="mi">7</span>a50t<span class="o">/</span>hls<span class="o">/</span>adder<span class="o">/</span>directives.tcl
-</span><span id="__span-11-32"><a href="#__codelineno-11-32" id="__codelineno-11-32" name="__codelineno-11-32"></a>
-</span><span id="__span-11-33"><a href="#__codelineno-11-33" id="__codelineno-11-33" name="__codelineno-11-33"></a>
-</span><span id="__span-11-34"><a href="#__codelineno-11-34" id="__codelineno-11-34" name="__codelineno-11-34"></a><span class="nv">csynth_design</span>
-</span><span id="__span-11-35"><a href="#__codelineno-11-35" id="__codelineno-11-35" name="__codelineno-11-35"></a>
-</span><span id="__span-11-36"><a href="#__codelineno-11-36" id="__codelineno-11-36" name="__codelineno-11-36"></a><span class="nv">export_design</span><span class="w"> </span><span class="o">-</span>rtl<span class="w"> </span>verilog<span class="w"> </span><span class="o">-</span>format<span class="w"> </span>ip_catalog<span class="w"> </span><span class="o">-</span>ipname<span class="w"> </span>adder<span class="w"> </span><span class="o">-</span>version<span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span>vendor<span class="w"> </span>slon<span class="w"> </span><span class="o">-</span>library<span class="w"> </span>hls<span class="w"> </span><span class="o">-</span>output<span class="w"> </span><span class="o">/</span>opt<span class="o">/</span>slon<span class="o">/</span>xilinx<span class="o">/</span>build-system-examples<span class="o">/</span>build<span class="o">/</span><span class="mi">7</span>a50t<span class="o">/</span>syn<span class="o">/</span>hls<span class="o">/</span>ip<span class="o">/</span>adder.zip
-</span><span id="__span-11-37"><a href="#__codelineno-11-37" id="__codelineno-11-37" name="__codelineno-11-37"></a>
-</span><span id="__span-11-38"><a href="#__codelineno-11-38" id="__codelineno-11-38" name="__codelineno-11-38"></a><span class="nb">exit</span>
-</span><span id="__span-11-39"><a href="#__codelineno-11-39" id="__codelineno-11-39" name="__codelineno-11-39"></a><span class="c">#--------------------------------------------------------------------------------</span>
+<p>Создаёт <strong>Tcl</strong> скрипт для создания HLS проекта и его компиляции. Зависимостью является <code>yml</code> <a href="../Build-Variants/#hls-config">файл параметров HLS</a>. В результате создаётся <strong>Tcl</strong> скрипт с командами создания HLS проекта и его компиляции до элемента IP репозитория. Пример целевого скрипта:</p>
+<div class="language-tcl highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nv">--------------------------------------------------------------------------------</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c">#</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c">#   This file is automatically generated. Do not edit the file!</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c">#</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c">#--------------------------------------------------------------------------------</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="k">set</span><span class="w"> </span>PROJECT_NAME<span class="w">  </span>adder
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="k">set</span><span class="w"> </span>TOP_NAME<span class="w">      </span>adder
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="k">set</span><span class="w"> </span>DEVICE<span class="w">        </span>xc7a50tftg256-1
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="k">set</span><span class="w"> </span>SOLUTION_NAME<span class="w"> </span>sol_1
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="c"># Project structure</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="nv">open_project</span><span class="w"> </span><span class="o">-</span>reset<span class="w"> </span><span class="nv">${PROJECT_NAME}</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="c"># Add syn sources</span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="nv">add_files</span><span class="w"> </span><span class="o">-</span>cflags<span class="w"> </span><span class="s2">&quot;-g -DDATA_WIDTH=4&quot;</span><span class="w"> </span><span class="o">/</span>opt<span class="o">/</span>slon<span class="o">/</span>xilinx<span class="o">/</span>build-system-examples<span class="o">/</span>src<span class="o">/</span>hls<span class="o">/</span>adder<span class="o">/</span>src<span class="o">/</span>adder.cpp
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="c"># Add sim sources</span>
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="nv">add_files</span><span class="w"> </span><span class="o">-</span>tb<span class="w"> </span><span class="o">-</span>csimflags<span class="w"> </span><span class="s2">&quot;-g -I/opt/cad/mentor/2021.1/questasim/include -I/opt/cad/xilinx/Vitis_HLS/2021.2/include&quot;</span><span class="w"> </span><span class="o">/</span>opt<span class="o">/</span>slon<span class="o">/</span>xilinx<span class="o">/</span>build-system-examples<span class="o">/</span>src<span class="o">/</span>hls<span class="o">/</span>adder<span class="o">/</span>tb<span class="o">/</span>main.cpp
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="nv">set_top</span><span class="w"> </span><span class="nv">${TOP_NAME}</span>
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a><span class="c"># Add solution</span>
+</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a><span class="nv">open_solution</span><span class="w"> </span><span class="o">-</span>reset<span class="w"> </span><span class="o">-</span>flow_target<span class="w"> </span>vivado<span class="w"> </span><span class="nv">${SOLUTION_NAME}</span>
+</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a><span class="nv">set_part</span><span class="w"> </span><span class="nv">${DEVICE}</span>
+</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a><span class="nv">create_clock</span><span class="w"> </span><span class="o">-</span>period<span class="w"> </span><span class="mf">8.0</span>ns<span class="w"> </span><span class="o">-</span>name<span class="w"> </span>adder_clk
+</span><span id="__span-11-28"><a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a><span class="nv">set_clock_uncertainty</span><span class="w"> </span><span class="mi">25</span><span class="o">%</span>
+</span><span id="__span-11-29"><a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a>
+</span><span id="__span-11-30"><a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a><span class="c"># Add hooks</span>
+</span><span id="__span-11-31"><a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a><span class="nb">source</span><span class="w"> </span><span class="o">/</span>opt<span class="o">/</span>slon<span class="o">/</span>xilinx<span class="o">/</span>build-system-examples<span class="o">/</span>src<span class="o">/</span>cfg<span class="o">/</span><span class="mi">7</span>a50t<span class="o">/</span>hls<span class="o">/</span>adder<span class="o">/</span>directives.tcl
+</span><span id="__span-11-32"><a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a>
+</span><span id="__span-11-33"><a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a>
+</span><span id="__span-11-34"><a id="__codelineno-11-34" name="__codelineno-11-34" href="#__codelineno-11-34"></a><span class="nv">csynth_design</span>
+</span><span id="__span-11-35"><a id="__codelineno-11-35" name="__codelineno-11-35" href="#__codelineno-11-35"></a>
+</span><span id="__span-11-36"><a id="__codelineno-11-36" name="__codelineno-11-36" href="#__codelineno-11-36"></a><span class="nv">export_design</span><span class="w"> </span><span class="o">-</span>rtl<span class="w"> </span>verilog<span class="w"> </span><span class="o">-</span>format<span class="w"> </span>ip_catalog<span class="w"> </span><span class="o">-</span>ipname<span class="w"> </span>adder<span class="w"> </span><span class="o">-</span>version<span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span>vendor<span class="w"> </span>slon<span class="w"> </span><span class="o">-</span>library<span class="w"> </span>hls<span class="w"> </span><span class="o">-</span>output<span class="w"> </span><span class="o">/</span>opt<span class="o">/</span>slon<span class="o">/</span>xilinx<span class="o">/</span>build-system-examples<span class="o">/</span>build<span class="o">/</span><span class="mi">7</span>a50t<span class="o">/</span>syn<span class="o">/</span>hls<span class="o">/</span>ip<span class="o">/</span>adder.zip
+</span><span id="__span-11-37"><a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a>
+</span><span id="__span-11-38"><a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a><span class="nb">exit</span>
+</span><span id="__span-11-39"><a id="__codelineno-11-39" name="__codelineno-11-39" href="#__codelineno-11-39"></a><span class="c">#--------------------------------------------------------------------------------</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="createhlscsynthscript">CreateHlsCSynthScript<a class="headerlink" href="#createhlscsynthscript" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u></p>
 <p>Псевдобилдер, получающий аргументом список конфигурационных HLS <code>yml</code> файлов и осуществляющий запуск для каждого из них билдера <code>HlsCSynthScript</code>. Пример использования:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="n">HlsCSynScripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateHlsCSynthScript</span><span class="p">(</span><span class="n">hls</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">HlsCSynScripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateHlsCSynthScript</span><span class="p">(</span><span class="n">hls</span><span class="p">)</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="hlscsynth">HlsCSynth<a class="headerlink" href="#hlscsynth" title="Permanent link">🔗</a></h3>
 <p><u>True builder</u></p>
 <p>Билдер выполняет создание HLS проекта и его компиляцию, в результате которой создаётся элемент IP репозитория, пригодный для использования в качестве IP ядра в целевом проекте. Напрямую не используется, вызывается из псевдобилдера <code>LaunchHlsCSynth</code> (см. ниже)</p>
-<hr/>
+<hr />
 <h3 id="launchhlscsynth">LaunchHlsCSynth<a class="headerlink" href="#launchhlscsynth" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u></p>
 <p>Служит для запуска создания и компиляции HLS проектов. Пример использования:</p>
-<p><div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="n">HlsCsyn</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchHlsCSynth</span><span class="p">(</span><span class="n">HlsCSynScripts</span><span class="p">,</span> <span class="n">hls</span><span class="p">)</span>
+<p><div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">HlsCsyn</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchHlsCSynth</span><span class="p">(</span><span class="n">HlsCSynScripts</span><span class="p">,</span> <span class="n">hls</span><span class="p">)</span>
 </span></code></pre></div>
 где, <code>HlsCSynScripts</code> — список скриптов, полученных в результате работы <code>CreateHlsCSynthScript</code>, <code>hls</code> — список конфигурационных <code>yml</code> файлов HLS.</p>
-<hr/>
+<hr />
 <h3 id="hlsipsynscripts">HlsIpSynScripts<a class="headerlink" href="#hlsipsynscripts" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u></p>
 <p>Псевдобилдер осуществляет генерирование скриптов создания IP ядер из HLS IP репозитория, созданного инструментами, описанными выше. Полученные скрипты далее используются точно так же, как и скрипты для синтеза IP ядер, получаемые из конфигурационных <code>yml</code> файлов IP ядер.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="n">HLS_IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">HlsIpSynScripts</span><span class="p">(</span><span class="n">HlsCsyn</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">HLS_IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">HlsIpSynScripts</span><span class="p">(</span><span class="n">HlsCsyn</span><span class="p">)</span>
 </span></code></pre></div>
 <p>Использование результата:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="c1">#   IP scripts</span>
-</span><span id="__span-15-2"><a href="#__codelineno-15-2" id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="n">IP_Create_Scripts</span>  <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpCreateScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>                 <span class="c1"># скрипты создания IP из yml описания</span>
-</span><span id="__span-15-3"><a href="#__codelineno-15-3" id="__codelineno-15-3" name="__codelineno-15-3"></a><span class="n">IP_Syn_Scripts</span>     <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpSynScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>                    <span class="c1"># скрипты синтеза IP</span>
-</span><span id="__span-15-4"><a href="#__codelineno-15-4" id="__codelineno-15-4" name="__codelineno-15-4"></a><span class="n">HLS_IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">HlsIpSynScripts</span><span class="p">(</span><span class="n">HlsCsyn</span><span class="p">)</span>            <span class="c1"># скрипты синтеза HLS IP</span>
-</span><span id="__span-15-5"><a href="#__codelineno-15-5" id="__codelineno-15-5" name="__codelineno-15-5"></a>
-</span><span id="__span-15-6"><a href="#__codelineno-15-6" id="__codelineno-15-6" name="__codelineno-15-6"></a><span class="c1">#   IP cores</span>
-</span><span id="__span-15-7"><a href="#__codelineno-15-7" id="__codelineno-15-7" name="__codelineno-15-7"></a><span class="n">IP_Cores</span>           <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateIps</span><span class="p">(</span><span class="n">IP_Create_Scripts</span><span class="p">)</span>        <span class="c1"># создание IP ядер</span>
-</span><span id="__span-15-8"><a href="#__codelineno-15-8" id="__codelineno-15-8" name="__codelineno-15-8"></a><span class="n">All_IP</span>             <span class="o">=</span> <span class="n">IP_Cores</span> <span class="o">+</span> <span class="n">HlsCsyn</span>                       <span class="c1"># полный список IP ядер: пользовательских и HLS</span>
-</span><span id="__span-15-9"><a href="#__codelineno-15-9" id="__codelineno-15-9" name="__codelineno-15-9"></a>
-</span><span id="__span-15-10"><a href="#__codelineno-15-10" id="__codelineno-15-10" name="__codelineno-15-10"></a><span class="n">All_IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">IP_Syn_Scripts</span> <span class="o">+</span> <span class="n">HLS_IP_Syn_Scripts</span>      <span class="c1"># скрипты для синтеза всех IP ядер</span>
-</span><span id="__span-15-11"><a href="#__codelineno-15-11" id="__codelineno-15-11" name="__codelineno-15-11"></a><span class="n">IP_OOC_Syn</span>         <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">SynIps</span><span class="p">(</span><span class="n">All_IP_Syn_Scripts</span><span class="p">,</span> <span class="n">All_IP</span><span class="p">)</span>  <span class="c1"># синтез всех IP ядер</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1">#   IP scripts</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">IP_Create_Scripts</span>  <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpCreateScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>                 <span class="c1"># скрипты создания IP из yml описания</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">IP_Syn_Scripts</span>     <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">IpSynScripts</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>                    <span class="c1"># скрипты синтеза IP</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">HLS_IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">HlsIpSynScripts</span><span class="p">(</span><span class="n">HlsCsyn</span><span class="p">)</span>            <span class="c1"># скрипты синтеза HLS IP</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="c1">#   IP cores</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="n">IP_Cores</span>           <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateIps</span><span class="p">(</span><span class="n">IP_Create_Scripts</span><span class="p">)</span>        <span class="c1"># создание IP ядер</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="n">All_IP</span>             <span class="o">=</span> <span class="n">IP_Cores</span> <span class="o">+</span> <span class="n">HlsCsyn</span>                       <span class="c1"># полный список IP ядер: пользовательских и HLS</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="n">All_IP_Syn_Scripts</span> <span class="o">=</span> <span class="n">IP_Syn_Scripts</span> <span class="o">+</span> <span class="n">HLS_IP_Syn_Scripts</span>      <span class="c1"># скрипты для синтеза всех IP ядер</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="n">IP_OOC_Syn</span>         <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">SynIps</span><span class="p">(</span><span class="n">All_IP_Syn_Scripts</span><span class="p">,</span> <span class="n">All_IP</span><span class="p">)</span>  <span class="c1"># синтез всех IP ядер</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="cfgparamsheader">CfgParamsHeader<a class="headerlink" href="#cfgparamsheader" title="Permanent link">🔗</a></h3>
 <p><u>True builder</u></p>
 <p>Создаёт заголовочные файлы HDL с параметрами, взятыми из указанных конфигурационных файлов. Генерируется пара файлов:</p>
@@ -664,33 +670,33 @@
 <li><code>&lt;hdl-param-filename&gt;.svh</code>;</li>
 <li><code>&lt;hdl-param-filename&gt;_pkg.svh</code>,</li>
 </ul>
-<p>где <code>&lt;hdl-param-filename&gt;</code> – имя целевого файла, задаваемое в скрипте сборочного сценария при вызове билдера.</p>
+<p>где <code>&lt;hdl-param-filename&gt;</code>&nbsp;– имя целевого файла, задаваемое в скрипте сборочного сценария при вызове билдера.</p>
 <p>Если в конфигурационном файле, являющимся зависимостью, определён раздел <code>options</code>, в котором, в свою очередь, определены параметры <code>prefix</code>, <code>suffix</code>, то значения этих параметров конкатенируются с именами рабочих параметров, соответственно до и после:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-16-1"><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="c1">#</span>
-</span><span id="__span-16-2"><a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="c1">#  params.yml</span>
-</span><span id="__span-16-3"><a href="#__codelineno-16-3" id="__codelineno-16-3" name="__codelineno-16-3"></a><span class="c1">#</span>
-</span><span id="__span-16-4"><a href="#__codelineno-16-4" id="__codelineno-16-4" name="__codelineno-16-4"></a><span class="nn">...</span>
-</span><span id="__span-16-5"><a href="#__codelineno-16-5" id="__codelineno-16-5" name="__codelineno-16-5"></a><span class="nt">options</span><span class="p">:</span>
-</span><span id="__span-16-6"><a href="#__codelineno-16-6" id="__codelineno-16-6" name="__codelineno-16-6"></a><span class="w">    </span><span class="nt">prefix </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PARAMS_</span>
-</span><span id="__span-16-7"><a href="#__codelineno-16-7" id="__codelineno-16-7" name="__codelineno-16-7"></a>
-</span><span id="__span-16-8"><a href="#__codelineno-16-8" id="__codelineno-16-8" name="__codelineno-16-8"></a><span class="nt">parameters</span><span class="p">:</span>
-</span><span id="__span-16-9"><a href="#__codelineno-16-9" id="__codelineno-16-9" name="__codelineno-16-9"></a><span class="w">    </span><span class="nt">DATA  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
-</span><span id="__span-16-10"><a href="#__codelineno-16-10" id="__codelineno-16-10" name="__codelineno-16-10"></a><span class="w">    </span><span class="nt">WIDTH </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1">#</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="c1">#  params.yml</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="c1">#</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nn">...</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="nt">options</span><span class="p">:</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="nt">prefix </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PARAMS_</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span><span class="nt">DATA  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="nt">WIDTH </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
 </span></code></pre></div>
 <p>Результат:</p>
 <p><code>&lt;hdl-param-filename&gt;.svh</code>:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a>`define PARAMS_DATA  10
-</span><span id="__span-17-2"><a href="#__codelineno-17-2" id="__codelineno-17-2" name="__codelineno-17-2"></a>`define PARAMS_WIDTH 8  
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>`define PARAMS_DATA  10
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>`define PARAMS_WIDTH 8  
 </span></code></pre></div>
 <p><code>&lt;hdl-param-filename&gt;_pkg.svh</code>:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a>...
-</span><span id="__span-18-2"><a href="#__codelineno-18-2" id="__codelineno-18-2" name="__codelineno-18-2"></a>package &lt;hdl-param-filaname&gt;;
-</span><span id="__span-18-3"><a href="#__codelineno-18-3" id="__codelineno-18-3" name="__codelineno-18-3"></a>    ...
-</span><span id="__span-18-4"><a href="#__codelineno-18-4" id="__codelineno-18-4" name="__codelineno-18-4"></a>    localparam int PARAMS_DATA  = 10;
-</span><span id="__span-18-5"><a href="#__codelineno-18-5" id="__codelineno-18-5" name="__codelineno-18-5"></a>    localparam int PARAMS_WIDTH = 8;  
-</span><span id="__span-18-6"><a href="#__codelineno-18-6" id="__codelineno-18-6" name="__codelineno-18-6"></a>    ...
-</span><span id="__span-18-7"><a href="#__codelineno-18-7" id="__codelineno-18-7" name="__codelineno-18-7"></a>endpackage    
-</span><span id="__span-18-8"><a href="#__codelineno-18-8" id="__codelineno-18-8" name="__codelineno-18-8"></a>...
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>...
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>package &lt;hdl-param-filaname&gt;;
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    ...
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    localparam int PARAMS_DATA  = 10;
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>    localparam int PARAMS_WIDTH = 8;  
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>    ...
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>endpackage    
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>...
 </span></code></pre></div>
 <p>Для параметров поддерживается три типа:</p>
 <ol>
@@ -699,137 +705,151 @@
 <li>строковый <code>string</code>.</li>
 </ol>
 <p>Типы параметров используются в <strong>package</strong> и выводятся из типов параметров конфигурационных (yaml) файлов.</p>
-<hr/>
+<hr />
 <h3 id="createcfgparamsheader">CreateCfgParamsHeader<a class="headerlink" href="#createcfgparamsheader" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u> </p>
 <p>Может принимать в качестве зависимостей строку с именами файлов, разделёнными пробелом, или список. Создаёт полный (абсолютный) путь для каждого файла и вызывает билдер <code>CfgParamsHeader</code>.</p>
 <p>Пример использования:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="n">hdl_param_deps</span> <span class="o">=</span> <span class="s1">'main.yml clk.yml'</span>
-</span><span id="__span-19-2"><a href="#__codelineno-19-2" id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="o">...</span>
-</span><span id="__span-19-3"><a href="#__codelineno-19-3" id="__codelineno-19-3" name="__codelineno-19-3"></a><span class="n">CfgParamsHeader</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateCfgParamsHeader</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">envx</span><span class="p">[</span><span class="s1">'BUILD_SRC_PATH'</span><span class="p">],</span> <span class="s1">'cfg_params.svh'</span><span class="p">),</span> <span class="n">hdl_param_deps</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">hdl_param_deps</span> <span class="o">=</span> <span class="s1">&#39;main.yml clk.yml&#39;</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="o">...</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="n">CfgParamsHeader</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateCfgParamsHeader</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;BUILD_SRC_PATH&#39;</span><span class="p">],</span> <span class="s1">&#39;cfg_params.svh&#39;</span><span class="p">),</span> <span class="n">hdl_param_deps</span><span class="p">)</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="cfgparamstcl">CfgParamsTcl<a class="headerlink" href="#cfgparamstcl" title="Permanent link">🔗</a></h3>
 <p><u>True builder</u></p>
 <p>Создаёт <strong>Tcl</strong> файл с параметрами, взятыми из указанных конфигурационных файлов. Как и билдер по генерированию включаемых HDL файлов, данный билдер распознаёт раздел <code>options</code> с параметрами <code>prefix</code> и <code>suffix</code>, используя их сходным образом:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-20-1"><a href="#__codelineno-20-1" id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="c1">#</span>
-</span><span id="__span-20-2"><a href="#__codelineno-20-2" id="__codelineno-20-2" name="__codelineno-20-2"></a><span class="c1">#   dirpath.yml</span>
-</span><span id="__span-20-3"><a href="#__codelineno-20-3" id="__codelineno-20-3" name="__codelineno-20-3"></a><span class="c1">#</span>
-</span><span id="__span-20-4"><a href="#__codelineno-20-4" id="__codelineno-20-4" name="__codelineno-20-4"></a><span class="nt">options</span><span class="p">:</span><span class="w"> </span>
-</span><span id="__span-20-5"><a href="#__codelineno-20-5" id="__codelineno-20-5" name="__codelineno-20-5"></a><span class="w">    </span><span class="nt">suffix </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">_DIR</span>
-</span><span id="__span-20-6"><a href="#__codelineno-20-6" id="__codelineno-20-6" name="__codelineno-20-6"></a>
-</span><span id="__span-20-7"><a href="#__codelineno-20-7" id="__codelineno-20-7" name="__codelineno-20-7"></a><span class="nt">parameters</span><span class="p">:</span>
-</span><span id="__span-20-8"><a href="#__codelineno-20-8" id="__codelineno-20-8" name="__codelineno-20-8"></a><span class="w">    </span><span class="nt">SRC_SYN  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= '{' + os.path.join('src', 'syn') + '}'</span>
-</span><span id="__span-20-9"><a href="#__codelineno-20-9" id="__codelineno-20-9" name="__codelineno-20-9"></a><span class="w">    </span><span class="nt">SRC_SIM  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= '{' + os.path.join('src', 'sim') + '}'</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1">#</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="c1">#   dirpath.yml</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="c1">#</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="nt">options</span><span class="p">:</span><span class="w"> </span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">    </span><span class="nt">suffix </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">_DIR</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="nt">parameters</span><span class="p">:</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">    </span><span class="nt">SRC_SYN  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= &#39;{&#39; + os.path.join(&#39;src&#39;, &#39;syn&#39;) + &#39;}&#39;</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w">    </span><span class="nt">SRC_SIM  </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">= &#39;{&#39; + os.path.join(&#39;src&#39;, &#39;sim&#39;) + &#39;}&#39;</span>
 </span></code></pre></div>
 <p>Результат:</p>
-<div class="language-tcl highlight"><pre><span></span><code><span id="__span-21-1"><a href="#__codelineno-21-1" id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="k">set</span><span class="w"> </span>SRC_SYN_DIR<span class="w"> </span><span class="k">{</span><span class="nv">src</span><span class="o">/</span>syn<span class="k">}</span>
-</span><span id="__span-21-2"><a href="#__codelineno-21-2" id="__codelineno-21-2" name="__codelineno-21-2"></a><span class="k">set</span><span class="w"> </span>SRC_SIM_DIR<span class="w"> </span><span class="k">{</span><span class="nv">src</span><span class="o">/</span>sim<span class="k">}</span>
+<div class="language-tcl highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">set</span><span class="w"> </span>SRC_SYN_DIR<span class="w"> </span><span class="k">{</span><span class="nv">src</span><span class="o">/</span>syn<span class="k">}</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="k">set</span><span class="w"> </span>SRC_SIM_DIR<span class="w"> </span><span class="k">{</span><span class="nv">src</span><span class="o">/</span>sim<span class="k">}</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="createcfgparamstcl">CreateCfgParamsTcl<a class="headerlink" href="#createcfgparamstcl" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u> </p>
 <p>Может принимать в качестве зависимостей строку с именами файлов, разделёнными пробелом, или список. Создаёт полный (абсолютный) путь для каждого файла и вызывает билдер <code>CfgParamsTcl</code>.</p>
 <p>Пример использования:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-22-1"><a href="#__codelineno-22-1" id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="n">CfgParamsTcl</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateCfgParamsTcl</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">envx</span><span class="p">[</span><span class="s1">'BUILD_SRC_PATH'</span><span class="p">],</span> <span class="s1">'cfg_params.tcl'</span><span class="p">),</span> <span class="s1">'params.yml'</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">CfgParamsTcl</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateCfgParamsTcl</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">envx</span><span class="p">[</span><span class="s1">&#39;BUILD_SRC_PATH&#39;</span><span class="p">],</span> <span class="s1">&#39;cfg_params.tcl&#39;</span><span class="p">),</span> <span class="s1">&#39;params.yml&#39;</span><span class="p">)</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="vivadoproject">VivadoProject<a class="headerlink" href="#vivadoproject" title="Permanent link">🔗</a></h3>
 <p><u>True builder</u></p>
 <p>Создаёт проект САПР <strong>Vivado</strong>.</p>
-<hr/>
+<hr />
 <h3 id="createvivadoproject">CreateVivadoProject<a class="headerlink" href="#createvivadoproject" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u> </p>
 <p>Принимает в качестве зависимостей исходные файлы HDL, файлы констрейнов и IP ядер. Генерирует имя целевого файла, обрабатывает список зависимостей, формируя полные (абсолютные) пути для каждого файла HDL и констрейнов, подготавливает результирующий список и вызывает билдер <code>VivadoProject</code>. Целевым файлом является <code>&lt;project name&gt;.prj</code>, который является копией <code>project name&gt;.xpr</code>. Такое решение используется по той причине, что САПР <strong>Vivado</strong> в процессе работы постоянно изменяет <code>xpr</code> файл, что делает его непригодным в качестве цели для системы сборки. С другой стороны, целевой файл должен быть релевантным к изменениям настроек проекта, т.к. система сборки проверяет актуальность файла по MD хэшу. Копия файла проекта достаточно хорошо отвечает вышеперечисленным требованиям.</p>
 <p>Пример использования:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a href="#__codelineno-23-1" id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="n">xpr_hook</span>       <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'xpr_hook.yml'</span><span class="p">)</span>
-</span><span id="__span-23-2"><a href="#__codelineno-23-2" id="__codelineno-23-2" name="__codelineno-23-2"></a><span class="o">...</span>
-</span><span id="__span-23-3"><a href="#__codelineno-23-3" id="__codelineno-23-3" name="__codelineno-23-3"></a><span class="n">xpr_deps</span> <span class="o">=</span> <span class="s1">'src_syn.yml xdc.yml'</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="o">+</span> <span class="n">xpr_hook</span>
-</span><span id="__span-23-4"><a href="#__codelineno-23-4" id="__codelineno-23-4" name="__codelineno-23-4"></a><span class="o">...</span>
-</span><span id="__span-23-5"><a href="#__codelineno-23-5" id="__codelineno-23-5" name="__codelineno-23-5"></a><span class="n">VivadoProject</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateVivadoProject</span><span class="p">(</span><span class="n">xpr_deps</span> <span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">xpr_hook</span>       <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">&#39;xpr_hook.yml&#39;</span><span class="p">)</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="o">...</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="n">xpr_deps</span> <span class="o">=</span> <span class="s1">&#39;src_syn.yml xdc.yml&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="o">+</span> <span class="n">xpr_hook</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="o">...</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="n">VivadoProject</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateVivadoProject</span><span class="p">(</span><span class="n">xpr_deps</span> <span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="synthvivadoproject">SynthVivadoProject<a class="headerlink" href="#synthvivadoproject" title="Permanent link">🔗</a></h3>
 <p><u>True builder</u></p>
 <p>Выполняет синтез проекта. Целевым файлом является <code>&lt;top name&gt;</code>.dcp, расположенный в <code>&lt;project name&gt;.runs/synth_1</code>.</p>
-<hr/>
+<hr />
 <h3 id="launchsynthvivadoproject">LaunchSynthVivadoProject<a class="headerlink" href="#launchsynthvivadoproject" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u> </p>
 <p>Осуществляет подготовку и запуск проекта на синтез. Принимает в качестве зависимостей целевой файл проекта и перечень исходных файлов, который может быть представлен в виде строки с именами файлов, разделёнными пробелом, либо в виде списка. Запускает билдер <code>SynthVivadoProject</code>.</p>
 <p>Пример использования:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-24-1"><a href="#__codelineno-24-1" id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="n">src_syn</span>  <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'src_syn.yml'</span><span class="p">)</span>
-</span><span id="__span-24-2"><a href="#__codelineno-24-2" id="__codelineno-24-2" name="__codelineno-24-2"></a><span class="n">xdc</span>      <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">'xdc.yml'</span><span class="p">)</span>
-</span><span id="__span-24-3"><a href="#__codelineno-24-3" id="__codelineno-24-3" name="__codelineno-24-3"></a><span class="o">...</span>
-</span><span id="__span-24-4"><a href="#__codelineno-24-4" id="__codelineno-24-4" name="__codelineno-24-4"></a><span class="n">syn_deps</span> <span class="o">=</span> <span class="n">src_syn</span> <span class="o">+</span> <span class="n">xdc</span>
-</span><span id="__span-24-5"><a href="#__codelineno-24-5" id="__codelineno-24-5" name="__codelineno-24-5"></a><span class="o">...</span>
-</span><span id="__span-24-6"><a href="#__codelineno-24-6" id="__codelineno-24-6" name="__codelineno-24-6"></a><span class="n">VivadoProject</span>      <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateVivadoProject</span><span class="p">(</span><span class="n">xpr_deps</span> <span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
-</span><span id="__span-24-7"><a href="#__codelineno-24-7" id="__codelineno-24-7" name="__codelineno-24-7"></a><span class="o">...</span>
-</span><span id="__span-24-8"><a href="#__codelineno-24-8" id="__codelineno-24-8" name="__codelineno-24-8"></a><span class="n">SynthVivadoProject</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchSynthVivadoProject</span><span class="p">(</span><span class="n">VivadoProject</span><span class="p">,</span> <span class="n">syn_deps</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">src_syn</span>  <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">&#39;src_syn.yml&#39;</span><span class="p">)</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="n">xdc</span>      <span class="o">=</span> <span class="n">read_sources</span><span class="p">(</span><span class="s1">&#39;xdc.yml&#39;</span><span class="p">)</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="o">...</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="n">syn_deps</span> <span class="o">=</span> <span class="n">src_syn</span> <span class="o">+</span> <span class="n">xdc</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="o">...</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="n">VivadoProject</span>      <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateVivadoProject</span><span class="p">(</span><span class="n">xpr_deps</span> <span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="o">...</span>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="n">SynthVivadoProject</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchSynthVivadoProject</span><span class="p">(</span><span class="n">VivadoProject</span><span class="p">,</span> <span class="n">syn_deps</span><span class="p">)</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="implvivadoproject">ImplVivadoProject<a class="headerlink" href="#implvivadoproject" title="Permanent link">🔗</a></h3>
 <p><u>True builder</u></p>
 <p>Производит этапы размещения и разводки проекта (place and route). Целевым файлом является битстрим <code>&lt;project name&gt;.runs/impl_1/&lt;top level&gt;.bit</code></p>
-<hr/>
+<hr />
 <h3 id="launchimplvivadoproject">LaunchImplVivadoProject<a class="headerlink" href="#launchimplvivadoproject" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u> </p>
 <p>Выполняет формирование целевого пути и запускает билдер <code>ImplVivadoProject</code>.</p>
 <p>Пример использования:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-25-1"><a href="#__codelineno-25-1" id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="n">SynthVivadoProject</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchSynthVivadoProject</span><span class="p">(</span><span class="n">VivadoProject</span><span class="p">,</span> <span class="n">syn_deps</span><span class="p">)</span>
-</span><span id="__span-25-2"><a href="#__codelineno-25-2" id="__codelineno-25-2" name="__codelineno-25-2"></a><span class="n">ImplVivadoProject</span>  <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchImplVivadoProject</span><span class="p">(</span><span class="n">SynthVivadoProject</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="n">SynthVivadoProject</span> <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchSynthVivadoProject</span><span class="p">(</span><span class="n">VivadoProject</span><span class="p">,</span> <span class="n">syn_deps</span><span class="p">)</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="n">ImplVivadoProject</span>  <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchImplVivadoProject</span><span class="p">(</span><span class="n">SynthVivadoProject</span><span class="p">)</span>
 </span></code></pre></div>
-<hr/>
+<hr />
 <h3 id="openvivadoproject">OpenVivadoProject<a class="headerlink" href="#openvivadoproject" title="Permanent link">🔗</a></h3>
 <p><u>True builder</u></p>
-<p>Запускает САПР <strong>Vivado</strong> в графическом режиме с переходом в директорию проекта и загрузкой проекта. При этом проверяются зависимости и при необходимости выполняется сборка по всей цепочке. Типовой сценарий построен так, что при запуске проекта в графическом режиме проверяется актуальность целевого файла проекта и целевых файлов синтезированных IP ядер. Смысл этого в том, чтобы когда проект запущен в графическом режиме, все "пререквизиты" (проект и IP ядра)  были в актуальном состоянии, и пользователь сразу мог приступить к синтезу проекта, не ожидая завершение посторонних заданий (которые в том числе "засоряют" лог сообщений), и, самое главное, чтобы всё требуемое было в актуальном состоянии, чтобы пользователю не нужно было следить за этим, поменяв тот или иной параметр <a href="../Build-Variants">сборочного варианта</a>.</p>
-<hr/>
+<p>Запускает САПР <strong>Vivado</strong> в графическом режиме с переходом в директорию проекта и загрузкой проекта. При этом проверяются зависимости и при необходимости выполняется сборка по всей цепочке. Типовой сценарий построен так, что при запуске проекта в графическом режиме проверяется актуальность целевого файла проекта и целевых файлов синтезированных IP ядер. Смысл этого в том, чтобы когда проект запущен в графическом режиме, все "пререквизиты" (проект и IP ядра)  были в актуальном состоянии, и пользователь сразу мог приступить к синтезу проекта, не ожидая завершение посторонних заданий (которые в том числе "засоряют" лог сообщений), и, самое главное, чтобы всё требуемое было в актуальном состоянии, чтобы пользователю не нужно было следить за этим, поменяв тот или иной параметр <a href="../Build-Variants/">сборочного варианта</a>.</p>
+<hr />
 <h3 id="launchopenvivadoproject">LaunchOpenVivadoProject<a class="headerlink" href="#launchopenvivadoproject" title="Permanent link">🔗</a></h3>
 <p><u>Pseudo-builder</u> </p>
 <p>Запускает билдер <code>OpenVivadoProject</code> с фиктивной целью, что вынуждает билдер всегда включать цель в граф зависимостей как находящуюся в неактуальном состоянии.</p>
 <p>Пример использования:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-26-1"><a href="#__codelineno-26-1" id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="n">VivadoProject</span>      <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateVivadoProject</span><span class="p">(</span><span class="n">xpr_deps</span> <span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
-</span><span id="__span-26-2"><a href="#__codelineno-26-2" id="__codelineno-26-2" name="__codelineno-26-2"></a><span class="o">...</span>
-</span><span id="__span-26-3"><a href="#__codelineno-26-3" id="__codelineno-26-3" name="__codelineno-26-3"></a><span class="n">OpenVivadoProject</span>  <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchOpenVivadoProject</span><span class="p">(</span><span class="n">VivadoProject</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="n">VivadoProject</span>      <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">CreateVivadoProject</span><span class="p">(</span><span class="n">xpr_deps</span> <span class="p">,</span> <span class="n">IP_Cores</span><span class="p">)</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="o">...</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="n">OpenVivadoProject</span>  <span class="o">=</span> <span class="n">envx</span><span class="o">.</span><span class="n">LaunchOpenVivadoProject</span><span class="p">(</span><span class="n">VivadoProject</span><span class="p">)</span>
 </span></code></pre></div>
-<hr/>
-</div>
-</div><footer>
-<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
-<a class="btn btn-neutral float-left" href="../Service-API/" title="Service API"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-<a class="btn btn-neutral float-right" href="../Tool-Questa/" title="Tool Questa">Next <span class="icon icon-circle-arrow-right"></span></a>
-</div>
-<hr/>
-<div role="contentinfo">
-<!-- Copyright etc -->
-</div>
+<hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Service-API/" class="btn btn-neutral float-left" title="Service API"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Tool-Questa/" class="btn btn-neutral float-right" title="Tool Questa">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
 
   Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Service-API/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Tool-Questa/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
-</div>
-</section>
-</div>
-<div aria-label="Versions" class="rst-versions" role="note">
-<span class="rst-current-version" data-toggle="rst-current-version">
-<span><a href="../Service-API/" style="color: #fcfcfc">« Previous</a></span>
-<span><a href="../Tool-Questa/" style="color: #fcfcfc">Next »</a></span>
-</span>
-</div>
-<script src="../js/jquery-3.6.0.min.js"></script>
-<script>var base_url = "..";</script>
-<script src="../js/theme_extra.js"></script>
-<script src="../js/theme.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
-<script src="../js/wavedrom_loader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/wavedrom@2.1.2/wavedrom.unpkg.js"></script>
-<script src="https://wavedrom.com/skins/default.js"></script>
-<script src="../search/main.js"></script>
-<script>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../js/mathjax.js"></script>
+      <script src="../js/mathjax/tex-mml-chtml.js"></script>
+      <script src="../js/wavedrom.min.js"></script>
+      <script src="../js/wavedrom_loader.js"></script>
+      <script src="../js/wavedrom.unpkg.js"></script>
+      <script src="../js/wavedrom_skin_default.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
         jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
         });
     </script>
-<script>const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});</script></body>
+
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+</script></body>
 </html>

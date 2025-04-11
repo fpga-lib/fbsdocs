@@ -1,119 +1,125 @@
 <!DOCTYPE html>
-
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" >
 <head>
-<meta charset="utf-8"/>
-<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<link href="../img/favicon.ico" rel="shortcut icon"/>
-<title>Simple - FPGA Build System</title>
-<link href="../css/theme.css" rel="stylesheet"/>
-<link href="../css/theme_extra.css" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" rel="stylesheet"/>
-<link href="../extra.css" rel="stylesheet"/>
-<script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Simple - FPGA Build System</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+    
+      <script>
         // Current page data
         var mkdocs_page_name = "Simple";
         var mkdocs_page_input_path = "Simple-Example.md";
         var mkdocs_page_url = null;
       </script>
-<!--[if lt IE 9]>
+    
+    <!--[if lt IE 9]>
       <script src="../js/html5shiv.min.js"></script>
     <![endif]-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
-<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-            html.glightbox-open { overflow: initial; height: 100%; }
-            .gslide-title { margin-top: 0px; user-select: text; }
-            .gslide-desc { color: #666; user-select: text; }
-            .gslide-image img { background: white; }
-            </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+ <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+
 <body class="wy-body-for-nav" role="document">
-<div class="wy-grid-for-nav">
-<nav class="wy-nav-side stickynav" data-toggle="wy-nav-shift">
-<div class="wy-side-scroll">
-<div class="wy-side-nav-search">
-<a class="icon icon-home" href=".."> FPGA Build System
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> FPGA Build System
         </a><div role="search">
-<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input aria-label="Search docs" name="q" placeholder="Search docs" title="Type search term here" type="text"/>
-</form>
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
 </div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Build System</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="..">General</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Build-Variants/">Build Variants</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Build-Scripts/">Build Scripts</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Advanced-Topics/">Advanced Topics</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Reference/">Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Service-API/">Service API</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Tool-Vivado/">Tool Vivado</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Tool-Questa/">Tool Questa</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Examples</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Simple</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">Общие сведения</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_3">Использование</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">Примеры команд</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_5">Показать справку по целям</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#vivado">Создать проект Vivado</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#7a50t">Синтезировать проект для варианта 7A50T</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#7a35t">Открыть проект для варианта 7A35T</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_6">Компилировать рабочую библиотеку симулятора (цель по умолчанию)</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Advanced-Example/">Advandced</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">FPGA Build System</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Examples</li>
+      <li class="breadcrumb-item active">Simple</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
 </div>
-<div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<p class="caption"><span class="caption-text">Build System</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="..">General</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../Build-Variants/">Build Variants</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../Build-Scripts/">Build Scripts</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../Advanced-Topics/">Advanced Topics</a>
-</li>
-</ul>
-<p class="caption"><span class="caption-text">Reference</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../Reference/">Reference</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../Service-API/">Service API</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../Tool-Vivado/">Tool Vivado</a>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../Tool-Questa/">Tool Questa</a>
-</li>
-</ul>
-<p class="caption"><span class="caption-text">Examples</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal current" href="#">Simple</a>
-<ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="#_2">Общие сведения</a>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#_3">Использование</a>
-<ul>
-<li class="toctree-l3"><a class="reference internal" href="#_4">Примеры команд</a>
-<ul>
-<li class="toctree-l4"><a class="reference internal" href="#_5">Показать справку по целям</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#vivado">Создать проект Vivado</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#7a50t">Синтезировать проект для варианта 7A50T</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#7a35t">Открыть проект для варианта 7A35T</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#_6">Компилировать рабочую библиотеку симулятора (цель по умолчанию)</a>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../Advanced-Example/">Advandced</a>
-</li>
-</ul>
-</div>
-</div>
-</nav>
-<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
-<nav aria-label="Mobile navigation menu" class="wy-nav-top" role="navigation">
-<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
-<a href="..">FPGA Build System</a>
-</nav>
-<div class="wy-nav-content">
-<div class="rst-content"><div aria-label="breadcrumbs navigation" role="navigation">
-<ul class="wy-breadcrumbs">
-<li><a aria-label="Docs" class="icon icon-home" href=".."></a></li>
-<li class="breadcrumb-item">Examples</li>
-<li class="breadcrumb-item active">Simple</li>
-<li class="wy-breadcrumbs-aside">
-</li>
-</ul>
-<hr/>
-</div>
-<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
-<div class="section" itemprop="articleBody">
-<h1 id="_1">Простой пример<a class="headerlink" href="#_1" title="Permanent link">🔗</a></h1>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="_1">Простой пример<a class="headerlink" href="#_1" title="Permanent link">🔗</a></h1>
 <h2 id="_2">Общие сведения<a class="headerlink" href="#_2" title="Permanent link">🔗</a></h2>
 <p>Пример содержит три сборочных варианта (СО) для трёх аппаратных платформ, являющихся отладочными платами <strong>Xilinx</strong>:</p>
 <ul>
@@ -121,72 +127,86 @@
 <li>7A50T.</li>
 <li>AC701.</li>
 </ul>
-<p>Все три СО одинаковы за исключением настроек, касающихся целевых плат – констрейны размещения, параметры тактирования – значение опорной тактовой частоты, дифференциальное подключение тактового генератора или нет, и т.д.</p>
+<p>Все три СО одинаковы за исключением настроек, касающихся целевых плат&nbsp;– констрейны размещения, параметры тактирования&nbsp;– значение опорной тактовой частоты, дифференциальное подключение тактового генератора или нет, и т.д.</p>
 <p>Исходный код примера доступен по <a href="https://github.com/fpga-lib/vivado-boilerplate">по ссылке</a>.</p>
-<p><br/></p>
+<p><br></p>
 <div class="admonition tip">
 <p class="admonition-title">СОВЕТ</p>
-<p>Данный пример демонстрирует возможности системы сборки непосредственным образом и может использоваться как шаблон для начала работы с рабочими проектами. Однако существует более <a href="../Advanced-Example">развитый подход к организации сборочного процесса</a>, и именно он рекомендуется как отправная точка. </p>
+<p>Данный пример демонстрирует возможности системы сборки непосредственным образом и может использоваться как шаблон для начала работы с рабочими проектами. Однако существует более <a href="../Advanced-Example/">развитый подход к организации сборочного процесса</a>, и именно он рекомендуется как отправная точка. </p>
 </div>
 <h2 id="_3">Использование<a class="headerlink" href="#_3" title="Permanent link">🔗</a></h2>
 <p>Запуск на сборку осуществляется с помощью команды <code>scons [options] variant=&lt;variant-name&gt; [target]</code> из корневой директории проекта (там, где расположен файл <code>SConstruct</code>) или из любого места дерева проекта при указанной опции <code>-D</code>.</p>
 <h3 id="_4">Примеры команд<a class="headerlink" href="#_4" title="Permanent link">🔗</a></h3>
 <h5 id="_5">Показать справку по целям<a class="headerlink" href="#_5" title="Permanent link">🔗</a></h5>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>scons -s -D variant=ac701 -h
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>scons -s -D variant=ac701 -h
 </span></code></pre></div>
 <h5 id="vivado">Создать проект Vivado<a class="headerlink" href="#vivado" title="Permanent link">🔗</a></h5>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>scons -s -D variant=ac701 prj
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>scons -s -D variant=ac701 prj
 </span></code></pre></div>
 <p>Будет создан проект <strong>Vivado</strong>, предварительно сгенерированы IP ядра с последующим добавлением в проект.</p>
 <h5 id="7a50t">Синтезировать проект для варианта 7A50T<a class="headerlink" href="#7a50t" title="Permanent link">🔗</a></h5>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>scons -s -D variant=7a50t prjsyn
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>scons -s -D variant=7a50t prjsyn
 </span></code></pre></div>
 <h5 id="7a35t">Открыть проект для варианта 7A35T<a class="headerlink" href="#7a35t" title="Permanent link">🔗</a></h5>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>scons -s -D bv=7a35t prjopen
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>scons -s -D bv=7a35t prjopen
 </span></code></pre></div>
 <p>Здесь попутно будут синтезированы IP ядра, т.к. после открытия проекта в <strong>Vivad</strong> можно сразу приступать к синтезу непосредственно проекта. Для выбора варианта тут используется аргумент <code>bv</code> вместо <code>variant</code>, они являются синонимами.</p>
 <h5 id="_6">Компилировать рабочую библиотеку симулятора (цель по умолчанию)<a class="headerlink" href="#_6" title="Permanent link">🔗</a></h5>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>scons -s -D bv=7a35t
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>scons -s -D bv=7a35t
 </span></code></pre></div>
-<p>Цель по умолчанию <code>wlib</code>, её указание можно опустить. По умолчанию выбрана эта цель, т.к. её запуск является самым частым – это быстрый и удобный способ проверить исходный HDL код на синтаксическую правильность, а так же компиляция рабочей библиотеки требуется при отладке в симуляторе.</p>
-</div>
-</div><footer>
-<div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
-<a class="btn btn-neutral float-left" href="../Tool-Questa/" title="Tool Questa"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-<a class="btn btn-neutral float-right" href="../Advanced-Example/" title="Advandced">Next <span class="icon icon-circle-arrow-right"></span></a>
-</div>
-<hr/>
-<div role="contentinfo">
-<!-- Copyright etc -->
-</div>
+<p>Цель по умолчанию <code>wlib</code>, её указание можно опустить. По умолчанию выбрана эта цель, т.к. её запуск является самым частым&nbsp;– это быстрый и удобный способ проверить исходный HDL код на синтаксическую правильность, а так же компиляция рабочей библиотеки требуется при отладке в симуляторе.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Tool-Questa/" class="btn btn-neutral float-left" title="Tool Questa"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Advanced-Example/" class="btn btn-neutral float-right" title="Advandced">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
 
   Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Tool-Questa/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Advanced-Example/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
-</div>
-</section>
-</div>
-<div aria-label="Versions" class="rst-versions" role="note">
-<span class="rst-current-version" data-toggle="rst-current-version">
-<span><a href="../Tool-Questa/" style="color: #fcfcfc">« Previous</a></span>
-<span><a href="../Advanced-Example/" style="color: #fcfcfc">Next »</a></span>
-</span>
-</div>
-<script src="../js/jquery-3.6.0.min.js"></script>
-<script>var base_url = "..";</script>
-<script src="../js/theme_extra.js"></script>
-<script src="../js/theme.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js"></script>
-<script src="../js/wavedrom_loader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/wavedrom@2.1.2/wavedrom.unpkg.js"></script>
-<script src="https://wavedrom.com/skins/default.js"></script>
-<script src="../search/main.js"></script>
-<script>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../js/mathjax.js"></script>
+      <script src="../js/mathjax/tex-mml-chtml.js"></script>
+      <script src="../js/wavedrom.min.js"></script>
+      <script src="../js/wavedrom_loader.js"></script>
+      <script src="../js/wavedrom.unpkg.js"></script>
+      <script src="../js/wavedrom_skin_default.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
         jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
         });
     </script>
-<script>const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});</script></body>
+
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+</script></body>
 </html>
